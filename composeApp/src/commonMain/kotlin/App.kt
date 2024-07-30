@@ -18,14 +18,11 @@ import stripe_kmm.composeapp.generated.resources.compose_multiplatform
 @Preview
 fun App() {
 
-
-
     MaterialTheme {
-        val getStripeFunctionality = getStripeFunctionality();
         var showContent by remember { mutableStateOf(false) }
         Column(Modifier.fillMaxWidth(), horizontalAlignment = Alignment.CenterHorizontally) {
             Button(onClick = { showContent = !showContent }) {
-                Text(getStripeFunctionality.createPaymentMethod().toString())
+                Text("Test")
             }
             AnimatedVisibility(showContent) {
                 val greeting = remember { Greeting().greet() }
