@@ -16,6 +16,9 @@ kotlin = "2.0.0"
 ktor = "2.3.12"
 logback = "1.5.6"
 stripeAndroid = "20.48.1"
+swiftklib = "0.6.3"
+cocoapods = "2.0.0"
+
 
 [libraries]
 kotlin-test = { module = "org.jetbrains.kotlin:kotlin-test", version.ref = "kotlin" }
@@ -42,3 +45,5 @@ compose-compiler = { id = "org.jetbrains.kotlin.plugin.compose", version.ref = "
 kotlinJvm = { id = "org.jetbrains.kotlin.jvm", version.ref = "kotlin" }
 ktor = { id = "io.ktor.plugin", version.ref = "ktor" }
 kotlinMultiplatform = { id = "org.jetbrains.kotlin.multiplatform", version.ref = "kotlin" }
+swiftklib = { id = "io.github.ttypic.swiftklib", version.ref = "swiftklib" }
+kotlinCocoapods = { id = "org.jetbrains.kotlin.native.cocoapods", version.ref = "kotlin" }

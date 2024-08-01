@@ -1,6 +1,5 @@
 package com.qburst.stripe_kmm
 
-import Greeting
 import SERVER_PORT
 import io.ktor.server.application.*
 import io.ktor.server.engine.*
@@ -16,7 +15,7 @@ fun main() {
 fun Application.module() {
     routing {
         get("/") {
-            call.respondText("Ktor: ${Greeting().greet()}")
+            call.respondText("Ktor: Test Server Running")
         }
     }
 }
