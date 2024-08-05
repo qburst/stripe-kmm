@@ -41,6 +41,11 @@ kotlin {
         commonMain.dependencies {
             // put your Multiplatform dependencies here
         }
+        androidMain.dependencies {
+            implementation (libs.stripe.android.v20482)
+
+            implementation ("org.jetbrains.kotlinx:kotlinx-coroutines-core:1.9.0-RC")
+        }
     }
 }
 
@@ -54,4 +59,7 @@ android {
     defaultConfig {
         minSdk = libs.versions.android.minSdk.get().toInt()
     }
+}
+dependencies {
+    implementation(libs.androidx.activity.ktx)
 }

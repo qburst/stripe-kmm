@@ -1,7 +1,6 @@
 package com.qburst.stripe_kmm
 
 import android.app.Application
-import com.stripe.android.PaymentConfiguration
 
 class MyApplication : Application() {
     init {
@@ -17,9 +16,9 @@ class MyApplication : Application() {
     override fun onCreate() {
         super.onCreate()
         // Initialize the Stripe SDK with your publishable key
-        PaymentConfiguration.init(
-            applicationContext,
-            "your_publishable_key" // Replace with your actual Stripe publishable key
-        )
+//        PaymentConfiguration.init(
+//            applicationContext,
+//            "your_publishable_key" // Replace with your actual Stripe publishable key
+//        )
     }
 }
