@@ -2,6 +2,7 @@ package com.qburst.stripe_kmm
 
 import Greeting
 import SERVER_PORT
+import com.qburst.stripe_kmm.plugins.*
 import io.ktor.server.application.*
 import io.ktor.server.engine.*
 import io.ktor.server.netty.*
@@ -14,9 +15,7 @@ fun main() {
 }
 
 fun Application.module() {
-    routing {
-        get("/") {
-            call.respondText("Ktor: ${Greeting().greet()}")
-        }
-    }
+    configureSerialization()
+    configureRouting()
 }
+
