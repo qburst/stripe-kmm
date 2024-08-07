@@ -6,7 +6,6 @@ import org.jetbrains.kotlin.gradle.targets.js.webpack.KotlinWebpackConfig
 plugins {
     alias(libs.plugins.kotlinMultiplatform)
     alias(libs.plugins.androidLibrary)
-    alias(libs.plugins.swiftklib)
 }
 
 kotlin {
@@ -39,6 +38,11 @@ kotlin {
     sourceSets {
         commonMain.dependencies {
             // put your Multiplatform dependencies here
+
+        }
+        iosMain.dependencies {
+            implementation(project.dependencies.platform("io.insert-koin:koin-bom:4.0.0-RC1"))
+            implementation("io.insert-koin:koin-core")
             implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:1.8.0")
         }
     }
@@ -52,13 +56,6 @@ kotlin {
             baseName = "shared"
             isStatic = true
         }
-        iosTarget.compilations {
-            val main by getting {
-                cinterops {
-                    create("CoreStripeSDK")
-                }
-            }
-        }
     }
 }
 
@@ -71,12 +68,5 @@ android {
     }
     defaultConfig {
         minSdk = libs.versions.android.minSdk.get().toInt()
-    }
-}
-
-swiftklib {
-    create("CoreStripeSDK") {
-        path = file("../iosApp/iosApp/StripeSDK")
-        packageName("com.qburst.stripe_kmm.StripeSDK")
     }
 }

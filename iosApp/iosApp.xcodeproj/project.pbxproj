@@ -10,9 +10,6 @@
 		058557BB273AAA24004C7B11 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 058557BA273AAA24004C7B11 /* Assets.xcassets */; };
 		058557D9273AAEEB004C7B11 /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 058557D8273AAEEB004C7B11 /* Preview Assets.xcassets */; };
 		2152FB042600AC8F00CF470E /* iOSApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2152FB032600AC8F00CF470E /* iOSApp.swift */; };
-		7278FDD02C58F2D600E53A08 /* StripeDemoSDK.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7278FDCF2C58F2D600E53A08 /* StripeDemoSDK.swift */; };
-		7278FDF02C590CB700E53A08 /* PaymentSheetPresenter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7278FDEF2C590CB700E53A08 /* PaymentSheetPresenter.swift */; };
-		72BAF70F2C5A76B600300A58 /* DemoG.swift in Sources */ = {isa = PBXBuildFile; fileRef = 72BAF70E2C5A76B600300A58 /* DemoG.swift */; };
 		72BAF71E2C5AD1DB00300A58 /* Stripe in Frameworks */ = {isa = PBXBuildFile; productRef = 72BAF71D2C5AD1DB00300A58 /* Stripe */; };
 		72BAF7202C5AD1DB00300A58 /* StripeApplePay in Frameworks */ = {isa = PBXBuildFile; productRef = 72BAF71F2C5AD1DB00300A58 /* StripeApplePay */; };
 		72BAF7222C5AD1DB00300A58 /* StripeCardScan in Frameworks */ = {isa = PBXBuildFile; productRef = 72BAF7212C5AD1DB00300A58 /* StripeCardScan */; };
@@ -21,6 +18,7 @@
 		72BAF7282C5AD1DB00300A58 /* StripePaymentSheet in Frameworks */ = {isa = PBXBuildFile; productRef = 72BAF7272C5AD1DB00300A58 /* StripePaymentSheet */; };
 		72BAF72A2C5AD1DB00300A58 /* StripePayments in Frameworks */ = {isa = PBXBuildFile; productRef = 72BAF7292C5AD1DB00300A58 /* StripePayments */; };
 		72BAF72C2C5AD1DB00300A58 /* StripePaymentsUI in Frameworks */ = {isa = PBXBuildFile; productRef = 72BAF72B2C5AD1DB00300A58 /* StripePaymentsUI */; };
+		72E26C7F2C635C5700798808 /* StripeSdk.swift in Sources */ = {isa = PBXBuildFile; fileRef = 72E26C7E2C635C5700798808 /* StripeSdk.swift */; };
 		7555FF83242A565900829871 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7555FF82242A565900829871 /* ContentView.swift */; };
 /* End PBXBuildFile section */
 
@@ -28,10 +26,8 @@
 		058557BA273AAA24004C7B11 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		058557D8273AAEEB004C7B11 /* Preview Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Preview Assets.xcassets"; sourceTree = "<group>"; };
 		2152FB032600AC8F00CF470E /* iOSApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = iOSApp.swift; sourceTree = "<group>"; };
-		7278FDCF2C58F2D600E53A08 /* StripeDemoSDK.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StripeDemoSDK.swift; sourceTree = "<group>"; };
-		7278FDEF2C590CB700E53A08 /* PaymentSheetPresenter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PaymentSheetPresenter.swift; sourceTree = "<group>"; };
 		72A54D462C5A34D600DB8B3E /* iosApp-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "iosApp-Bridging-Header.h"; sourceTree = "<group>"; };
-		72BAF70E2C5A76B600300A58 /* DemoG.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DemoG.swift; sourceTree = "<group>"; };
+		72E26C7E2C635C5700798808 /* StripeSdk.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StripeSdk.swift; sourceTree = "<group>"; };
 		7555FF7B242A565900829871 /* Stripe_KMM.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Stripe_KMM.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		7555FF82242A565900829871 /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
 		7555FF8C242A565B00829871 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
@@ -72,20 +68,12 @@
 			name = Frameworks;
 			sourceTree = "<group>";
 		};
-		7278FDEE2C590C9400E53A08 /* NativeStripe */ = {
+		72E26C7D2C635BB000798808 /* Stripe */ = {
 			isa = PBXGroup;
 			children = (
-				7278FDEF2C590CB700E53A08 /* PaymentSheetPresenter.swift */,
+				72E26C7E2C635C5700798808 /* StripeSdk.swift */,
 			);
-			path = NativeStripe;
-			sourceTree = "<group>";
-		};
-		72A54D492C5A580200DB8B3E /* StripeSDK */ = {
-			isa = PBXGroup;
-			children = (
-				72BAF70E2C5A76B600300A58 /* DemoG.swift */,
-			);
-			path = StripeSDK;
+			path = Stripe;
 			sourceTree = "<group>";
 		};
 		7555FF72242A565900829871 = {
@@ -109,10 +97,8 @@
 		7555FF7D242A565900829871 /* iosApp */ = {
 			isa = PBXGroup;
 			children = (
-				72A54D492C5A580200DB8B3E /* StripeSDK */,
-				7278FDEE2C590C9400E53A08 /* NativeStripe */,
+				72E26C7D2C635BB000798808 /* Stripe */,
 				058557BA273AAA24004C7B11 /* Assets.xcassets */,
-				7278FDCF2C58F2D600E53A08 /* StripeDemoSDK.swift */,
 				7555FF82242A565900829871 /* ContentView.swift */,
 				7555FF8C242A565B00829871 /* Info.plist */,
 				2152FB032600AC8F00CF470E /* iOSApp.swift */,
@@ -228,7 +214,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "cd \"$SRCROOT/..\"\n./gradlew :shared:embedAndSignAppleFrameworkForXcode\n";
+			shellScript = "#cd \"$SRCROOT/..\"\n#./gradlew :shared:embedAndSignAppleFrameworkForXcode\n";
 		};
 		F36B1CEB2AD83DDC00CB74D5 /* Compile Kotlin Framework */ = {
 			isa = PBXShellScriptBuildPhase;
@@ -255,9 +241,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				7278FDD02C58F2D600E53A08 /* StripeDemoSDK.swift in Sources */,
-				72BAF70F2C5A76B600300A58 /* DemoG.swift in Sources */,
-				7278FDF02C590CB700E53A08 /* PaymentSheetPresenter.swift in Sources */,
+				72E26C7F2C635C5700798808 /* StripeSdk.swift in Sources */,
 				2152FB042600AC8F00CF470E /* iOSApp.swift in Sources */,
 				7555FF83242A565900829871 /* ContentView.swift in Sources */,
 			);

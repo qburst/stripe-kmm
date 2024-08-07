@@ -2,9 +2,9 @@ import android.nfc.Tag
 import android.util.Log
 
 
-actual class provideStripeSdk actual constructor() : StripeSdk {
+actual class ProvideStripeSdk actual constructor()  {
 //    params: InitialiseParams
-    override suspend fun initialise() {
+     actual suspend fun initialise(publishableKey:String, clientSecret:String) {
         Log.d("TAG","hello from android")
     }
 

@@ -1,17 +1,16 @@
+import di.CoroutineViewModel
+import org.koin.core.component.KoinComponent
+import org.koin.core.component.inject
+import repository.StripeRepository
 
 
-//import com.qburst.stripe_kmm.StripeSDK.DemoG1Updater
-import kotlinx.cinterop.ExperimentalForeignApi
-import kotlinx.cinterop.ExportObjCClass
-import model.InitialiseParams
-import platform.Foundation.NSLog
+actual class ProvideStripeSdk actual constructor() : KoinComponent, CoroutineViewModel() {
 
-@ExportObjCClass
-actual class provideStripeSdk actual constructor() : StripeSdk {
-
-    @OptIn(ExperimentalForeignApi::class)
-    override suspend fun initialise() {
-//        DemoG1Updater.updatePaymentSheetPresentedWithIsPresented(true)
+    var publishableKey: String? = null
+    var clientSecret: String? = null
+    val stripe: StripeRepository by inject()
+    actual suspend fun initialise(publishableKey:String, clientSecret:String) {
+            stripe.initialise(publishableKey, clientSecret)
     }
 
 }

@@ -1,7 +1,7 @@
 import model.InitialiseParams
 
-actual class provideStripeSdk actual constructor() : StripeSdk {
-    override suspend fun initialise() {
+actual class ProvideStripeSdk actual constructor()  {
+    actual suspend fun initialise(publishableKey:String, clientSecret:String) {
         TODO("Not yet implemented")
     }
 }

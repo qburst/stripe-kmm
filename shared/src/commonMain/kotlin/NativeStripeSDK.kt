@@ -1,9 +1,6 @@
-import model.InitialiseParams
 
-interface StripeSdk {
-    suspend fun initialise()
-//    suspend fun initialise(params: InitialiseParams?)
-    
+expect class ProvideStripeSdk() {
+
+    suspend fun initialise(publishableKey: String, clientSecret: String)
 
 }
-expect class provideStripeSdk(): StripeSdk

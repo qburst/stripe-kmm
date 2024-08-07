@@ -9,7 +9,6 @@ plugins {
     alias(libs.plugins.androidApplication)
     alias(libs.plugins.jetbrainsCompose)
     alias(libs.plugins.compose.compiler)
-    alias(libs.plugins.swiftklib)
 }
 
 kotlin {
@@ -124,9 +123,4 @@ compose.desktop {
     }
 }
 
-//swiftklib {
-//    create("StripeSDK") {
-//        path = file("../iosApp/iosApp/StripeSDK")
-//        packageName("com.qburst.stripe_kmm.StripeSDK")
-//    }
-//}
+
