@@ -18,22 +18,15 @@ import org.jetbrains.compose.ui.tooling.preview.Preview
 
 @Composable
 @Preview
- fun App() {
-   val stripe = ProvideStripeSdk()
+fun App() {
     val publishableKey = "pk_test_FkQvi0DNueKlNnVwNoJktg2W"
     val clientSecret = "pi_1PkSCWKJ38Q1wp9doyjSYOkp_secret_2KgZsrv5w4kP4csyfiLfA52qO"
     MaterialTheme {
         var showContent by remember { mutableStateOf(false) }
         Column(Modifier.fillMaxWidth(), horizontalAlignment = Alignment.CenterHorizontally) {
-            Button(onClick = {
-                CoroutineScope(Dispatchers.Default).launch {
-                    stripe.initialise(publishableKey,clientSecret)
-                }
-            }) {
-                Text("initiate payment")
-            }
-            Column(Modifier.padding(15.dp), ) {
-                Text("publishableKey: $publishableKey",  fontWeight = FontWeight.Bold)
+            StripeLibraryFunction().showPaymentSheet(clientSecret = clientSecret, publishableKey = publishableKey)
+            Column(Modifier.padding(15.dp)) {
+                Text("publishableKey: $publishableKey", fontWeight = FontWeight.Bold)
                 Text("clientSecret: $clientSecret", fontWeight = FontWeight.Bold)
             }
         }

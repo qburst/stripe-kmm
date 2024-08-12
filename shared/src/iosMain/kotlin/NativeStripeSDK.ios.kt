@@ -9,7 +9,7 @@ actual class ProvideStripeSdk actual constructor() : KoinComponent, CoroutineVie
     var publishableKey: String? = null
     var clientSecret: String? = null
     val stripe: StripeRepository by inject()
-    actual suspend fun initialise(publishableKey:String, clientSecret:String) {
+    actual suspend fun initialise(publishableKey:String, clientSecret:String, activity: Any?, context: Any?) {
             stripe.initialise(publishableKey, clientSecret)
     }
 
