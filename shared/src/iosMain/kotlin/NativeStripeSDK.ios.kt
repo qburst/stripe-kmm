@@ -13,4 +13,8 @@ actual class ProvideStripeSdk actual constructor() : KoinComponent, CoroutineVie
             stripe.initialise(publishableKey, clientSecret)
     }
 
+    actual suspend fun showPaymentSheet(clientSecret: String): String {
+        TODO("Not yet implemented")
+    }
+
 }

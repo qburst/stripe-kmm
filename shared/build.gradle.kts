@@ -45,6 +45,11 @@ kotlin {
             implementation("io.insert-koin:koin-core")
             implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:1.8.0")
         }
+
+        androidMain.dependencies {
+            implementation (libs.stripe.android)
+            implementation (libs.jetbrains.kotlinx.coroutines.core)
+        }
     }
     task("testClasses")
     listOf(
@@ -69,4 +74,7 @@ android {
     defaultConfig {
         minSdk = libs.versions.android.minSdk.get().toInt()
     }
+}
+dependencies {
+    implementation(libs.androidx.activity.ktx)
 }
