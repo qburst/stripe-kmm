@@ -6,9 +6,13 @@ import org.jetbrains.kotlin.gradle.targets.js.webpack.KotlinWebpackConfig
 plugins {
     alias(libs.plugins.kotlinMultiplatform)
     alias(libs.plugins.androidLibrary)
+
 }
 
 kotlin {
+
+
+
     @OptIn(ExperimentalWasmDsl::class)
     wasmJs {
         browser {
@@ -23,6 +27,8 @@ kotlin {
             }
         }
     }
+
+
     
     androidTarget {
         @OptIn(ExperimentalKotlinGradlePluginApi::class)

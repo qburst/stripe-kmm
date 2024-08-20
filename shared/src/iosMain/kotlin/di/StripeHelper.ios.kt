@@ -5,8 +5,6 @@ import org.koin.core.module.Module
 import org.koin.dsl.module
 import repository.StripeRepository
 
-
-
 // this koin need be called from ios, for now it's not accessible in iosApp
 fun stripeInitKoin(stripeRepository: StripeRepository) {
     val koinApp = startKoin() {
