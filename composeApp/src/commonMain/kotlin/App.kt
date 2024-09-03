@@ -38,7 +38,7 @@ import org.jetbrains.compose.ui.tooling.preview.Preview
 
             val params = CreateParams.CardParamsWithToken(
             paymentMethodData = CreateParams.PaymentMethodDataWithToken(
-                token = "tok_1PplP0KJ38Q1wp9dP9O9HKC0",
+                token = "tok_1PsKigKJ38Q1wp9dYaXtZawS",
                 billingDetails = BillingDetails(
                     email = "john@example.com",
                     phone = "1234567890",
@@ -81,6 +81,7 @@ import org.jetbrains.compose.ui.tooling.preview.Preview
                         onError = { error ->
                             // Pass the error back to the UI through the onError callback
                             print(error)
+                            PaymentResponse = error.toString()
                         }
                     )
                 }

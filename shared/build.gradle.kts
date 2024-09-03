@@ -6,7 +6,6 @@ import org.jetbrains.kotlin.gradle.targets.js.webpack.KotlinWebpackConfig
 plugins {
     alias(libs.plugins.kotlinMultiplatform)
     alias(libs.plugins.androidLibrary)
-
 }
 
 kotlin {
@@ -36,6 +35,7 @@ kotlin {
             jvmTarget.set(JvmTarget.JVM_11)
         }
     }
+
     iosX64()
     iosArm64()
     iosSimulatorArm64()
@@ -45,11 +45,17 @@ kotlin {
         commonMain.dependencies {
             // put your Multiplatform dependencies here
 
+
         }
         iosMain.dependencies {
             implementation(project.dependencies.platform("io.insert-koin:koin-bom:4.0.0-RC1"))
             implementation("io.insert-koin:koin-core")
+            implementation("io.insert-koin:koin-test")
             implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:1.8.0")
+        }
+        iosTest.dependencies {
+            implementation(kotlin("test"))
+            implementation("io.mockative:mockative:2.2.2")
         }
     }
     task("testClasses")
@@ -63,6 +69,15 @@ kotlin {
             isStatic = true
         }
     }
+}
+
+
+dependencies {
+    configurations
+        .filter { it.name.startsWith("ksp") && it.name.contains("Test") }
+        .forEach {
+            add(it.name, "io.mockative:mockative-processor:2.2.2")
+        }
 }
 
 android {

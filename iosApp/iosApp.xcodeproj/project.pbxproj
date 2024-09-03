@@ -3,28 +3,14 @@
 	archiveVersion = 1;
 	classes = {
 	};
-	objectVersion = 56;
+	objectVersion = 60;
 	objects = {
 
 /* Begin PBXBuildFile section */
 		058557BB273AAA24004C7B11 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 058557BA273AAA24004C7B11 /* Assets.xcassets */; };
 		058557D9273AAEEB004C7B11 /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 058557D8273AAEEB004C7B11 /* Preview Assets.xcassets */; };
 		2152FB042600AC8F00CF470E /* iOSApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2152FB032600AC8F00CF470E /* iOSApp.swift */; };
-		7277C2A32C6B5BE100451923 /* Errors.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7277C2A22C6B5BE100451923 /* Errors.swift */; };
-		7299E8D62C69D4B40067579E /* Stripe in Frameworks */ = {isa = PBXBuildFile; productRef = 7299E8D52C69D4B40067579E /* Stripe */; };
-		7299E8D82C69D4B40067579E /* StripeApplePay in Frameworks */ = {isa = PBXBuildFile; productRef = 7299E8D72C69D4B40067579E /* StripeApplePay */; };
-		7299E8DA2C69D4B40067579E /* StripeCardScan in Frameworks */ = {isa = PBXBuildFile; productRef = 7299E8D92C69D4B40067579E /* StripeCardScan */; };
-		7299E8DC2C69D4B40067579E /* StripeFinancialConnections in Frameworks */ = {isa = PBXBuildFile; productRef = 7299E8DB2C69D4B40067579E /* StripeFinancialConnections */; };
-		7299E8DE2C69D4B40067579E /* StripeIdentity in Frameworks */ = {isa = PBXBuildFile; productRef = 7299E8DD2C69D4B40067579E /* StripeIdentity */; };
-		7299E8E02C69D4B40067579E /* StripePaymentSheet in Frameworks */ = {isa = PBXBuildFile; productRef = 7299E8DF2C69D4B40067579E /* StripePaymentSheet */; };
-		7299E8E22C69D4B40067579E /* StripePayments in Frameworks */ = {isa = PBXBuildFile; productRef = 7299E8E12C69D4B40067579E /* StripePayments */; };
-		7299E8E42C69D4B40067579E /* StripePaymentsUI in Frameworks */ = {isa = PBXBuildFile; productRef = 7299E8E32C69D4B40067579E /* StripePaymentsUI */; };
-		7299E8F02C69EEAC0067579E /* Mappers.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7299E8EF2C69EEAC0067579E /* Mappers.swift */; };
-		7299E8F22C69EF570067579E /* CardFieldView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7299E8F12C69EF570067579E /* CardFieldView.swift */; };
-		7299E8F42C69EF9E0067579E /* CardFormView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7299E8F32C69EF9E0067579E /* CardFormView.swift */; };
-		7299E8F92C6A2A540067579E /* UIColorExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7299E8F82C6A2A540067579E /* UIColorExtension.swift */; };
-		72E26C7F2C635C5700798808 /* StripeSdk.swift in Sources */ = {isa = PBXBuildFile; fileRef = 72E26C7E2C635C5700798808 /* StripeSdk.swift */; };
-		72FF522F2C64A3A40009F633 /* PaymentMethodFactory.swift in Sources */ = {isa = PBXBuildFile; fileRef = 72FF522E2C64A3A40009F633 /* PaymentMethodFactory.swift */; };
+		72FF07D92C8596CF0012EDA6 /* SwiftKMMStripeKit in Frameworks */ = {isa = PBXBuildFile; productRef = 72FF07D82C8596CF0012EDA6 /* SwiftKMMStripeKit */; };
 		7555FF83242A565900829871 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7555FF82242A565900829871 /* ContentView.swift */; };
 /* End PBXBuildFile section */
 
@@ -32,14 +18,7 @@
 		058557BA273AAA24004C7B11 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		058557D8273AAEEB004C7B11 /* Preview Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Preview Assets.xcassets"; sourceTree = "<group>"; };
 		2152FB032600AC8F00CF470E /* iOSApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = iOSApp.swift; sourceTree = "<group>"; };
-		7277C2A22C6B5BE100451923 /* Errors.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Errors.swift; sourceTree = "<group>"; };
-		7299E8EF2C69EEAC0067579E /* Mappers.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Mappers.swift; sourceTree = "<group>"; };
-		7299E8F12C69EF570067579E /* CardFieldView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CardFieldView.swift; sourceTree = "<group>"; };
-		7299E8F32C69EF9E0067579E /* CardFormView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CardFormView.swift; sourceTree = "<group>"; };
-		7299E8F82C6A2A540067579E /* UIColorExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIColorExtension.swift; sourceTree = "<group>"; };
 		72A54D462C5A34D600DB8B3E /* iosApp-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "iosApp-Bridging-Header.h"; sourceTree = "<group>"; };
-		72E26C7E2C635C5700798808 /* StripeSdk.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StripeSdk.swift; sourceTree = "<group>"; };
-		72FF522E2C64A3A40009F633 /* PaymentMethodFactory.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PaymentMethodFactory.swift; sourceTree = "<group>"; };
 		7555FF7B242A565900829871 /* Stripe_KMM.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Stripe_KMM.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		7555FF82242A565900829871 /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
 		7555FF8C242A565B00829871 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
@@ -51,14 +30,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				7299E8DA2C69D4B40067579E /* StripeCardScan in Frameworks */,
-				7299E8DC2C69D4B40067579E /* StripeFinancialConnections in Frameworks */,
-				7299E8DE2C69D4B40067579E /* StripeIdentity in Frameworks */,
-				7299E8D62C69D4B40067579E /* Stripe in Frameworks */,
-				7299E8E02C69D4B40067579E /* StripePaymentSheet in Frameworks */,
-				7299E8E22C69D4B40067579E /* StripePayments in Frameworks */,
-				7299E8E42C69D4B40067579E /* StripePaymentsUI in Frameworks */,
-				7299E8D82C69D4B40067579E /* StripeApplePay in Frameworks */,
+				72FF07D92C8596CF0012EDA6 /* SwiftKMMStripeKit in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -78,20 +50,6 @@
 			children = (
 			);
 			name = Frameworks;
-			sourceTree = "<group>";
-		};
-		72E26C7D2C635BB000798808 /* Stripe */ = {
-			isa = PBXGroup;
-			children = (
-				72E26C7E2C635C5700798808 /* StripeSdk.swift */,
-				72FF522E2C64A3A40009F633 /* PaymentMethodFactory.swift */,
-				7299E8EF2C69EEAC0067579E /* Mappers.swift */,
-				7299E8F12C69EF570067579E /* CardFieldView.swift */,
-				7299E8F32C69EF9E0067579E /* CardFormView.swift */,
-				7299E8F82C6A2A540067579E /* UIColorExtension.swift */,
-				7277C2A22C6B5BE100451923 /* Errors.swift */,
-			);
-			path = Stripe;
 			sourceTree = "<group>";
 		};
 		7555FF72242A565900829871 = {
@@ -115,7 +73,6 @@
 		7555FF7D242A565900829871 /* iosApp */ = {
 			isa = PBXGroup;
 			children = (
-				72E26C7D2C635BB000798808 /* Stripe */,
 				058557BA273AAA24004C7B11 /* Assets.xcassets */,
 				7555FF82242A565900829871 /* ContentView.swift */,
 				7555FF8C242A565B00829871 /* Info.plist */,
@@ -145,7 +102,7 @@
 				7555FF77242A565900829871 /* Sources */,
 				B92378962B6B1156000C7307 /* Frameworks */,
 				7555FF79242A565900829871 /* Resources */,
-				72BAF7122C5A8DDF00300A58 /* ShellScript */,
+				72BAF7122C5A8DDF00300A58 /* Run Script */,
 			);
 			buildRules = (
 			);
@@ -153,14 +110,7 @@
 			);
 			name = iosApp;
 			packageProductDependencies = (
-				7299E8D52C69D4B40067579E /* Stripe */,
-				7299E8D72C69D4B40067579E /* StripeApplePay */,
-				7299E8D92C69D4B40067579E /* StripeCardScan */,
-				7299E8DB2C69D4B40067579E /* StripeFinancialConnections */,
-				7299E8DD2C69D4B40067579E /* StripeIdentity */,
-				7299E8DF2C69D4B40067579E /* StripePaymentSheet */,
-				7299E8E12C69D4B40067579E /* StripePayments */,
-				7299E8E32C69D4B40067579E /* StripePaymentsUI */,
+				72FF07D82C8596CF0012EDA6 /* SwiftKMMStripeKit */,
 			);
 			productName = iosApp;
 			productReference = 7555FF7B242A565900829871 /* Stripe_KMM.app */;
@@ -193,7 +143,7 @@
 			);
 			mainGroup = 7555FF72242A565900829871;
 			packageReferences = (
-				7299E8D42C69D4B40067579E /* XCRemoteSwiftPackageReference "stripe-ios-spm" */,
+				72FF07D72C8596CF0012EDA6 /* XCLocalSwiftPackageReference "../SwiftKMMStripeKit" */,
 			);
 			productRefGroup = 7555FF7C242A565900829871 /* Products */;
 			projectDirPath = "";
@@ -217,7 +167,7 @@
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXShellScriptBuildPhase section */
-		72BAF7122C5A8DDF00300A58 /* ShellScript */ = {
+		72BAF7122C5A8DDF00300A58 /* Run Script */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -226,6 +176,7 @@
 			);
 			inputPaths = (
 			);
+			name = "Run Script";
 			outputFileListPaths = (
 			);
 			outputPaths = (
@@ -250,7 +201,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "if [ \"YES\" = \"$OVERRIDE_KOTLIN_BUILD_IDE_SUPPORTED\" ]; then\n  echo \"Skipping Gradle build task invocation due to OVERRIDE_KOTLIN_BUILD_IDE_SUPPORTED environment variable set to \\\"YES\\\"\"\n  exit 0\nfi\ncd \"$SRCROOT/..\"\n./gradlew :composeApp:embedAndSignAppleFrameworkForXcode\n./gradlew :shared:embedAndSignAppleFrameworkForXcode\n";
+			shellScript = "if [ \"YES\" = \"$OVERRIDE_KOTLIN_BUILD_IDE_SUPPORTED\" ]; then\n  echo \"Skipping Gradle build task invocation due to OVERRIDE_KOTLIN_BUILD_IDE_SUPPORTED environment variable set to \\\"YES\\\"\"\n  exit 0\nfi\ncd \"$SRCROOT/..\"\n./gradlew :composeApp:embedAndSignAppleFrameworkForXcode\n#./gradlew :shared:embedAndSignAppleFrameworkForXcode\n";
 		};
 /* End PBXShellScriptBuildPhase section */
 
@@ -259,15 +210,8 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				7299E8F02C69EEAC0067579E /* Mappers.swift in Sources */,
-				7299E8F42C69EF9E0067579E /* CardFormView.swift in Sources */,
-				72FF522F2C64A3A40009F633 /* PaymentMethodFactory.swift in Sources */,
-				72E26C7F2C635C5700798808 /* StripeSdk.swift in Sources */,
-				7299E8F92C6A2A540067579E /* UIColorExtension.swift in Sources */,
-				7277C2A32C6B5BE100451923 /* Errors.swift in Sources */,
 				2152FB042600AC8F00CF470E /* iOSApp.swift in Sources */,
 				7555FF83242A565900829871 /* ContentView.swift in Sources */,
-				7299E8F22C69EF570067579E /* CardFieldView.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -484,57 +428,17 @@
 		};
 /* End XCConfigurationList section */
 
-/* Begin XCRemoteSwiftPackageReference section */
-		7299E8D42C69D4B40067579E /* XCRemoteSwiftPackageReference "stripe-ios-spm" */ = {
-			isa = XCRemoteSwiftPackageReference;
-			repositoryURL = "https://github.com/stripe/stripe-ios-spm";
-			requirement = {
-				kind = upToNextMajorVersion;
-				minimumVersion = 23.29.0;
-			};
+/* Begin XCLocalSwiftPackageReference section */
+		72FF07D72C8596CF0012EDA6 /* XCLocalSwiftPackageReference "../SwiftKMMStripeKit" */ = {
+			isa = XCLocalSwiftPackageReference;
+			relativePath = ../SwiftKMMStripeKit;
 		};
-/* End XCRemoteSwiftPackageReference section */
+/* End XCLocalSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
-		7299E8D52C69D4B40067579E /* Stripe */ = {
+		72FF07D82C8596CF0012EDA6 /* SwiftKMMStripeKit */ = {
 			isa = XCSwiftPackageProductDependency;
-			package = 7299E8D42C69D4B40067579E /* XCRemoteSwiftPackageReference "stripe-ios-spm" */;
-			productName = Stripe;
-		};
-		7299E8D72C69D4B40067579E /* StripeApplePay */ = {
-			isa = XCSwiftPackageProductDependency;
-			package = 7299E8D42C69D4B40067579E /* XCRemoteSwiftPackageReference "stripe-ios-spm" */;
-			productName = StripeApplePay;
-		};
-		7299E8D92C69D4B40067579E /* StripeCardScan */ = {
-			isa = XCSwiftPackageProductDependency;
-			package = 7299E8D42C69D4B40067579E /* XCRemoteSwiftPackageReference "stripe-ios-spm" */;
-			productName = StripeCardScan;
-		};
-		7299E8DB2C69D4B40067579E /* StripeFinancialConnections */ = {
-			isa = XCSwiftPackageProductDependency;
-			package = 7299E8D42C69D4B40067579E /* XCRemoteSwiftPackageReference "stripe-ios-spm" */;
-			productName = StripeFinancialConnections;
-		};
-		7299E8DD2C69D4B40067579E /* StripeIdentity */ = {
-			isa = XCSwiftPackageProductDependency;
-			package = 7299E8D42C69D4B40067579E /* XCRemoteSwiftPackageReference "stripe-ios-spm" */;
-			productName = StripeIdentity;
-		};
-		7299E8DF2C69D4B40067579E /* StripePaymentSheet */ = {
-			isa = XCSwiftPackageProductDependency;
-			package = 7299E8D42C69D4B40067579E /* XCRemoteSwiftPackageReference "stripe-ios-spm" */;
-			productName = StripePaymentSheet;
-		};
-		7299E8E12C69D4B40067579E /* StripePayments */ = {
-			isa = XCSwiftPackageProductDependency;
-			package = 7299E8D42C69D4B40067579E /* XCRemoteSwiftPackageReference "stripe-ios-spm" */;
-			productName = StripePayments;
-		};
-		7299E8E32C69D4B40067579E /* StripePaymentsUI */ = {
-			isa = XCSwiftPackageProductDependency;
-			package = 7299E8D42C69D4B40067579E /* XCRemoteSwiftPackageReference "stripe-ios-spm" */;
-			productName = StripePaymentsUI;
+			productName = SwiftKMMStripeKit;
 		};
 /* End XCSwiftPackageProductDependency section */
 	};

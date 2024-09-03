@@ -1,14 +1,15 @@
 import SwiftUI
 import ComposeApp
+import SwiftKMMStripeKit
 
 
 @main
 struct iOSApp: App {
     init() {
-        KoinKt.doInitKoin(stripeRepository: StripeSdk())
+      let stripeSdk = StripeSdk()
+        KoinKt.doInitKoin(stripeRepository: stripeSdk)
     }
-    
-    @State private var cardData: [String: Any?] = [:]
+
     
     var body: some Scene {
         WindowGroup {

@@ -10,11 +10,33 @@ import org.koin.core.component.inject
 import repository.StripeRepository
 
 
-actual class ProvideStripeSdk actual constructor() : KoinComponent, CoroutineViewModel() {
+actual open class ProvideStripeSdk actual constructor() : KoinComponent, CoroutineViewModel() {
 
     val stripe: StripeRepository by inject()
     actual suspend fun initialise(initialiseParams: InitialiseParams) {
-            stripe.initialise(initialiseParams.toDictionary())
+        // Validate that publishableKey is not empty
+        if (initialiseParams.publishableKey.isBlank()) {
+            throw IllegalArgumentException("Publishable key cannot be empty.")
+        }
+
+        // Validate that if provided, stripeAccountId is not empty
+        if (initialiseParams.stripeAccountId != null && initialiseParams.stripeAccountId.isBlank()) {
+            throw IllegalArgumentException("Stripe account ID, if provided, cannot be empty.")
+        }
+
+        // Validate that if provided, merchantIdentifier is not empty
+        if (initialiseParams.merchantIdentifier != null && initialiseParams.merchantIdentifier.isBlank()) {
+            throw IllegalArgumentException("Merchant identifier, if provided, cannot be empty.")
+        }
+
+        // Validate that if provided, urlScheme is not empty
+        if (initialiseParams.urlScheme != null && initialiseParams.urlScheme.isBlank()) {
+            throw IllegalArgumentException("URL scheme, if provided, cannot be empty.")
+        }
+
+        // Proceed to initialise with validated parameters
+
+        stripe.initialise(initialiseParams.toDictionary())
     }
     actual suspend fun createPaymentMethod(
         params: CreateParams,

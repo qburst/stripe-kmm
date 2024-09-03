@@ -3,6 +3,7 @@ package repository
 import model.InitialiseParams
 
 interface StripeRepository {
+
     @Throws(Throwable::class)
     fun initialise(params: Map<String, Any?>)
 
