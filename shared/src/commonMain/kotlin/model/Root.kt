@@ -33,7 +33,9 @@ data class InitialiseParams(
     val merchantIdentifier: String? = null,
     val urlScheme: String? = null,
     val setReturnUrlSchemeOnAndroid: Boolean? = null,
-    val appInfo: AppInfo? = null
+    val appInfo: AppInfo? = null,
+    val androidContext: Any? = null,
+    val androidActivity: Any? = null
 ) {
     fun toDictionary(): Map<String, Any?> {
         return mapOf(

@@ -1,5 +1,4 @@
 import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material.Button
@@ -18,7 +17,6 @@ import model.AppInfo
 import model.BillingDetails
 import model.FutureUsage
 import model.InitialiseParams
-import model.ThreeDSecureConfigurationParams
 import org.jetbrains.compose.ui.tooling.preview.Preview
 
 
@@ -32,13 +30,13 @@ import org.jetbrains.compose.ui.tooling.preview.Preview
             name = "Stripe App",
             version = "1.2.3",
             partnerId = "new",
-            url = "https://qburst.com"
+            url = "https://qburst.com",
         )
     )
 
             val params = CreateParams.CardParamsWithToken(
             paymentMethodData = CreateParams.PaymentMethodDataWithToken(
-                token = "tok_1PsKigKJ38Q1wp9dYaXtZawS",
+                token = "tok_1PsLWYKJ38Q1wp9dW90Vjtbe",
                 billingDetails = BillingDetails(
                     email = "john@example.com",
                     phone = "1234567890",
@@ -59,7 +57,6 @@ import org.jetbrains.compose.ui.tooling.preview.Preview
     var PaymentResponse by remember { mutableStateOf("Click the button!") }
 
     MaterialTheme {
-        var showContent by remember { mutableStateOf(false) }
         Column(Modifier.fillMaxWidth(), horizontalAlignment = Alignment.CenterHorizontally) {
             Button(onClick = {
                 CoroutineScope(Dispatchers.Default).launch {
@@ -74,12 +71,13 @@ import org.jetbrains.compose.ui.tooling.preview.Preview
                         params = params,
                         options = options,
                         onSuccess = { result ->
-                            print("payment response:$result")
+                            print(" result = $result")
                             // Pass the result back to the UI through the onSuccess callback
-                            PaymentResponse = result.get("id").toString()
+                            PaymentResponse = result.toString()
                         },
                         onError = { error ->
                             // Pass the error back to the UI through the onError callback
+                            PaymentResponse = error.toString()
                             print(error)
                             PaymentResponse = error.toString()
                         }

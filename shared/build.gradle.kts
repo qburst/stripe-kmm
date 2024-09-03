@@ -53,6 +53,11 @@ kotlin {
             implementation("io.insert-koin:koin-test")
             implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:1.8.0")
         }
+        androidMain.dependencies {
+            implementation (libs.stripe.android)
+            implementation(libs.jetbrains.kotlinx.coroutines.core)
+            implementation(libs.gson)
+        }
         iosTest.dependencies {
             implementation(kotlin("test"))
             implementation("io.mockative:mockative:2.2.2")
@@ -89,5 +94,8 @@ android {
     }
     defaultConfig {
         minSdk = libs.versions.android.minSdk.get().toInt()
+    }
+    dependencies {
+        implementation(libs.androidx.activity.compose)
     }
 }
