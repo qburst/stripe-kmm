@@ -3,6 +3,7 @@ import org.jetbrains.kotlin.gradle.dsl.JvmTarget
 import org.jetbrains.kotlin.gradle.targets.js.dsl.ExperimentalWasmDsl
 import org.jetbrains.kotlin.gradle.targets.js.webpack.KotlinWebpackConfig
 
+
 plugins {
     alias(libs.plugins.kotlinMultiplatform)
     alias(libs.plugins.androidLibrary)
@@ -21,7 +22,11 @@ kotlin {
                     }
                 }
             }
+            webpackTask {
+                mainOutputFileName = "index.js"
+            }
         }
+        binaries.executable()
     }
     
     androidTarget {
@@ -45,6 +50,9 @@ kotlin {
             implementation (libs.stripe.android.v20482)
 
             implementation ("org.jetbrains.kotlinx:kotlinx-coroutines-core:1.9.0-RC")
+        }
+        wasmJsMain.dependencies {
+            implementation(npm("@stripe/stripe-js", "^4.4.0"))
         }
     }
 }
