@@ -3,9 +3,12 @@ import com.stripe.android.ApiResultCallback
 import com.stripe.android.model.PaymentMethod
 import model.CreatePaymentModel
 import model.InitialiseParams
+import repositories.PaymentRepository
+import repositories.PaymentRepositoryImpl
 
 
 actual class ProvideStripeSdk actual constructor() {
+    private val paymentRepository: PaymentRepository = PaymentRepositoryImpl()
 
     actual suspend fun initialise(initialiseParams: InitialiseParams) {
         SingletonStripeInitialization.StripeInstanse.initializeStripe(initialiseParams)
@@ -17,21 +20,11 @@ actual class ProvideStripeSdk actual constructor() {
         onSuccess: (Map<String, Any?>) -> Unit,
         onError: (Throwable) -> Unit
     ) {
-
-        val callback = object : ApiResultCallback<PaymentMethod> {
-            override fun onSuccess(result: PaymentMethod) {
-                val gson = Gson()
-                onSuccess(mapOf("result" to gson.toJson(result)))
-            }
-
-            override fun onError(e: Exception) {
-                onError(e)
-            }
+        val result = CreatePaymentApi(paymentRepository).createPaymentMethod(params = params)
+        if (result.success != null) {
+            onSuccess(result.success)
+        } else {
+            result.error?.let { onError(it) }
         }
-
-        SingletonStripeInitialization.StripeInstanse.stripe.createPaymentMethod(
-            paymentMethodCreateParams = CreatePaymentModel().createCardPaymentParamsWithToken(params as CreateParams.CardParamsWithToken),
-            callback = callback
-        )
     }
 }
