@@ -2,7 +2,6 @@ import SwiftUI
 import ComposeApp
 import SwiftKMMStripeKit
 
-
 @main
 struct iOSApp: App {
     init() {

@@ -4,6 +4,7 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.material.Button
 import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Text
+import androidx.compose.material.TextField
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -17,13 +18,14 @@ import model.AppInfo
 import model.BillingDetails
 import model.FutureUsage
 import model.InitialiseParams
+import model.ShippingDetails
 import org.jetbrains.compose.ui.tooling.preview.Preview
 
 
 @Composable
 @Preview
- fun App() {
-   val stripe = ProvideStripeSdk()
+fun App() {
+    val stripe = ProvideStripeSdk()
     val initialiseParams = InitialiseParams(
         publishableKey = "pk_test_FkQvi0DNueKlNnVwNoJktg2W",
         appInfo = AppInfo(
@@ -34,10 +36,9 @@ import org.jetbrains.compose.ui.tooling.preview.Preview
         )
     )
 
-            val params = CreateParams.CardParamsWithToken(
-            paymentMethodData = CreateParams.PaymentMethodDataWithToken(
-                token = "tok_1PsLWYKJ38Q1wp9dW90Vjtbe",
-                billingDetails = BillingDetails(
+    val params = CreateParams.CashAppParams(
+        paymentMethodData = CreateParams.PaymentMethodDataCashApp(
+            billingDetails = BillingDetails(
                     email = "john@example.com",
                     phone = "1234567890",
                     name = "John Doe",
@@ -49,11 +50,12 @@ import org.jetbrains.compose.ui.tooling.preview.Preview
                         postalCode = "10001",
                         state = "NY"
                     )
-                )
             )
         )
+    )
 
-    val options  = CreateOptions(FutureUsage.OFF_SESSION)
+
+    val options = CreateOptions(FutureUsage.OFF_SESSION)
     var PaymentResponse by remember { mutableStateOf("Click the button!") }
 
     MaterialTheme {
@@ -65,6 +67,7 @@ import org.jetbrains.compose.ui.tooling.preview.Preview
             }) {
                 Text("initiate payment")
             }
+
             Button(onClick = {
                 CoroutineScope(Dispatchers.Default).launch {
                     stripe.createPaymentMethod(
@@ -86,9 +89,12 @@ import org.jetbrains.compose.ui.tooling.preview.Preview
             }) {
                 Text("Create Payment Method")
             }
-            Column(Modifier.padding(15.dp), ) {
-                Text("publishableKey: ${initialiseParams.publishableKey}",  fontWeight = FontWeight.Bold)
-                Text("Response: $PaymentResponse",  fontWeight = FontWeight.Light)
+            Column(Modifier.padding(15.dp)) {
+                Text(
+                    "publishableKey: ${initialiseParams.publishableKey}",
+                    fontWeight = FontWeight.Bold
+                )
+                Text("Response: $PaymentResponse", fontWeight = FontWeight.Light)
             }
         }
     }

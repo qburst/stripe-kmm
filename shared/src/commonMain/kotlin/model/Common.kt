@@ -38,3 +38,5 @@ data class BillingDetails(
         )
     }
 }
+
+typealias ShippingDetails = BillingDetails
