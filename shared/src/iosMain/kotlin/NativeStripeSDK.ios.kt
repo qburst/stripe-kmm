@@ -50,7 +50,24 @@ actual open class ProvideStripeSdk actual constructor() : KoinComponent, Corouti
                 val paramsDictionary = when (params) {
                     is CreateParams.CardParamsWithToken -> params.toDictionary()
                     is CreateParams.CardParamsWithPaymentId -> params.toDictionary()
-
+                    is CreateParams.IdealParams -> params.toDictionary()
+                    is CreateParams.OxxoParams -> params.toDictionary()
+                    is CreateParams.P24Params -> params.toDictionary()
+                    is CreateParams.AlipayParams -> params.toDictionary()
+                    is CreateParams.GiropayParams -> params.toDictionary()
+                    is CreateParams.SepaDebitParams -> params.toDictionary()
+                    is CreateParams.EpsDebitParams -> params.toDictionary()
+                    is CreateParams.AuBecsDebitParams -> params.toDictionary()
+                    is CreateParams.SofortParams -> params.toDictionary()
+                    is CreateParams.GrabPayParams -> params.toDictionary()
+                    is CreateParams.FPXParams -> params.toDictionary()
+                    is CreateParams.AfterpayClearpayParams -> params.toDictionary()
+                    is CreateParams.KlarnaParams -> params.toDictionary()
+                    is CreateParams.BancontactParams -> params.toDictionary()
+                    is CreateParams.USBankAccountParams -> params.toDictionary()
+                    is CreateParams.PayPalParams -> params.toDictionary()
+                    is CreateParams.AffirmParams -> params.toDictionary()
+                    is CreateParams.CashAppParams -> params.toDictionary()
                     // Handle other possible CreateParams subclasses
                     else -> throw IllegalArgumentException("Unsupported CreateParams type: ${params::class.simpleName}")
                 }
