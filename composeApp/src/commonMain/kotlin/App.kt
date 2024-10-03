@@ -36,21 +36,10 @@ fun App() {
         )
     )
 
-    val params = CreateParams.CashAppParams(
-        paymentMethodData = CreateParams.PaymentMethodDataCashApp(
-            billingDetails = BillingDetails(
-                    email = "john@example.com",
-                    phone = "1234567890",
-                    name = "John Doe",
-                    address = Address(
-                        city = "New York",
-                        country = "US",
-                        line1 = "123 Main St",
-                        line2 = "Apt 4B",
-                        postalCode = "10001",
-                        state = "NY"
-                    )
-            )
+    val params = CreateParams.CardParamsWithToken(
+        paymentMethodData = CreateParams.PaymentMethodDataWithToken(
+          token = "tok_1Q54e9KJ38Q1wp9dYDaV1B2Y",
+
         )
     )
 

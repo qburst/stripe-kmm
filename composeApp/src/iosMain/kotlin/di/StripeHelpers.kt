@@ -10,3 +10,10 @@ fun initKoin(stripeRepository: StripeRepository) {
         )
     }.koin
 }
+
+
+fun setStripe(stripeRepository: StripeRepository) {
+    Stripe.setProvider(stripeRepository)
+}
+
+

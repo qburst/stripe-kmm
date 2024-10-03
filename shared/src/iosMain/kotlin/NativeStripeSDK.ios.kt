@@ -1,4 +1,5 @@
 import di.CoroutineViewModel
+import di.Stripe
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 import model.Address
@@ -10,9 +11,8 @@ import org.koin.core.component.inject
 import repository.StripeRepository
 
 
-actual open class ProvideStripeSdk actual constructor() : KoinComponent, CoroutineViewModel() {
+actual open class ProvideStripeSdk actual constructor() : CoroutineViewModel() {
 
-    val stripe: StripeRepository by inject()
     actual suspend fun initialise(initialiseParams: InitialiseParams) {
         // Validate that publishableKey is not empty
         if (initialiseParams.publishableKey.isBlank()) {
@@ -36,7 +36,7 @@ actual open class ProvideStripeSdk actual constructor() : KoinComponent, Corouti
 
         // Proceed to initialise with validated parameters
 
-        stripe.initialise(initialiseParams.toDictionary())
+        Stripe.provider.initialise(initialiseParams.toDictionary())
     }
     actual suspend fun createPaymentMethod(
         params: CreateParams,
@@ -75,7 +75,7 @@ actual open class ProvideStripeSdk actual constructor() : KoinComponent, Corouti
                 val optionsDictionary = options.toDictionary()
 
                 // Call the Swift method with the converted dictionary
-                stripe.createPaymentMethod(
+                Stripe.provider.createPaymentMethod(
                     params = paramsDictionary,
                     options = optionsDictionary,
                     onSuccess = { result ->
@@ -93,5 +93,4 @@ actual open class ProvideStripeSdk actual constructor() : KoinComponent, Corouti
             onError(e)
         }
     }
-
 }
