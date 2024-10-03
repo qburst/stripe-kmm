@@ -4,6 +4,8 @@ import org.jetbrains.kotlin.gradle.targets.js.dsl.ExperimentalWasmDsl
 import org.jetbrains.kotlin.gradle.targets.js.webpack.KotlinWebpackConfig
 
 plugins {
+    id("com.google.devtools.ksp") version "2.0.20-1.0.25"
+    kotlin("plugin.allopen") version "2.0.20"
     alias(libs.plugins.kotlinMultiplatform)
     alias(libs.plugins.androidLibrary)
 }
@@ -34,6 +36,16 @@ kotlin {
         compilerOptions {
             jvmTarget.set(JvmTarget.JVM_11)
         }
+
+        @OptIn(ExperimentalKotlinGradlePluginApi::class)
+        unitTestVariant {
+            dependencies {
+                testImplementation(libs.mockative)
+                testImplementation(kotlin("test-junit"))
+                testImplementation(libs.junit)
+                testImplementation(libs.kotlinx.coroutines.test)
+            }
+        }
     }
 
     iosX64()
@@ -60,7 +72,7 @@ kotlin {
         }
         iosTest.dependencies {
             implementation(kotlin("test"))
-            implementation("io.mockative:mockative:2.2.2")
+            implementation(libs.mockative)
         }
     }
     task("testClasses")
@@ -98,4 +110,18 @@ android {
     dependencies {
         implementation(libs.androidx.activity.compose)
     }
+}
+val taskIsRunningTest = gradle.startParameter.taskNames
+    .any { it == "check" || it.startsWith("test") || it.contains("Test") }
+
+if (taskIsRunningTest) {
+    allOpen {
+        annotation("Mockable")
+    }
+}
+
+ksp {
+    arg("io.mockative:mockative:opt-in:io.github.OptInType", "kotlinx.cinterop.ExperimentalForeignApi")
+    arg("io.mockative:mockative:opt-in:io.github.*", "kotlin.ExperimentalStdlibApi")
+    arg("io.mockative:mockative:opt-in", "kotlin.ExperimentalUnsignedTypes")
 }
