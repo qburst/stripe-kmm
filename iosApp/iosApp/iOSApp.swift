@@ -5,8 +5,7 @@ import SwiftKMMStripeKit
 @main
 struct iOSApp: App {
     init() {
-      let stripeSdk = StripeSdk()
-        KoinKt.doInitKoin(stripeRepository: stripeSdk)
+        StripeHelpersKt.setStripe(stripeRepository:  StripeSdk())
     }
 
     

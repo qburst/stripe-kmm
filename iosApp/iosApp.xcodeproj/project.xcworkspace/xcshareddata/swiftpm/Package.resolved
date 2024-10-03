@@ -1,13 +1,13 @@
 {
-  "originHash" : "0d500a76e5335754cee7576c86bac59ed51f7905fbf915c721af552c00c0fd8a",
+  "originHash" : "834937916511e940861d24de324c2ac7d94e0b926208ef02af36c024df1d63df",
   "pins" : [
     {
       "identity" : "stripe-ios-spm",
       "kind" : "remoteSourceControl",
       "location" : "https://github.com/stripe/stripe-ios-spm.git",
       "state" : {
-        "revision" : "865bfefff6904cdd9baca3dc68dac964fc8340af",
-        "version" : "23.29.2"
+        "revision" : "21751aa785a6a4367412bd7e175815a0df8dd72d",
+        "version" : "23.31.0"
       }
     }
   ],

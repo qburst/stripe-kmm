@@ -17,3 +17,11 @@ fun stripeInitKoin(stripeRepository: StripeRepository) {
 fun stripeModule(stripeRepository: StripeRepository): Module = module {
     single { stripeRepository }
 }
+
+object Stripe {
+    lateinit var provider:StripeRepository;
+
+    fun setProvider(stripe:StripeRepository) {
+        provider = stripe
+    }
+}

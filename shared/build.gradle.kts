@@ -60,9 +60,9 @@ kotlin {
 
         }
         iosMain.dependencies {
-            implementation(project.dependencies.platform("io.insert-koin:koin-bom:4.0.0-RC1"))
-            implementation(libs.koin.core)
-            implementation(libs.koin.test)
+            implementation(project.dependencies.platform("io.insert-koin:koin-bom:4.0.0-RC2"))
+            implementation("io.insert-koin:koin-core")
+            implementation("io.insert-koin:koin-test")
             implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:1.8.0")
         }
         androidMain.dependencies {

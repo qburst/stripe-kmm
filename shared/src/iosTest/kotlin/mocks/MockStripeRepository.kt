@@ -17,24 +17,54 @@ open class MockStripeRepository : StripeRepository {
         onError: (Throwable) -> Unit
     ) {
         try {
-            // Extract payment method type and data from params
+            // Extract payment method type and data
+            val paymentMethodType = params["paymentMethodType"] as? String
             val paymentMethodData = params["paymentMethodData"] as? Map<*, *>
-            val token = paymentMethodData?.get("token") as? String
-            val paymentId = paymentMethodData?.get("paymentMethodId") as? String
 
-            // Validate that either 'token' or 'paymentId' is provided
-            if (token.isNullOrBlank() && paymentId.isNullOrBlank()) {
-                throw IllegalArgumentException("Either 'token' or 'paymentMethodId' must be provided.")
+            // Validate based on the payment method type
+            when (paymentMethodType) {
+                "Card" -> {
+                    val token = paymentMethodData?.get("token") as? String
+                    if (token == null) {
+                        throw IllegalArgumentException("Token is required for Card payment method.")
+                    }
+                    // Simulate success scenario for CardParamsWithToken
+                    val result = mapOf(
+                        "status" to "success",
+                        "paymentMethodId" to "generated_payment_method_id"
+                    )
+                    onSuccess(result)
+                }
+                "Ideal" -> {
+                    val bank = paymentMethodData?.get("bankName") as? String
+                    if (bank == null) {
+                        throw IllegalArgumentException("Bank name is required for IDEAL payment method.")
+                    }
+                    // Simulate success scenario for IdealParams
+                    val result = mapOf(
+                        "status" to "success",
+                        "paymentMethodId" to "generated_ideal_payment_method_id"
+                    )
+                    onSuccess(result)
+                }
+                "SepaDebit" -> {
+                    val iban = paymentMethodData?.get("iban") as? String
+                    if (iban == null) {
+                        throw IllegalArgumentException("IBAN is required for SEPA Debit payment method.")
+                    }
+                    // Simulate success scenario for SepaDebit
+                    val result = mapOf(
+                        "status" to "success",
+                        "paymentMethodId" to "generated_sepa_debit_payment_method_id"
+                    )
+                    onSuccess(result)
+                }
+
+
+                else -> {
+                    throw IllegalArgumentException("Invalid payment method type: $paymentMethodType")
+                }
             }
-
-            // Simulate success scenario
-            val result = mapOf(
-                "status" to "success",
-                "paymentMethodId" to (paymentId ?: "generated_payment_method_id")
-            )
-
-            // Trigger the success callback
-            onSuccess(result)
         } catch (e: Exception) {
             // Trigger the error callback in case of validation failure or other exceptions
             onError(e)
