@@ -19,6 +19,16 @@ class PaymentRepositoryImpl: PaymentRepository {
         stripeAccountId: String?,
     ): ApiResult = suspendCancellableCoroutine { continuation ->
 
+        val validationResult = CreatePaymentValidation.validateCreatePaymentParams(params)
+        if(validationResult != "success") {
+            continuation.resume(
+                ApiResult(
+                    success = null,
+                    error = null
+                )
+            )
+        }
+
         val apiReturn = object : ApiResultCallback<PaymentMethod> {
             override fun onSuccess(result: PaymentMethod) {
                 val gson = Gson()
