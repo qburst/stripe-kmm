@@ -350,7 +350,7 @@ sealed class CreateParams {
     }
     data class PaymentMethodDataAlma(
         val billingDetails: BillingDetails? = null,
-        val metadata: Map<String, String>?
+        val metadata: Map<String, String>? = null
     ) {
         fun toDictionary(): Map<String, Any?> {
             return mapOf(
@@ -373,7 +373,7 @@ sealed class CreateParams {
     }
     data class PaymentMethodDataSunbit(
         val billingDetails: BillingDetails? = null,
-        val metadata: Map<String, String>?
+        val metadata: Map<String, String>? = null
     ) {
         fun toDictionary(): Map<String, Any?> {
             return mapOf(
@@ -396,7 +396,7 @@ sealed class CreateParams {
     }
     data class PaymentMethodDataBillie(
         val billingDetails: BillingDetails? = null,
-        val metadata: Map<String, String>?
+        val metadata: Map<String, String>? = null
     ) {
         fun toDictionary(): Map<String, Any?> {
             return mapOf(
@@ -419,7 +419,7 @@ sealed class CreateParams {
     }
     data class PaymentMethodDataSatispay(
         val billingDetails: BillingDetails? = null,
-        val metadata: Map<String, String>?
+        val metadata: Map<String, String>? = null
     ) {
         fun toDictionary(): Map<String, Any?> {
             return mapOf(
@@ -442,7 +442,7 @@ sealed class CreateParams {
     }
     data class PaymentMethodDataRevolutPay(
         val billingDetails: BillingDetails? = null,
-        val metadata: Map<String, String>?
+        val metadata: Map<String, String>? = null
     ) {
         fun toDictionary(): Map<String, Any?> {
             return mapOf(
@@ -465,7 +465,7 @@ sealed class CreateParams {
     }
     data class PaymentMethodDataMobilePay(
         val billingDetails: BillingDetails? = null,
-        val metadata: Map<String, String>?
+        val metadata: Map<String, String>? = null
     ) {
         fun toDictionary(): Map<String, Any?> {
             return mapOf(
@@ -513,7 +513,7 @@ sealed class CreateParams {
 
     data class PaymentMethodDataSwish(
         val billingDetails: BillingDetails? = null,
-        val metadata: Map<String, String>?
+        val metadata: Map<String, String>? = null
     ) {
         fun toDictionary(): Map<String, Any?> {
             return mapOf(
@@ -523,21 +523,9 @@ sealed class CreateParams {
         }
     }
 
-//    data class banContactsParams(
-//        val paymentMethodType: String = "bancontact",  // Constant value
-//        val paymentMethodData: PaymentMethodDataCreateBanContacts? = null
-//    ) : CreateParams() {
-//        fun toDictionary(): Map<String, Any?> {
-//            return mapOf(
-//                "paymentMethodType" to paymentMethodType,
-//                "paymentMethodData" to paymentMethodData?.toDictionary()
-//            )
-//        }
-//    }
-
     data class PaymentMethodDataCreateBanContacts(
         val billingDetails: BillingDetails? = null,
-        val metadata: Map<String, String>?
+        val metadata: Map<String, String>? = null
     ) {
         fun toDictionary(): Map<String, Any?> {
             return mapOf(
@@ -580,7 +568,7 @@ sealed class CreateParams {
     data class PaymentMethodDataIdeal(
         val bankName: String?,
         val billingDetails: BillingDetails?,
-        val metadata: Map<String, String>?
+        val metadata: Map<String, String>? = null
     ) {
         fun toDictionary(): Map<String, Any?> {
             return mapOf(
@@ -595,7 +583,7 @@ sealed class CreateParams {
     // Data class for OxxoParams paymentMethodData
     data class PaymentMethodDataOxxo(
         val billingDetails: BillingDetails?,
-        val metadata: Map<String, String>?
+        val metadata: Map<String, String>? = null
     ) {
         fun toDictionary(): Map<String, Any?> {
             return mapOf(
@@ -607,7 +595,7 @@ sealed class CreateParams {
 
     data class PaymentMethodDataP24(
         val billingDetails: BillingDetails?,
-        val metadata: Map<String, String>?
+        val metadata: Map<String, String>? = null
     ) {
         fun toDictionary(): Map<String, Any?> {
             return mapOf(
@@ -619,7 +607,7 @@ sealed class CreateParams {
 
     data class PaymentMethodDataAlipay(
         val billingDetails: BillingDetails?,
-        val metadata: Map<String, String>?
+        val metadata: Map<String, String>? = null
     ) {
         fun toDictionary(): Map<String, Any?> {
             return mapOf(
@@ -643,7 +631,7 @@ sealed class CreateParams {
     data class PaymentMethodDataSepaDebit(
         val iban: String?,
         val billingDetails: BillingDetails?,
-        val metadata: Map<String, String>?
+        val metadata: Map<String, String>? = null
     ) {
         fun toDictionary(): Map<String, Any?> {
             return mapOf(
@@ -656,7 +644,7 @@ sealed class CreateParams {
 
     data class PaymentMethodDataEps(
         val billingDetails: BillingDetails?,
-        val metadata: Map<String, String>?
+        val metadata: Map<String, String>? = null
     ) {
         fun toDictionary(): Map<String, Any?> {
             return mapOf(
@@ -669,7 +657,7 @@ sealed class CreateParams {
     data class PaymentMethodDataAuBecs(
         val formDetails: FormDetails?,
         val billingDetails: BillingDetails?,
-        val metadata: Map<String, String>?
+        val metadata: Map<String, String>? = null
     ) {
         fun toDictionary(): Map<String, Any?> {
             return mapOf(
@@ -683,7 +671,7 @@ sealed class CreateParams {
     data class PaymentMethodDataBacsDebit(
         val bacsDebit: BacsDetails?,
         val billingDetails: BillingDetails?,
-        val metadata: Map<String, String>?
+        val metadata: Map<String, String>? = null
     ) {
         fun toDictionary(): Map<String, Any?> {
             return mapOf(
@@ -710,7 +698,7 @@ sealed class CreateParams {
     data class PaymentMethodDataSofort(
         val country: String?,
         val billingDetails: BillingDetails?,
-        val metadata: Map<String, String>?
+        val metadata: Map<String, String>? = null
     ) {
         fun toDictionary(): Map<String, Any?> {
             return mapOf(
@@ -724,7 +712,7 @@ sealed class CreateParams {
     data class PaymentMethodDataUpi(
         val vpa: String?,
         val billingDetails: BillingDetails?,
-        val metadata: Map<String, String>?
+        val metadata: Map<String, String>? = null
     ) {
         fun toDictionary(): Map<String, Any?> {
             return mapOf(
@@ -738,7 +726,7 @@ sealed class CreateParams {
     data class PaymentMethodDataNetBanking(
         val bank: String?,
         val billingDetails: BillingDetails?,
-        val metadata: Map<String, String>?
+        val metadata: Map<String, String>? = null
     ) {
         fun toDictionary(): Map<String, Any?> {
             return mapOf(
@@ -763,7 +751,7 @@ sealed class CreateParams {
         val testOfflineBank: Boolean?,
         val bankName: String?,
         val billingDetails: BillingDetails?,
-        val metadata: Map<String, String>?
+        val metadata: Map<String, String>? = null
     ) {
         fun toDictionary(): Map<String, Any?> {
             return mapOf(
@@ -795,7 +783,7 @@ sealed class CreateParams {
     data class PaymentMethodDataKlarna(
         val billingDetails: KlarnaBillingDetails, // Custom class to reflect Pick behavior
         val shippingDetails: BillingDetails? = null,
-        val metadata: Map<String, String>?
+        val metadata: Map<String, String>? = null
     ) {
         fun toDictionary(): Map<String, Any?> {
             return mapOf(
@@ -827,7 +815,7 @@ sealed class CreateParams {
     data class PaymentMethodDataAfterpayClearpay(
         val billingDetails: BillingDetails, // Custom class to reflect Pick behavior
         val shippingDetails: ShippingDetails,
-        val metadata: Map<String, String>?
+        val metadata: Map<String, String>? = null
 
     ) : CreateParams() {
         fun toDictionary(): Map<String, Any?> {
@@ -862,7 +850,7 @@ sealed class CreateParams {
 
     data class BancontactDataParams(
         val billingDetails: BillingDetails,
-        val metadata: Map<String, String>?
+        val metadata: Map<String, String>? = null
     ) {
         fun toDictionary(): Map<String, Any?> {
             return mapOf(
@@ -880,7 +868,7 @@ sealed class CreateParams {
         val linkAccountSessionId: String?,
         val accountHolderType: BankAccountHolderType? = BankAccountHolderType.INDIVIDUAL, // Default to Individual
         val accountType: BankAccountType? = BankAccountType.CHECKING,  // Default to Checking
-        val metadata: Map<String, String>?
+        val metadata: Map<String, String>? = null
     ) {
         fun toDictionary(): Map<String, Any?> {
             return mapOf(
@@ -898,7 +886,7 @@ sealed class CreateParams {
 
     data class PaymentMethodDataPayPal(
         val billingDetails: BillingDetails,
-        val metadata: Map<String, String>?
+        val metadata: Map<String, String>? = null
     ) {
         fun toDictionary(): Map<String, Any?> {
             return mapOf(
@@ -910,7 +898,7 @@ sealed class CreateParams {
 
     data class PaymentMethodDataWeChatPay(
         val billingDetails: BillingDetails,
-        val metadata: Map<String, String>?
+        val metadata: Map<String, String>? = null
     ) {
         fun toDictionary(): Map<String, Any?> {
             return mapOf(
@@ -922,7 +910,7 @@ sealed class CreateParams {
 
     data class PaymentMethodDataBlik(
         val billingDetails: BillingDetails,
-        val metadata: Map<String, String>?
+        val metadata: Map<String, String>? = null
     ) {
         fun toDictionary(): Map<String, Any?> {
             return mapOf(
@@ -965,7 +953,7 @@ sealed class CreateParams {
     data class PaymentMethodDataAffirm(
         val shippingDetails: ShippingDetails? = null,
         val billingDetails: BillingDetails? = null,
-        val metadata: Map<String, String>?
+        val metadata: Map<String, String>? = null
     ) {
         fun toDictionary(): Map<String, Any?> {
             return mapOf(
@@ -978,7 +966,7 @@ sealed class CreateParams {
 
     data class PaymentMethodDataCashApp(
         val billingDetails: BillingDetails? = null,
-        val metadata: Map<String, String>?
+        val metadata: Map<String, String>? = null
     ) {
         fun toDictionary(): Map<String, Any?> {
             return mapOf(
@@ -990,7 +978,7 @@ sealed class CreateParams {
 
     data class PaymentMethodDataMultiBanco(
         val billingDetails: BillingDetails? = null,
-        val metadata: Map<String, String>?
+        val metadata: Map<String, String>? = null
     ) {
         fun toDictionary(): Map<String, Any?> {
             return mapOf(
@@ -1002,7 +990,7 @@ sealed class CreateParams {
 
     data class PaymentMethodDataAmazonPay(
         val billingDetails: BillingDetails? = null,
-        val metadata: Map<String, String>?
+        val metadata: Map<String, String>? = null
     ) {
         fun toDictionary(): Map<String, Any?> {
             return mapOf(
