@@ -7,9 +7,14 @@ import com.google.gson.Gson
 import com.stripe.android.ApiResultCallback
 import com.stripe.android.model.PaymentMethod
 import kotlinx.coroutines.suspendCancellableCoroutine
+import model.ApiResult
 import model.CreatePaymentModel
 import kotlin.coroutines.resume
 
+/**
+ * This class is the implementation for the [PaymentRepository]
+ * Logics for the Stripe bridging is provided here.
+ */
 @Mockable
 class PaymentRepositoryImpl: PaymentRepository {
 
@@ -18,6 +23,20 @@ class PaymentRepositoryImpl: PaymentRepository {
         idempotencyKey: String?,
         stripeAccountId: String?,
     ): ApiResult = suspendCancellableCoroutine { continuation ->
+
+        /**
+         * This [CreatePaymentValidation.validateCreatePaymentParams] for the purpose of validating the input.
+         * @return [String] Error message if caught with some validation error
+         */
+        val validationResult = CreatePaymentValidation.validateCreatePaymentParams(params)
+        if(validationResult != "success") {
+            continuation.resume(
+                ApiResult(
+                    success = null,
+                    error = null
+                )
+            )
+        }
 
         val apiReturn = object : ApiResultCallback<PaymentMethod> {
             override fun onSuccess(result: PaymentMethod) {
@@ -35,6 +54,9 @@ class PaymentRepositoryImpl: PaymentRepository {
             }
         }
 
+        /**
+         * This method will call the respective Stripe api based on the @param[CreateParams] with different wallet systems
+         */
         when(params) {
             is CreateParams.CardParamsWithToken -> {
                 if(params.paymentMethodData?.token == null) {
@@ -287,6 +309,10 @@ class PaymentRepositoryImpl: PaymentRepository {
                     callback = apiReturn
                 )
             }
+
+            /**
+             * @throws [Throwable] if any of the non specified parameter is passed.
+             */
             else -> {
                 Throwable("Entity type mismatch.")
                 return@suspendCancellableCoroutine

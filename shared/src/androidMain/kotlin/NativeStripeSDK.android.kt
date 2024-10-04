@@ -6,14 +6,28 @@ import model.InitialiseParams
 import repositories.PaymentRepository
 import repositories.PaymentRepositoryImpl
 
-
+/**
+ * This class is the actual implementation for android
+ *
+ * It is the starting point of Android native stripe SDK
+ */
 actual class ProvideStripeSdk actual constructor() {
     private val paymentRepository: PaymentRepository = PaymentRepositoryImpl()
 
+    /**
+     * Initialize Android Stripe SDK
+     * @param [InitialiseParams] with publishable key as a Not null parameter
+     */
     actual suspend fun initialise(initialiseParams: InitialiseParams) {
         SingletonStripeInitialization.StripeInstanse.initializeStripe(initialiseParams)
     }
 
+    /**
+     *It creates a payment parameter in Stripe SDK
+     * @param [CreateParams] which contains different wallet types
+     * @return [onSuccess] -> Success JSON String returns from the api.
+     * [onError] -> Throwable error message thrown from validations or from the Api
+     */
     actual suspend fun createPaymentMethod(
         params: CreateParams,
         options: CreateOptions,

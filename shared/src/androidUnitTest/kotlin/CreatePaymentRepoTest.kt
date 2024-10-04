@@ -6,8 +6,7 @@ import io.mockative.mock
 import kotlinx.coroutines.test.runTest
 import model.Address
 import model.BillingDetails
-import model.FutureUsage
-import repositories.ApiResult
+import model.ApiResult
 import repositories.PaymentRepository
 import kotlin.test.Test
 import kotlin.test.assertTrue
