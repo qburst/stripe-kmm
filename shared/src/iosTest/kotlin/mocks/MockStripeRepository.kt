@@ -1,15 +1,45 @@
 package mocks
-
 import repository.StripeRepository
 
+
+/**
+ * `MockStripeRepository` is a mock implementation of the `StripeRepository` interface designed
+ * for testing purposes. It provides simulated behavior for Stripe operations like initialization
+ * and creating payment methods. This class can be used in unit tests to verify logic that
+ * interacts with the `StripeRepository` without making actual API calls to Stripe.
+ */
 open class MockStripeRepository : StripeRepository {
 
-     var initialiseCalledWith: Map<String, Any?>? = null  // Variable to hold the parameters used in initialise()
+    /**
+     * Holds the parameters passed to the `initialise()` method. This allows tests to inspect
+     * what values were passed when the method was called.
+     */
+    var initialiseCalledWith: Map<String, Any?>? = null
 
+    /**
+     * Simulates the `initialise()` method. It saves the provided parameters to
+     * `initialiseCalledWith` so they can be inspected during testing.
+     *
+     * @param params A map of initialisation parameters, such as publishable key and other configurations.
+     */
     override fun initialise(params: Map<String, Any?>) {
         initialiseCalledWith = params
     }
 
+    /**
+     * Simulates the creation of a payment method, validating the input parameters
+     * based on the payment method type and calling either the `onSuccess` or `onError` callbacks.
+     *
+     * Supported Payment Methods:
+     * - **Card**: Requires a "token" parameter.
+     * - **Ideal**: Requires a "bankName" parameter.
+     * - **SepaDebit**: Requires an "iban" parameter.
+     *
+     * @param params A map of parameters for the payment method, including type and data.
+     * @param options A map of options for creating the payment method.
+     * @param onSuccess A callback function invoked when the payment method creation succeeds, returning a result map.
+     * @param onError A callback function invoked when an error occurs during payment method creation.
+     */
     override fun createPaymentMethod(
         params: Map<String, Any?>,
         options: Map<String, Any?>,
@@ -17,18 +47,18 @@ open class MockStripeRepository : StripeRepository {
         onError: (Throwable) -> Unit
     ) {
         try {
-            // Extract payment method type and data
+            // Extract the payment method type and data from the params map
             val paymentMethodType = params["paymentMethodType"] as? String
             val paymentMethodData = params["paymentMethodData"] as? Map<*, *>
 
-            // Validate based on the payment method type
+            // Perform validation and simulate success based on the payment method type
             when (paymentMethodType) {
                 "Card" -> {
                     val token = paymentMethodData?.get("token") as? String
                     if (token == null) {
                         throw IllegalArgumentException("Token is required for Card payment method.")
                     }
-                    // Simulate success scenario for CardParamsWithToken
+                    // Simulate success for Card payment method
                     val result = mapOf(
                         "status" to "success",
                         "paymentMethodId" to "generated_payment_method_id"
@@ -40,7 +70,7 @@ open class MockStripeRepository : StripeRepository {
                     if (bank == null) {
                         throw IllegalArgumentException("Bank name is required for IDEAL payment method.")
                     }
-                    // Simulate success scenario for IdealParams
+                    // Simulate success for IDEAL payment method
                     val result = mapOf(
                         "status" to "success",
                         "paymentMethodId" to "generated_ideal_payment_method_id"
@@ -52,16 +82,15 @@ open class MockStripeRepository : StripeRepository {
                     if (iban == null) {
                         throw IllegalArgumentException("IBAN is required for SEPA Debit payment method.")
                     }
-                    // Simulate success scenario for SepaDebit
+                    // Simulate success for SEPA Debit payment method
                     val result = mapOf(
                         "status" to "success",
                         "paymentMethodId" to "generated_sepa_debit_payment_method_id"
                     )
                     onSuccess(result)
                 }
-
-
                 else -> {
+                    // Throw an exception for unsupported payment method types
                     throw IllegalArgumentException("Invalid payment method type: $paymentMethodType")
                 }
             }
@@ -70,5 +99,4 @@ open class MockStripeRepository : StripeRepository {
             onError(e)
         }
     }
-
 }

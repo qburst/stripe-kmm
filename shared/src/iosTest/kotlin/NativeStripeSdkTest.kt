@@ -12,17 +12,35 @@ import org.koin.dsl.module
 import org.koin.test.KoinTest
 import repository.StripeRepository
 import kotlin.test.*
+/**
+ * Unit tests for the NativeStripeSdkTest class.
+ *
+ * This class tests the initialization of the Stripe SDK and the creation of different payment methods
+ * (Card, Ideal, and SEPA Debit) using various parameter configurations. It uses MockStripeRepository for mocking
+ * the Stripe API calls and Koin for dependency injection.
+ */
 
 class NativeStripeSdkTest {
 
+    /**
+     * A reference to the ProvideStripeSdk class which provides the Stripe SDK functions for initialization and payment methods.
+     */
     private lateinit var provideStripeSdk: ProvideStripeSdk
 
+    /**
+     * Sets up the test environment before each test case.
+     * This includes initializing the ProvideStripeSdk instance and mocking the Stripe SDK with MockStripeRepository.
+     */
     @BeforeTest
     fun setup() {
         provideStripeSdk = ProvideStripeSdk()
         Stripe.setProvider(MockStripeRepository())
     }
 
+    /**
+     * Tests the initialization of the Stripe SDK with valid initialization parameters.
+     * Ensures that the parameters are correctly passed to the Stripe SDK.
+     */
     @Test
     fun testInitialise(): Unit = runBlocking {
         val initialiseParams = InitialiseParams(
@@ -34,13 +52,13 @@ class NativeStripeSdkTest {
             setReturnUrlSchemeOnAndroid = false,
             appInfo = null
         )
-
-        println("actual: ${initialiseParams.toDictionary()}")
-        // Call the method under test
         provideStripeSdk.initialise(initialiseParams)
-
     }
 
+    /**
+     * Tests the initialization of the Stripe SDK with invalid parameters.
+     * Verifies that an IllegalArgumentException is thrown when passing invalid initialization parameters.
+     */
     @Test
     fun testInitialiseWithInvalidParams(): Unit = runBlocking {
         val invalidInitialiseParams = InitialiseParams(
@@ -53,18 +71,18 @@ class NativeStripeSdkTest {
             appInfo = null
         )
 
-        // Verify that an exception is thrown when trying to initialise with invalid parameters
         val exception = assertFailsWith<IllegalArgumentException> {
             provideStripeSdk.initialise(invalidInitialiseParams)
         }
-
-        // Check the exception message to ensure it's as expected
         assertEquals("Publishable key cannot be empty.", exception.message)
     }
 
+    /**
+     * Tests the creation of a payment method using valid CardParamsWithToken.
+     * Verifies that the success callback is triggered and the expected results are returned.
+     */
     @Test
     fun `test createPaymentMethod with valid CardParamsWithToken`() = runBlocking {
-        // Arrange: Prepare valid CreateParams and CreateOptions
         val billingDetails = BillingDetails(
             name = "John Doe",
             email = "johndoe@example.com",
@@ -78,7 +96,6 @@ class NativeStripeSdkTest {
                 country = "US"
             )
         )
-
         val params = CreateParams.CardParamsWithToken(
             paymentMethodData = CreateParams.PaymentMethodDataWithToken(
                 token = "valid_token",
@@ -86,37 +103,28 @@ class NativeStripeSdkTest {
             )
         )
 
-        val options = CreateOptions() // Assume options can be an empty or populated object
-
+        val options = CreateOptions()
         var result: Map<String, Any?>? = null
         var error: Throwable? = null
 
-        // Act: Call createPaymentMethod
-        provideStripeSdk.createPaymentMethod(
-            params = params,  // Convert params to a dictionary
-            options = options, // Convert options to a dictionary
-            onSuccess = {
-                result = it
-                println("Success callback called with result: $result")
-            },
-            onError = {
-                error = it
-                println("Error callback called with error: ${it.message}")
-            }
-        )
+        provideStripeSdk.createPaymentMethod(params, options, onSuccess = {
+            result = it
+        }, onError = {
+            error = it
+        })
 
-        // Assert: Verify that the success callback is called with expected results
-        assertNotNull(result, "The result should not be null")
-        assertEquals("success", result?.get("status"), "The status should be 'success'")
-        assertEquals("generated_payment_method_id", result?.get("paymentMethodId"), "The paymentMethodId should match")
-
-        // Ensure no error occurred
-        assertNull(error, "There should be no error")
+        assertNotNull(result)
+        assertEquals("success", result?.get("status"))
+        assertEquals("generated_payment_method_id", result?.get("paymentMethodId"))
+        assertNull(error)
     }
 
+    /**
+     * Tests the creation of a payment method using valid IdealParams.
+     * Verifies that the success callback is triggered and the expected results are returned.
+     */
     @Test
     fun `test createPaymentMethod with valid IdealParams`() = runBlocking {
-        // Arrange: Prepare valid CreateParams and CreateOptions
         val billingDetails = BillingDetails(
             name = "Jane Doe",
             email = "janedoe@example.com",
@@ -130,47 +138,34 @@ class NativeStripeSdkTest {
                 country = "US"
             )
         )
-
         val params = CreateParams.IdealParams(
             paymentMethodData = CreateParams.PaymentMethodDataIdeal(
-
                 billingDetails = billingDetails,
                 bankName = "example_bank"
             )
         )
-
-        val options = CreateOptions() // Assume options can be an empty or populated object
-
+        val options = CreateOptions()
         var result: Map<String, Any?>? = null
         var error: Throwable? = null
 
-        // Act: Call createPaymentMethod
-        provideStripeSdk.createPaymentMethod(
-            params = params,  // Convert params to a dictionary
-            options = options, // Convert options to a dictionary
-            onSuccess = {
-                result = it
-                println("Success callback called with result: $result")
-            },
-            onError = {
-                error = it
-                println("Error callback called with error: ${it.message}")
-            }
-        )
+        provideStripeSdk.createPaymentMethod(params, options, onSuccess = {
+            result = it
+        }, onError = {
+            error = it
+        })
 
-        // Assert: Verify that the success callback is called with expected results
-        assertNotNull(result, "The result should not be null")
-        assertEquals("success", result?.get("status"), "The status should be 'success'")
-        assertEquals("generated_ideal_payment_method_id", result?.get("paymentMethodId"), "The paymentMethodId should match")
-
-        // Ensure no error occurred
-        assertNull(error, "There should be no error")
+        assertNotNull(result)
+        assertEquals("success", result?.get("status"))
+        assertEquals("generated_ideal_payment_method_id", result?.get("paymentMethodId"))
+        assertNull(error)
     }
 
-
+    /**
+     * Tests the creation of a payment method using valid SepaDebitParams.
+     * Verifies that the success callback is triggered and the expected results are returned.
+     */
     @Test
     fun `test createPaymentMethod with valid SepaDebitParams`() = runBlocking {
-        // Arrange
         val billingDetails = BillingDetails(
             name = "Jane Doe",
             email = "janedoe@example.com",
@@ -183,42 +178,25 @@ class NativeStripeSdkTest {
                 postalCode = "94103",
                 country = "US"
             )
-
         )
-
         val params = CreateParams.SepaDebitParams(
             paymentMethodData = CreateParams.PaymentMethodDataSepaDebit(
-                iban = "DE89370400440532013000", // Example IBAN
+                iban = "DE89370400440532013000",
                 billingDetails = billingDetails
             )
         )
-
-        val options = CreateOptions() // Assume options can be an empty or populated object
-
+        val options = CreateOptions()
         var result: Map<String, Any?>? = null
         var error: Throwable? = null
 
-        // Act
-        provideStripeSdk.createPaymentMethod(
-            params = params,
-            options = options,
-            onSuccess = {
-                result = it
-                println("Success callback called with result: $result")
-            },
-            onError = {
-                error = it
-                println("Error callback called with error: ${it.message}")
-            }
-        )
+        provideStripeSdk.createPaymentMethod(params, options, onSuccess = {
+            result = it
+        }, onError = {
+            error = it
+        })
 
-        // Assert
-
-        assertEquals( "generated_sepa_debit_payment_method_id", result?.get("paymentMethodId"), "The paymentMethodId should match")
-        assertNull(error, "There should be no error")
+        assertNotNull(result)
+        assertEquals("generated_sepa_debit_payment_method_id", result?.get("paymentMethodId"))
+        assertNull(error)
     }
-
-
-
-
 }

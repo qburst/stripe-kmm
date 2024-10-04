@@ -36,12 +36,62 @@ fun App() {
         )
     )
 
-    val params = CreateParams.CardParamsWithToken(
-        paymentMethodData = CreateParams.PaymentMethodDataWithToken(
-          token = "tok_1Q54e9KJ38Q1wp9dYDaV1B2Y",
+//    val params = CreateParams.CardParamsWithToken(
+//        paymentMethodData = CreateParams.PaymentMethodDataWithToken(
+//          token = "tok_1Q5js0KJ38Q1wp9dT0SxhIFV",
+//        )
+//    )
 
+    val params = CreateParams.OxxoParams(
+        paymentMethodData = CreateParams.PaymentMethodDataOxxo(
+            billingDetails = BillingDetails(
+                name = "John Doe",
+                email = "test@gmail.com",
+                phone = "+91954453333"
+            )
         )
     )
+
+//    val params = CreateParams.AlipayParams(
+//        paymentMethodData = CreateParams.PaymentMethodDataAlipay(
+//            billingDetails = BillingDetails(
+//                name = "John Doe",
+//                email = "test@gmail.com",
+//                phone = "+91954453333"
+//            )
+//        )
+//    )
+
+//
+//    val params = CreateParams.IdealParams(
+//        paymentMethodData = CreateParams.PaymentMethodDataIdeal(
+//            bankName = "regiobank",
+//            billingDetails = BillingDetails(
+//                name = "John Doe",
+//                email = "test@gmail.com",
+//                phone = "+91954453333"
+//            )
+//        )
+//    )
+
+
+//    val params = CreateParams.USBankAccountParams(
+//        paymentMethodData = CreateParams.PaymentMethodDataUSBankAccount(
+//            routingNumber = "110000000",
+//            accountNumber = "000123456789",
+//            linkAccountSessionId = null,
+//            accountHolderType = CreateParams.BankAccountHolderType.INDIVIDUAL,
+//             accountType = CreateParams.BankAccountType.SAVINGS,
+//            billingDetails = CreateParams.USBillingDetails(
+//                name = "John Doe",
+//                email = "test@gmail.com",
+//                phone = "+91954453333"
+//            )
+//        )
+//    )
+
+
+
 
 
     val options = CreateOptions(FutureUsage.OFF_SESSION)

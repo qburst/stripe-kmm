@@ -10,9 +10,25 @@ import org.koin.core.component.KoinComponent
 import org.koin.core.component.inject
 import repository.StripeRepository
 
-
+/**
+ * `ProvideStripeSdk` class is the actual implementation for platform-specific
+ * Stripe SDK functionalities. It extends the `CoroutineViewModel` for coroutine
+ * management and provides methods for initializing the Stripe SDK and creating
+ * payment methods.
+ */
 actual open class ProvideStripeSdk actual constructor() : CoroutineViewModel() {
 
+    /**
+     * Initializes the Stripe SDK with the provided `InitialiseParams`.
+     *
+     * This function validates several fields of the `InitialiseParams` (such as `publishableKey`,
+     * `stripeAccountId`, `merchantIdentifier`, and `urlScheme`) to ensure they are not empty or
+     * null if provided. Once validated, the function proceeds to initialize the Stripe SDK by
+     * passing a dictionary version of the `InitialiseParams` to the Stripe provider.
+     *
+     * @param initialiseParams The parameters required for initializing the Stripe SDK.
+     * @throws IllegalArgumentException If any required field is empty or improperly formatted.
+     */
     actual suspend fun initialise(initialiseParams: InitialiseParams) {
         // Validate that publishableKey is not empty
         if (initialiseParams.publishableKey.isBlank()) {
@@ -35,9 +51,24 @@ actual open class ProvideStripeSdk actual constructor() : CoroutineViewModel() {
         }
 
         // Proceed to initialise with validated parameters
-
         Stripe.provider.initialise(initialiseParams.toDictionary())
     }
+
+    /**
+     * Creates a payment method with the provided `CreateParams` and `CreateOptions`.
+     *
+     * This function handles the creation of various types of payment methods based on the
+     * `CreateParams` subclass provided (such as CardParams, IdealParams, AlipayParams, etc.).
+     * The parameters and options are converted to dictionary format and passed to the Stripe
+     * provider for processing. If successful, the result is passed to the `onSuccess` callback;
+     * otherwise, errors are passed to the `onError` callback.
+     *
+     * @param params The parameters for creating the payment method, supporting multiple types.
+     * @param options Additional options for customizing the payment method creation process.
+     * @param onSuccess Callback function to handle the successful creation of a payment method.
+     * @param onError Callback function to handle errors that occur during the process.
+     * @throws IllegalArgumentException If unsupported `CreateParams` are provided.
+     */
     actual suspend fun createPaymentMethod(
         params: CreateParams,
         options: CreateOptions,
