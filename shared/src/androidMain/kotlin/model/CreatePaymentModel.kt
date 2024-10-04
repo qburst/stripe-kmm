@@ -6,6 +6,11 @@ import com.stripe.android.model.PaymentMethod
 import com.stripe.android.model.PaymentMethodCreateParams
 import org.json.JSONObject
 
+/**
+ * This class will convert the user input to [PaymentMethodCreateParams] for calling native stripe api
+ * @param [CreateParams] It will get the different types of wallet methods as params
+ * @param[PaymentMethodCreateParams] will be returned this is the object from stripe sdk.
+ */
 class CreatePaymentModel {
 
     fun createCardPaymentParamsWithToken(params: CreateParams.CardParamsWithToken): PaymentMethodCreateParams {
