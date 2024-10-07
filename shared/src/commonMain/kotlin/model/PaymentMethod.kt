@@ -811,7 +811,6 @@ sealed class CreateParams {
         }
     }
 
-
     data class PaymentMethodDataAfterpayClearpay(
         val billingDetails: BillingDetails, // Custom class to reflect Pick behavior
         val shippingDetails: ShippingDetails,

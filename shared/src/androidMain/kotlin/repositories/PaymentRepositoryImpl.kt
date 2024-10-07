@@ -318,8 +318,5 @@ class PaymentRepositoryImpl: PaymentRepository {
                 return@suspendCancellableCoroutine
             }
         }
-
-
-
     }
 }
