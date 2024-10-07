@@ -28,7 +28,7 @@ sealed class CreateParams {
         fun toDictionary(): Map<String, Any?> {
             return mapOf(
                 "paymentMethodType" to paymentMethodType,
-                "paymentMethodData" to paymentMethodData?.toDictionary()
+                "paymentMethodData" to paymentMethodData.toDictionary()
             )
         }
     }
@@ -523,19 +523,6 @@ sealed class CreateParams {
         }
     }
 
-    data class PaymentMethodDataCreateBanContacts(
-        val billingDetails: BillingDetails? = null,
-        val metadata: Map<String, String>? = null
-    ) {
-        fun toDictionary(): Map<String, Any?> {
-            return mapOf(
-                "billingDetails" to billingDetails?.toDictionary(),
-                "metadata" to metadata
-            )
-        }
-    }
-
-
     // Data class for paymentMethodData with token
     data class PaymentMethodDataWithToken(
         val token: String? = null,
@@ -767,8 +754,8 @@ sealed class CreateParams {
     data class FormDetails(
         val accountNumber: String,
         val bsbNumber: String,
-        val email: String,
-        val name: String
+        val email: String?,
+        val name: String?
     ) {
         fun toDictionary(): Map<String, Any?> {
             return mapOf(
@@ -812,15 +799,15 @@ sealed class CreateParams {
     }
 
     data class PaymentMethodDataAfterpayClearpay(
-        val billingDetails: BillingDetails, // Custom class to reflect Pick behavior
-        val shippingDetails: ShippingDetails,
+        val billingDetails: BillingDetails?, // Custom class to reflect Pick behavior
+        val shippingDetails: ShippingDetails?,
         val metadata: Map<String, String>? = null
 
     ) : CreateParams() {
         fun toDictionary(): Map<String, Any?> {
             return mapOf(
-                "billingDetails" to billingDetails.toDictionary(),
-                "shippingDetails" to shippingDetails.toDictionary(),
+                "billingDetails" to billingDetails?.toDictionary(),
+                "shippingDetails" to shippingDetails?.toDictionary(),
                 "metadata" to metadata
             )
         }
@@ -848,12 +835,12 @@ sealed class CreateParams {
 
 
     data class BancontactDataParams(
-        val billingDetails: BillingDetails,
+        val billingDetails: BillingDetails?,
         val metadata: Map<String, String>? = null
     ) {
         fun toDictionary(): Map<String, Any?> {
             return mapOf(
-                "billingDetails" to billingDetails.toDictionary(),
+                "billingDetails" to billingDetails?.toDictionary(),
                 "metadata" to metadata
             )
         }
@@ -896,24 +883,24 @@ sealed class CreateParams {
     }
 
     data class PaymentMethodDataWeChatPay(
-        val billingDetails: BillingDetails,
+        val billingDetails: BillingDetails?,
         val metadata: Map<String, String>? = null
     ) {
         fun toDictionary(): Map<String, Any?> {
             return mapOf(
-                "billingDetails" to billingDetails.toDictionary(),
+                "billingDetails" to billingDetails?.toDictionary(),
                 "metadata" to metadata
             )
         }
     }
 
     data class PaymentMethodDataBlik(
-        val billingDetails: BillingDetails,
+        val billingDetails: BillingDetails?,
         val metadata: Map<String, String>? = null
     ) {
         fun toDictionary(): Map<String, Any?> {
             return mapOf(
-                "billingDetails" to billingDetails.toDictionary(),
+                "billingDetails" to billingDetails?.toDictionary(),
                 "metadata" to metadata
             )
         }
@@ -946,7 +933,7 @@ sealed class CreateParams {
     enum class BankAccountType {
         CHECKING,
         SAVINGS,
-        UNKOWN
+        UNKNOWN
     }
 
     data class PaymentMethodDataAffirm(

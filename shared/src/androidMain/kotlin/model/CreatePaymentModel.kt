@@ -317,18 +317,18 @@ class CreatePaymentModel {
 
     fun createPaymentWithBanContacts(params: CreateParams.BancontactParams): PaymentMethodCreateParams {
         val address = Address.Builder()
-        address.setLine1(params.paymentMethodData.billingDetails.address?.line1)
-        address.setLine2(params.paymentMethodData.billingDetails.address?.line2)
-        address.setCity(params.paymentMethodData.billingDetails.address?.city)
-        address.setState(params.paymentMethodData.billingDetails.address?.state)
-        address.setCountry(params.paymentMethodData.billingDetails.address?.country)
-        address.setPostalCode(params.paymentMethodData.billingDetails.address?.postalCode)
+        address.setLine1(params.paymentMethodData.billingDetails?.address?.line1)
+        address.setLine2(params.paymentMethodData.billingDetails?.address?.line2)
+        address.setCity(params.paymentMethodData.billingDetails?.address?.city)
+        address.setState(params.paymentMethodData.billingDetails?.address?.state)
+        address.setCountry(params.paymentMethodData.billingDetails?.address?.country)
+        address.setPostalCode(params.paymentMethodData.billingDetails?.address?.postalCode)
 
         return PaymentMethodCreateParams.createBancontact(
             billingDetails = PaymentMethod.BillingDetails(
-                name = params.paymentMethodData.billingDetails.name,
-                phone = params.paymentMethodData.billingDetails.phone,
-                email = params.paymentMethodData.billingDetails.email,
+                name = params.paymentMethodData.billingDetails?.name,
+                phone = params.paymentMethodData.billingDetails?.phone,
+                email = params.paymentMethodData.billingDetails?.email,
                 address = address.build()
             ),
             metadata = params.paymentMethodData.metadata,
