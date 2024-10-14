@@ -45,4 +45,21 @@ interface StripeRepository {
         onSuccess: (Map<String, Any?>) -> Unit,
         onError: (Throwable) -> Unit
     )
+
+    @Throws(Throwable::class)
+    fun handleNextAction(
+        paymentIntentClientSecret: String,
+        returnURL: String?,
+        onSuccess: (Map<String, Any?>) -> Unit,
+        onError: (Throwable) -> Unit
+    )
+
+    @Throws(Throwable::class)
+    fun confirmPayment(
+        paymentIntentClientSecret: String,
+        params: Map<String, Any?>,
+        options: Map<String, Any?>,
+        onSuccess: (Map<String, Any?>) -> Unit,
+        onError: (Throwable) -> Unit
+    )
 }

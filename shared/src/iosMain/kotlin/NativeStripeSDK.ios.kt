@@ -4,6 +4,8 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 import model.Address
 import model.BillingDetails
+import model.ConfirmOptions
+import model.ConfirmParams
 import model.FutureUsage
 import model.InitialiseParams
 import org.koin.core.component.KoinComponent
@@ -109,6 +111,72 @@ actual open class ProvideStripeSdk actual constructor() : CoroutineViewModel() {
                 Stripe.provider.createPaymentMethod(
                     params = paramsDictionary,
                     options = optionsDictionary,
+                    onSuccess = { result ->
+                        // Pass the result back to the UI through the onSuccess callback
+                        onSuccess(result)
+                    },
+                    onError = { error ->
+                        // Pass the error back to the UI through the onError callback
+                        onError(error)
+                    }
+                )
+            }
+        } catch (e: Exception) {
+            // Handle any other exceptions and pass them to the onError callback
+            onError(e)
+        }
+    }
+
+
+
+
+    actual suspend fun confirmPayment(
+        paymentIntentClientSecret: String,
+        params: ConfirmParams,
+        options: ConfirmOptions,
+        onSuccess: (Map<String, Any?>) -> Unit,
+        onError: (Throwable) -> Unit
+    ) {
+        try {
+            withContext(Dispatchers.Default) {
+                val paramsDictionary = when (params) {
+                    is ConfirmParams.CardParamsWithToken -> params.toDictionary()
+                    is ConfirmParams.IdealParams -> params.toDictionary()
+
+                    else -> throw IllegalArgumentException("Unsupported CreateParams type: ${params::class.simpleName}")
+                }
+                val optionsDictionary = options.toDictionary()
+                Stripe.provider.confirmPayment(
+                    paymentIntentClientSecret = paymentIntentClientSecret,
+                    params = paramsDictionary,
+                    options = optionsDictionary,
+                    onSuccess = { result ->
+                        // Pass the result back to the UI through the onSuccess callback
+                        onSuccess(result)
+                    },
+                    onError = { error ->
+                        // Pass the error back to the UI through the onError callback
+                        onError(error)
+                    }
+                )
+            }
+        } catch (e: Exception) {
+            // Handle any other exceptions and pass them to the onError callback
+            onError(e)
+        }
+    }
+
+    actual suspend fun handleNextAction(
+        paymentIntentClientSecret: String,
+        returnURL: String?,
+        onSuccess: (Map<String, Any?>) -> Unit,
+        onError: (Throwable) -> Unit
+    ) {
+        try {
+            withContext(Dispatchers.Default) {
+                Stripe.provider.handleNextAction(
+                    paymentIntentClientSecret = paymentIntentClientSecret,
+                    returnURL = returnURL,
                     onSuccess = { result ->
                         // Pass the result back to the UI through the onSuccess callback
                         onSuccess(result)

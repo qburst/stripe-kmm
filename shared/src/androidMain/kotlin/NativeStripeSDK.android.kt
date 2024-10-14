@@ -1,6 +1,8 @@
 import com.google.gson.Gson
 import com.stripe.android.ApiResultCallback
 import com.stripe.android.model.PaymentMethod
+import model.ConfirmOptions
+import model.ConfirmParams
 import model.CreatePaymentModel
 import model.InitialiseParams
 import repositories.PaymentRepository
@@ -41,4 +43,12 @@ actual class ProvideStripeSdk actual constructor() {
             result.error?.let { onError(it) }
         }
     }
+
+    actual suspend fun confirmPayment(
+        paymentIntentClientSecret: String,
+        params: ConfirmParams,
+        options: ConfirmOptions,
+        onSuccess: (Map<String, Any?>) -> Unit,
+        onError: (Throwable) -> Unit
+    ) { }
 }
