@@ -99,4 +99,23 @@ open class MockStripeRepository : StripeRepository {
             onError(e)
         }
     }
+
+    override fun confirmPayment(
+        paymentIntentClientSecret: String,
+        params: Map<String, Any?>,
+        options: Map<String, Any?>,
+        onSuccess: (Map<String, Any?>) -> Unit,
+        onError: (Throwable) -> Unit
+    ) {
+        TODO("Not yet implemented")
+    }
+
+    override fun handleNextAction(
+        paymentIntentClientSecret: String,
+        returnURL: String?,
+        onSuccess: (Map<String, Any?>) -> Unit,
+        onError: (Throwable) -> Unit
+    ) {
+        TODO("Not yet implemented")
+    }
 }
