@@ -10,6 +10,9 @@ object CreatePaymentValidation {
                 if (params.paymentMethodData?.token == null) {
                     validationResult = "Token is mandatory"
                 }
+                if (params.paymentMethodData?.token == "") {
+                    validationResult = "Token is mandatory"
+                }
             }
             is CreateParams.CardParamsWithPaymentId -> {
                 if (params.paymentMethodData.paymentMethodId == "") {
@@ -26,12 +29,24 @@ object CreatePaymentValidation {
                 if(params.paymentMethodData?.formDetails?.bsbNumber == null) {
                     validationResult = "BSB number is mandatory"
                 }
+                if(params.paymentMethodData?.formDetails?.accountNumber == "") {
+                    validationResult = "Account number is mandatory"
+                }
+                if(params.paymentMethodData?.formDetails?.bsbNumber == "") {
+                    validationResult = "BSB number is mandatory"
+                }
             }
             is CreateParams.BacsDebitParams -> {
                 if(params.paymentMethodData?.bacsDebit?.accountNumber == null) {
                     validationResult = "Account number is mandatory"
                 }
+                if(params.paymentMethodData?.bacsDebit?.accountNumber == "") {
+                    validationResult = "Account number is mandatory"
+                }
                 if(params.paymentMethodData?.bacsDebit?.sortCode == null) {
+                    validationResult = "Sort code is mandatory"
+                }
+                if(params.paymentMethodData?.bacsDebit?.sortCode == "") {
                     validationResult = "Sort code is mandatory"
                 }
             }
@@ -39,9 +54,15 @@ object CreatePaymentValidation {
                 if(params.paymentMethodData?.country == null) {
                     validationResult = "Country is mandatory"
                 }
+                if(params.paymentMethodData?.country == "") {
+                    validationResult = "Country is mandatory"
+                }
             }
             is CreateParams.NetBankingParams -> {
                 if(params.paymentMethodData?.bank == null) {
+                    validationResult = "Bank is mandatory"
+                }
+                if(params.paymentMethodData?.bank == "") {
                     validationResult = "Bank is mandatory"
                 }
             }
@@ -51,6 +72,9 @@ object CreatePaymentValidation {
                     validationResult = "Billing details is mandatory"
                 }
                 if(params.paymentMethodData?.billingDetails?.email == null) {
+                    validationResult = "Email is mandatory"
+                }
+                if(params.paymentMethodData?.billingDetails?.email == "") {
                     validationResult = "Email is mandatory"
                 }
                 if(params.paymentMethodData?.billingDetails?.address == null) {
@@ -71,9 +95,21 @@ object CreatePaymentValidation {
                 if(params.paymentMethodData?.routingNumber == null) {
                     validationResult = "Routing number is mandatory"
                 }
+                if(params.paymentMethodData?.billingDetails?.name == "") {
+                    validationResult = "Name is mandatory"
+                }
+                if(params.paymentMethodData?.accountNumber == "") {
+                    validationResult = "Account number is mandatory"
+                }
+                if(params.paymentMethodData?.routingNumber == "") {
+                    validationResult = "Routing number is mandatory"
+                }
             }
             is CreateParams.GooglePayParams -> {
                 if(params.jsonObject == null) {
+                    validationResult = "Google pay payment data is mandatory"
+                }
+                if(params.jsonObject == "") {
                     validationResult = "Google pay payment data is mandatory"
                 }
             }
