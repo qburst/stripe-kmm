@@ -44,7 +44,7 @@ androidx-activity-compose = { module = "androidx.activity:activity-compose", ver
 logback = { module = "ch.qos.logback:logback-classic", version.ref = "logback" }
 ktor-server-core = { module = "io.ktor:ktor-server-core-jvm", version.ref = "ktor" }
 ktor-server-netty = { module = "io.ktor:ktor-server-netty-jvm", version.ref = "ktor" }
-ktor-server-tests = { module = "io.ktor:ktor-server-tests-jvm", version.ref = "ktor" }
+#ktor-server-tests = { module = "io.ktor:ktor-server-tests-jvm", version.ref = "ktor" }
 stripe-android-v20482 = { module = "com.stripe:stripe-android", version.ref = "stripeAndroidVersion" }
 androidx-activity-ktx = { group = "androidx.activity", name = "activity-ktx", version.ref = "activityKtx" }
 android-driver = { module = "app.cash.sqldelight:android-driver", version.ref = "sqlDelight" }

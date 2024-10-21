@@ -46,31 +46,27 @@ kotlin {
 
     sourceSets {
         commonMain.dependencies {
-           // implementation(libs.kotlinx.coroutines.core)
-          //  implementation(libs.ktor.client.core)
-         //   implementation(libs.ktor.client.content.negotiation)
-        //    implementation(libs.ktor.serialization.kotlinx.json)
-         //   implementation(libs.runtime)
-        //    implementation(libs.kotlinx.datetime)
-         //   implementation(libs.koin.core)
+            implementation(libs.kotlinx.coroutines.core)
+            implementation(libs.ktor.client.core) // Ktor core for common usage
+            implementation(libs.ktor.client.content.negotiation)
+            implementation(libs.ktor.serialization.kotlinx.json)
         }
         androidMain.dependencies {
-            implementation (libs.stripe.android.v20482)
-            implementation(libs.ktor.client.android)
+            implementation(libs.stripe.android.v20482)
+            implementation(libs.ktor.client.android) // Ktor client for Android
             implementation(libs.android.driver)
-            implementation ("org.jetbrains.kotlinx:kotlinx-coroutines-core:1.9.0-RC")
+            implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:1.9.0-RC")
         }
         iosMain.dependencies {
-            implementation(libs.ktor.client.darwin)
+            implementation(libs.ktor.client.darwin) // Ktor client for iOS
             implementation(libs.native.driver)
         }
         wasmJsMain.dependencies {
             implementation(npm("@stripe/stripe-js", "^4.4.0"))
-//            implementation("io.ktor:ktor-client-core:2.0.0")
-//            implementation("io.ktor:ktor-client-js:2.0.0")
-//            implementation("io.ktor:ktor-client-content-negotiation:2.0.0")
-//            implementation("io.ktor:ktor-serialization-kotlinx-json:2.0.0")
-
+            implementation("io.ktor:ktor-client-core:2.4.0") // Ensure correct version
+            implementation("io.ktor:ktor-client-js:3.0.0") // Ktor client for JS/Wasm
+            implementation("io.ktor:ktor-client-content-negotiation:2.4.0")
+            implementation("io.ktor:ktor-serialization-kotlinx-json:2.4.0")
         }
     }
 }
