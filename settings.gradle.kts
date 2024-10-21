@@ -15,6 +15,7 @@ pluginManagement {
     }
 }
 
+
 dependencyResolutionManagement {
     repositories {
         google {
@@ -22,7 +23,11 @@ dependencyResolutionManagement {
                 includeGroupAndSubgroups("androidx")
                 includeGroupAndSubgroups("com.android")
                 includeGroupAndSubgroups("com.google")
+
             }
+        }
+        maven {
+            url = uri("https://maven.pkg.jetbrains.space/public/p/ktor/eap")
         }
         mavenCentral()
     }

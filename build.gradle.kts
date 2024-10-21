@@ -7,3 +7,11 @@ plugins {
     alias(libs.plugins.compose.compiler) apply false
     alias(libs.plugins.kotlinMultiplatform) apply false
 }
+repositories {
+    mavenCentral()
+}
+repositories {
+    maven {
+        url = uri("https://maven.pkg.jetbrains.space/public/p/ktor/eap")
+    }
+}
