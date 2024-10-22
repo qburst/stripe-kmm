@@ -67,6 +67,16 @@ kotlin {
             implementation("io.ktor:ktor-client-js:3.0.0") // Ktor client for JS/Wasm
             implementation("io.ktor:ktor-client-content-negotiation:2.4.0")
             implementation("io.ktor:ktor-serialization-kotlinx-json:2.4.0")
+//            implementation("io.ktor:ktor-client-logging:2.3.0")
+        }
+    }
+    wasmJs() {
+        // Define the entry point for your WASM module
+        browser {
+            webpackTask {
+                // This is where the output JS file will be generated
+                mainOutputFileName = "kotlin_wasm_module.js"
+            }
         }
     }
 }
