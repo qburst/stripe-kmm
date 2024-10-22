@@ -199,4 +199,74 @@ class NativeStripeSdkTest {
         assertEquals("generated_sepa_debit_payment_method_id", result?.get("paymentMethodId"))
         assertNull(error)
     }
+
+
+    /**
+     * Tests the handling of the next action for a valid PaymentIntentClientSecret.
+     * Verifies that the success callback is triggered with the correct result map and no errors occur.
+     *
+     * Scenario:
+     * - Given a valid `PaymentIntentClientSecret` and `returnURL`, the test expects the `onSuccess`
+     *   callback to be invoked with the expected `paymentIntentId`.
+     * - The `onError` callback should not be invoked.
+     */
+
+    @Test
+    fun `test handleNextAction with valid PaymentIntentClientSecret`() = runBlocking {
+        val paymentIntentClientSecret = "pi_client_secret_12345"
+        val returnURL = "myapp://payment-completed"
+        var result: Map<String, Any?>? = null
+        var error: Throwable? = null
+
+        provideStripeSdk.handleNextAction(
+            paymentIntentClientSecret = paymentIntentClientSecret,
+            returnURL = returnURL,
+            onSuccess = {
+                result = it
+            },
+            onError = {
+                error = it
+            }
+        )
+
+        assertNotNull(result)
+        assertEquals("payment_intent_id_12345", result?.get("paymentIntentId"))
+        assertNull(error)
+    }
+
+    /**
+     * Tests the handling of the next action for a valid SetupIntentClientSecret.
+     * Verifies that the success callback is triggered with the correct result map and no errors occur.
+     *
+     * Scenario:
+     * - Given a valid `SetupIntentClientSecret` and `returnURL`, the test expects the `onSuccess`
+     *   callback to be invoked with the expected `setupIntentId`.
+     * - The `onError` callback should not be invoked.
+     */
+
+    @Test
+    fun `test handleNextActionForSetup with valid SetupIntentClientSecret`() = runBlocking {
+        val setupIntentClientSecret = "si_client_secret_67890"
+        val returnURL = "myapp://setup-completed"
+        var result: Map<String, Any?>? = null
+        var error: Throwable? = null
+
+        provideStripeSdk.handleNextActionForSetup(
+            setupIntentClientSecret = setupIntentClientSecret,
+            returnURL = returnURL,
+            onSuccess = {
+                result = it
+            },
+            onError = {
+                error = it
+            }
+        )
+
+        assertNotNull(result)
+        assertEquals("setup_intent_id_67890", result?.get("setupIntentId"))
+        assertNull(error)
+    }
+
+
+
 }

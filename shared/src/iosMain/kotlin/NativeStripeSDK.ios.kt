@@ -127,7 +127,87 @@ actual open class ProvideStripeSdk actual constructor() : CoroutineViewModel() {
         }
     }
 
+    /**
+     * Handles the next action required to confirm a payment using the provided PaymentIntentClientSecret.
+     *
+     * This method interacts with Stripe's SDK to complete a payment that requires additional actions,
+     * such as authentication. It passes the result or error back to the caller through callbacks.
+     *
+     * @param paymentIntentClientSecret The client secret associated with the PaymentIntent.
+     * @param returnURL The URL to redirect back to after the action, if applicable.
+     * @param onSuccess Callback to be invoked upon successful handling of the next action.
+     *                  It returns a map with relevant data, such as the `paymentIntentId`.
+     * @param onError Callback to be invoked if an error occurs during handling the next action.
+     *                The error is passed as a `Throwable`.
+     * @throws Exception Any unexpected exception is caught and passed to the `onError` callback.
+     */
+    actual suspend fun handleNextAction(
+        paymentIntentClientSecret: String,
+        returnURL: String?,
+        onSuccess: (Map<String, Any?>) -> Unit,
+        onError: (Throwable) -> Unit
+    ) {
+        try {
+            withContext(Dispatchers.Default) {
+                Stripe.provider.handleNextAction(
+                    paymentIntentClientSecret = paymentIntentClientSecret,
+                    returnURL = returnURL,
+                    onSuccess = { result ->
+                        // Pass the result back to the UI through the onSuccess callback
+                        onSuccess(result)
+                    },
+                    onError = { error ->
+                        // Pass the error back to the UI through the onError callback
+                        onError(error)
+                    }
+                )
+            }
+        } catch (e: Exception) {
+            // Handle any other exceptions and pass them to the onError callback
+            onError(e)
+        }
+    }
 
+    /**
+     * Handles the next action required to complete a setup using the provided SetupIntentClientSecret.
+     *
+     * This method interacts with Stripe's SDK to complete a setup that requires additional actions,
+     * such as authentication for future payment methods. It passes the result or error back to the caller through callbacks.
+     *
+     * @param setupIntentClientSecret The client secret associated with the SetupIntent.
+     * @param returnURL The URL to redirect back to after the action, if applicable.
+     * @param onSuccess Callback to be invoked upon successful handling of the next action.
+     *                  It returns a map with relevant data, such as the `setupIntentId`.
+     * @param onError Callback to be invoked if an error occurs during handling the next action.
+     *                The error is passed as a `Throwable`.
+     * @throws Exception Any unexpected exception is caught and passed to the `onError` callback.
+     */
+    actual suspend fun handleNextActionForSetup(
+        setupIntentClientSecret: String,
+        returnURL: String?,
+        onSuccess: (Map<String, Any?>) -> Unit,
+        onError: (Throwable) -> Unit
+    ) {
+        try {
+            withContext(Dispatchers.Default) {
+                Stripe.provider.handleNextActionForSetup(
+                    setupIntentClientSecret = setupIntentClientSecret,
+                    returnURL = returnURL,
+                    onSuccess = { result ->
+                        // Pass the result back to the UI through the onSuccess callback
+                        onSuccess(result)
+                    },
+                    onError = { error ->
+                        // Pass the error back to the UI through the onError callback
+                        onError(error)
+                    }
+                )
+            }
+        } catch (e: Exception) {
+            // Handle any other exceptions and pass them to the onError callback
+            onError(e)
+        }
+    }
 
 
     actual suspend fun confirmPayment(
@@ -166,30 +246,4 @@ actual open class ProvideStripeSdk actual constructor() : CoroutineViewModel() {
         }
     }
 
-    actual suspend fun handleNextAction(
-        paymentIntentClientSecret: String,
-        returnURL: String?,
-        onSuccess: (Map<String, Any?>) -> Unit,
-        onError: (Throwable) -> Unit
-    ) {
-        try {
-            withContext(Dispatchers.Default) {
-                Stripe.provider.handleNextAction(
-                    paymentIntentClientSecret = paymentIntentClientSecret,
-                    returnURL = returnURL,
-                    onSuccess = { result ->
-                        // Pass the result back to the UI through the onSuccess callback
-                        onSuccess(result)
-                    },
-                    onError = { error ->
-                        // Pass the error back to the UI through the onError callback
-                        onError(error)
-                    }
-                )
-            }
-        } catch (e: Exception) {
-            // Handle any other exceptions and pass them to the onError callback
-            onError(e)
-        }
-    }
 }

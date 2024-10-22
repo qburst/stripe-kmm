@@ -23,4 +23,12 @@ expect class ProvideStripeSdk() {
         onSuccess: (Map<String, Any?>) -> Unit,
         onError: (Throwable) -> Unit
     )
+    suspend fun handleNextActionForSetup(
+        setupIntentClientSecret: String,
+        returnURL: String?,
+        onSuccess: (Map<String, Any?>) -> Unit,
+        onError: (Throwable) -> Unit
+    )
+
+
 }
