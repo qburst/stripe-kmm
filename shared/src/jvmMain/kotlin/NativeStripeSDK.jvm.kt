@@ -29,4 +29,12 @@ actual class ProvideStripeSdk  {
         onError: (Throwable) -> Unit
     ) {
     }
+
+    actual suspend fun handleNextActionForSetup(
+        setupIntentClientSecret: String,
+        returnURL: String?,
+        onSuccess: (Map<String, Any?>) -> Unit,
+        onError: (Throwable) -> Unit
+    ) {
+    }
 }

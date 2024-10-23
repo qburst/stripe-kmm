@@ -110,12 +110,45 @@ open class MockStripeRepository : StripeRepository {
         TODO("Not yet implemented")
     }
 
+    /**
+     * Mock implementation of handleNextAction for testing.
+     */
     override fun handleNextAction(
         paymentIntentClientSecret: String,
         returnURL: String?,
         onSuccess: (Map<String, Any?>) -> Unit,
         onError: (Throwable) -> Unit
     ) {
-        TODO("Not yet implemented")
+        try {
+            if (paymentIntentClientSecret == "pi_client_secret_12345") {
+                val result = mapOf("status" to "success", "paymentIntentId" to "payment_intent_id_12345")
+                onSuccess(result)
+            } else {
+                throw IllegalArgumentException("Invalid payment intent client secret.")
+            }
+        } catch (e: Exception) {
+            onError(e)
+        }
+    }
+
+    /**
+     * Mock implementation of handleNextActionForSetup for testing.
+     */
+    override fun handleNextActionForSetup(
+        setupIntentClientSecret: String,
+        returnURL: String?,
+        onSuccess: (Map<String, Any?>) -> Unit,
+        onError: (Throwable) -> Unit
+    ) {
+        try {
+            if (setupIntentClientSecret == "si_client_secret_67890") {
+                val result = mapOf("status" to "success", "setupIntentId" to "setup_intent_id_67890")
+                onSuccess(result)
+            } else {
+                throw IllegalArgumentException("Invalid setup intent client secret.")
+            }
+        } catch (e: Exception) {
+            onError(e)
+        }
     }
 }

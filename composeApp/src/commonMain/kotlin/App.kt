@@ -61,7 +61,7 @@ fun App() {
         )
     )
 
-
+    val paymentIntentClientSecretForSetup = "seti_1QCegBKJ38Q1wp9dwSb3Jpr9_secret_R4oIFAfIxs3IQj6p9pt9dRdF6okgCyh"
 
 
     val options = CreateOptions(FutureUsage.OFF_SESSION)
@@ -144,6 +144,28 @@ fun App() {
                 Text("Handle Next Actions")
             }
 
+
+            Button(onClick = {
+                CoroutineScope(Dispatchers.Default).launch {
+                    stripe.handleNextActionForSetup(
+                        setupIntentClientSecret = paymentIntentClientSecretForSetup,
+                        returnURL = returnsUrl,
+                        onSuccess = { result ->
+                            print(" result = $result")
+                            // Pass the result back to the UI through the onSuccess callback
+                            PaymentResponse = result.toString()
+                        },
+                        onError = { error ->
+                            // Pass the error back to the UI through the onError callback
+                            PaymentResponse = error.toString()
+                            print(error)
+                            PaymentResponse = error.toString()
+                        }
+                    )
+                }
+            }) {
+                Text("Handle Next Actions Setup")
+            }
 
             Column(Modifier.padding(15.dp)) {
                 Text(
