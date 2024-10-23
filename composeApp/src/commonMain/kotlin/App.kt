@@ -36,16 +36,15 @@ fun App() {
     )
 
 
-    val params = CreateParams.IdealParams(
-        paymentMethodData = CreateParams.PaymentMethodDataIdeal(
-            bankName = "regiobank",
-            billingDetails = BillingDetails(
-                name = "John Doe",
-                email = "test@gmail.com",
-                phone = "+91954453333"
-            )
+    val params = CreateParams.WeChatPayParams(
+    paymentMethodData = CreateParams.PaymentMethodDataWeChatPay(
+        billingDetails = BillingDetails(
+            name = "John Doe",
+            email = "test@gmail.com",
+            phone = "+91954453333"
         )
     )
+)
 
 
     val paymentIntentClientSecret = "pi_1Q9YG9KJ38Q1wp9dt3k3fpeg_secret_mCmrDxJGcLPOfE3BuBzAl8CM8"

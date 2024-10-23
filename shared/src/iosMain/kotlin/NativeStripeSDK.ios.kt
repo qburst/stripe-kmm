@@ -101,6 +101,7 @@ actual open class ProvideStripeSdk actual constructor() : CoroutineViewModel() {
                     is CreateParams.PayPalParams -> params.toDictionary()
                     is CreateParams.AffirmParams -> params.toDictionary()
                     is CreateParams.CashAppParams -> params.toDictionary()
+                    is CreateParams.WeChatPayParams -> params.toDictionary()
                     // Handle other possible CreateParams subclasses
                     else -> throw IllegalArgumentException("Unsupported CreateParams type: ${params::class.simpleName}")
                 }
