@@ -1,21 +1,26 @@
 plugins {
-    alias(libs.plugins.kotlinJvm)
-    alias(libs.plugins.ktor)
-    application
+    kotlin("multiplatform")
 }
-
-group = "com.qburst.stripe_kmm"
-version = "1.0.0"
-application {
-    mainClass.set("com.qburst.stripe_kmm.ApplicationKt")
-    applicationDefaultJvmArgs = listOf("-Dio.ktor.development=${extra["io.ktor.development"] ?: "false"}")
+repositories {
+    mavenCentral() // Ensure Maven Central is included
 }
+kotlin {
+    wasm {
+        // WebAssembly target is configured here
+        binaries.executable()
+        browser {
+            commonWebpackConfig {
 
-dependencies {
-    implementation(projects.shared)
-    implementation(libs.logback)
-    implementation(libs.ktor.server.core)
-    implementation(libs.ktor.server.netty)
-    testImplementation(libs.ktor.server.tests)
-    testImplementation(libs.kotlin.test.junit)
+            }
+        }
+    }
+    sourceSets {
+        wasmJsMain.dependencies {
+            implementation(libs.ktor.client.core)
+            implementation(libs.ktor.client.js)
+            implementation(libs.ktor.client.content.negotiation)
+            implementation(libs.ktor.serialization.kotlinx.json)
+        }
+
+    }
 }
