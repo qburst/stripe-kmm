@@ -51,34 +51,6 @@ fun App() {
     )
 
 
-    val params = CreateParams.IdealParams(
-        paymentMethodData = CreateParams.PaymentMethodDataIdeal(
-            bankName = "regiobank",
-            billingDetails = BillingDetails(
-                name = "John Doe",
-                email = "test@gmail.com",
-                phone = "+91954453333"
-            )
-        )
-    )
-
-
-    val paymentIntentClientSecret = "pi_1Q9YG9KJ38Q1wp9dt3k3fpeg_secret_mCmrDxJGcLPOfE3BuBzAl8CM8"
-    val returnsUrl = "https://google.com"
-    val confirmParams = ConfirmParams.CardParamsWithToken(
-        paymentMethodData = ConfirmParams.PaymentMethodDataWithToken(
-            token = "tok_1Q8IhfKJ38Q1wp9dRbNcXL3J",
-            billingDetails = BillingDetails(
-                name = "John Doe",
-                email = "test@gmail.com",
-                phone = "+91954453333"
-            )
-        )
-    )
-
-    val paymentIntentClientSecretForSetup = "seti_1QCegBKJ38Q1wp9dwSb3Jpr9_secret_R4oIFAfIxs3IQj6p9pt9dRdF6okgCyh"
-
-
     val options = CreateOptions(FutureUsage.OFF_SESSION)
     var PaymentResponse by remember { mutableStateOf("Click the button!") }
     var selectedMethod by remember { mutableStateOf("") }
@@ -188,6 +160,7 @@ fun App() {
                     }
                 }
             }
+
             Row(verticalAlignment = Alignment.CenterVertically,) {
                 RadioButton(
                     selected = selectedMethod == "Card",
@@ -243,6 +216,7 @@ fun App() {
                 Spacer(modifier = Modifier.width(8.dp))
                 Text(text = "CashApp")
             }
+
 
             Column(Modifier.fillMaxWidth(), horizontalAlignment = Alignment.CenterHorizontally) {
 
