@@ -1,3 +1,3 @@
 actual fun callgreetings(): String {
-    return "nckjncksn"
+    return "hjkgjhgkgbkb"
 }

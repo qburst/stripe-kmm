@@ -14,12 +14,7 @@ plugins {
 
 kotlin {
     js(IR) {
-        moduleName = "composeApp"
-        browser {
-            commonWebpackConfig {
-                outputFileName = "composeApp.js"
-            }
-        }
+        browser()
         binaries.executable()
     }
     @OptIn(ExperimentalWasmDsl::class)
@@ -82,6 +77,7 @@ kotlin {
         }
         jsMain.dependencies {
             implementation(compose.runtime)
+            implementation(compose.html.core)
             implementation(projects.striperest)
         }
     }
@@ -137,6 +133,9 @@ compose.desktop {
             packageVersion = "1.0.0"
         }
     }
+}
+compose.experimental {
+    web.application {}
 }
 
 
