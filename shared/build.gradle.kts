@@ -29,6 +29,7 @@ kotlin {
         }
     }
 
+    js(IR)
 
     
     androidTarget {

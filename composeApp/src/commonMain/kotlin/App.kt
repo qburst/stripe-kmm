@@ -19,10 +19,11 @@ import model.FutureUsage
 import model.InitialiseParams
 import org.jetbrains.compose.ui.tooling.preview.Preview
 
-
 @Composable
 @Preview
 fun App() {
+    var showText by remember { mutableStateOf(false) }
+
 //    sk_test_hPRNV2gZ6gcIV99ndFejwEHT
     val stripe = ProvideStripeSdk()
     val initialiseParams = InitialiseParams(
@@ -143,7 +144,17 @@ fun App() {
             }) {
                 Text("Handle Next Actions")
             }
+            Button(onClick =
+           { showText = !showText }
+            ) {
+                Text("TEST WEB")
+            }
+        val testing = remember { callgreetings() }
 
+
+            Column(Modifier.fillMaxWidth(), horizontalAlignment = Alignment.CenterHorizontally) {
+                Text("$testing")
+            }
 
             Column(Modifier.padding(15.dp)) {
                 Text(
@@ -155,3 +166,4 @@ fun App() {
         }
     }
 }
+expect fun  callgreetings():String

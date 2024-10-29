@@ -8,3 +8,6 @@ fun main() {
         App()
     }
 }
+actual fun callgreetings(): String {
+    return "Hello from wasm Web!"
+}
