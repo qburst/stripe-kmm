@@ -71,4 +71,19 @@ interface StripeRepository {
         onSuccess: (Map<String, Any?>) -> Unit,
         onError: (Throwable) -> Unit
     )
+
+    @Throws(Throwable::class)
+    fun initPaymentSheet(
+        params: Map<String, Any?>,
+        onSuccess: (Map<String, Any?>) -> Unit,
+        onError: (Throwable) -> Unit
+    )
+
+    @Throws(Throwable::class)
+    fun presentPaymentSheet(
+        options: Map<String, Any?>,
+        onSuccess: (Map<String, Any?>) -> Unit,
+        onError: (Throwable) -> Unit
+    )
+
 }

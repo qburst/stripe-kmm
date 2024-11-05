@@ -17,6 +17,9 @@ import model.BillingDetails
 import model.ConfirmParams
 import model.FutureUsage
 import model.InitialiseParams
+import model.IntentParams
+import model.PresentOptions
+import model.SetupParams
 import org.jetbrains.compose.ui.tooling.preview.Preview
 
 
@@ -48,7 +51,7 @@ fun App() {
     )
 
 
-    val paymentIntentClientSecret = "pi_1Q9YG9KJ38Q1wp9dt3k3fpeg_secret_mCmrDxJGcLPOfE3BuBzAl8CM8"
+
     val returnsUrl = "https://google.com"
     val confirmParams = ConfirmParams.CardParamsWithToken(
         paymentMethodData = ConfirmParams.PaymentMethodDataWithToken(
@@ -60,12 +63,19 @@ fun App() {
             )
         )
     )
-
-    val paymentIntentClientSecretForSetup = "seti_1QCegBKJ38Q1wp9dwSb3Jpr9_secret_R4oIFAfIxs3IQj6p9pt9dRdF6okgCyh"
+    val paymentIntentClientSecret = "pi_1QFVQFKJ38Q1wp9dnqLojinN_secret_H2qSeJTtRZaTAA4MaQsC6pbuY"
+    val paymentIntentClientSecretForSetup = "seti_1QFVM9KJ38Q1wp9d1C1GwLEG_secret_R7kruZMp6KaJj36bi63kij16cZaZviZ"
 
 
     val options = CreateOptions(FutureUsage.OFF_SESSION)
     var PaymentResponse by remember { mutableStateOf("Click the button!") }
+
+    // payment sheet params
+
+    var paymentIntentParams = SetupParams(
+        merchantDisplayName = "Qburst",
+            paymentIntentClientSecret = "pi_1QGJFAKJ38Q1wp9dTYiMh8Ky_secret_XIqXggjC122NecfipP2KQOWQH"
+    )
 
     MaterialTheme {
         Column(Modifier.fillMaxWidth(), horizontalAlignment = Alignment.CenterHorizontally) {
@@ -165,6 +175,51 @@ fun App() {
                 }
             }) {
                 Text("Handle Next Actions Setup")
+            }
+
+
+
+            Button(onClick = {
+                CoroutineScope(Dispatchers.Default).launch {
+                    stripe.initPaymentSheet(
+                        params = paymentIntentParams,
+                        onSuccess = { result ->
+                            print(" result = $result")
+                            // Pass the result back to the UI through the onSuccess callback
+                            PaymentResponse = result.toString()
+                        },
+                        onError = { error ->
+                            // Pass the error back to the UI through the onError callback
+                            PaymentResponse = error.toString()
+                            print(error)
+                            PaymentResponse = error.toString()
+                        }
+                    )
+                }
+            }) {
+                Text("Setup Payment Sheet")
+            }
+
+
+            Button(onClick = {
+                CoroutineScope(Dispatchers.Default).launch {
+                    stripe.presentPaymentSheet(
+                        options = PresentOptions(),
+                        onSuccess = { result ->
+                            print(" result = $result")
+                            // Pass the result back to the UI through the onSuccess callback
+                            PaymentResponse = result.toString()
+                        },
+                        onError = { error ->
+                            // Pass the error back to the UI through the onError callback
+                            PaymentResponse = error.toString()
+                            print(error)
+                            PaymentResponse = error.toString()
+                        }
+                    )
+                }
+            }) {
+                Text("Show Payment Sheet")
             }
 
             Column(Modifier.padding(15.dp)) {
