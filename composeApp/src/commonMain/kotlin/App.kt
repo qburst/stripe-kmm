@@ -149,13 +149,6 @@ fun App() {
             ) {
                 Text("TEST WEB")
             }
-        val testing = remember { callgreetings() }
-
-
-            Column(Modifier.fillMaxWidth(), horizontalAlignment = Alignment.CenterHorizontally) {
-                Text("$testing")
-            }
-
             Column(Modifier.padding(15.dp)) {
                 Text(
                     "publishableKey: ${initialiseParams.publishableKey}",
@@ -166,4 +159,3 @@ fun App() {
         }
     }
 }
-expect fun  callgreetings():String
