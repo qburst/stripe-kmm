@@ -144,11 +144,15 @@ fun App() {
             }) {
                 Text("Handle Next Actions")
             }
+       //     val testModule = remember { ProvideStripeSdk().() }
             Button(onClick =
            { showText = !showText }
             ) {
                 Text("TEST WEB")
             }
+//            Column(Modifier.fillMaxWidth(), horizontalAlignment = Alignment.CenterHorizontally) {
+//                Text("$testModule")
+//            }
             Column(Modifier.padding(15.dp)) {
                 Text(
                     "publishableKey: ${initialiseParams.publishableKey}",

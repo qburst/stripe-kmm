@@ -1,6 +1,7 @@
 import model.ConfirmOptions
 import model.ConfirmParams
 import model.InitialiseParams
+import striperest.Greetings
 
 actual class ProvideStripeSdk actual constructor()  {
     actual suspend fun initialise(initialiseParams: InitialiseParams) {
@@ -13,6 +14,8 @@ actual class ProvideStripeSdk actual constructor()  {
         onSuccess: (Map<String, Any?>) -> Unit,
         onError: (Throwable) -> Unit
     ) {
+            val greeting = Greetings()
+          println( greeting.test())
     }
     actual suspend fun confirmPayment(
         paymentIntentClientSecret: String,

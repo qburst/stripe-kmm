@@ -9,14 +9,15 @@ kotlin {
     js(IR) {
         browser {
             commonWebpackConfig {
-
             }
         }
         binaries.executable()
     }
 
     sourceSets {
-       commonMain.dependencies {  }
+       commonMain.dependencies {
+
+       }
 
         jsMain.dependencies {
             implementation(libs.ktor.client.core)

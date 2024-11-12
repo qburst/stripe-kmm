@@ -28,9 +28,10 @@ kotlin {
             }
         }
     }
-
-    js(IR)
-
+    js(IR) {
+        browser()
+        binaries.executable()
+    }
     
     androidTarget {
         @OptIn(ExperimentalKotlinGradlePluginApi::class)
@@ -74,6 +75,9 @@ kotlin {
         iosTest.dependencies {
             implementation(kotlin("test"))
             implementation(libs.mockative)
+        }
+        jsMain.dependencies {
+            implementation(projects.striperest)
         }
     }
     task("testClasses")

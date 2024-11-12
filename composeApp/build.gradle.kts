@@ -80,7 +80,7 @@ kotlin {
         jsMain.dependencies {
             implementation(compose.runtime)
             implementation(compose.html.core)
-            implementation(projects.striperest)
+            implementation(projects.shared)
         }
     }
 }
