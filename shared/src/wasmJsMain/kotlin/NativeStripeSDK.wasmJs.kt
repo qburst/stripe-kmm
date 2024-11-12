@@ -1,6 +1,8 @@
 import model.ConfirmOptions
 import model.ConfirmParams
 import model.InitialiseParams
+import model.PresentOptions
+import model.SetupParams
 
 actual class ProvideStripeSdk actual constructor()  {
     actual suspend fun initialise(initialiseParams: InitialiseParams) {
@@ -33,6 +35,20 @@ actual class ProvideStripeSdk actual constructor()  {
     actual suspend fun handleNextActionForSetup(
         setupIntentClientSecret: String,
         returnURL: String?,
+        onSuccess: (Map<String, Any?>) -> Unit,
+        onError: (Throwable) -> Unit
+    ) {
+    }
+
+    actual suspend fun initPaymentSheet(
+        params: SetupParams,
+        onSuccess: (Map<String, Any?>) -> Unit,
+        onError: (Throwable) -> Unit
+    ) {
+    }
+
+    actual suspend fun presentPaymentSheet(
+        options: PresentOptions,
         onSuccess: (Map<String, Any?>) -> Unit,
         onError: (Throwable) -> Unit
     ) {

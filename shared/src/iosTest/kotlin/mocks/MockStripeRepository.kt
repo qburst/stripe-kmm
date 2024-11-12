@@ -110,6 +110,22 @@ open class MockStripeRepository : StripeRepository {
         TODO("Not yet implemented")
     }
 
+    override fun initPaymentSheet(
+        params: Map<String, Any?>,
+        onSuccess: (Map<String, Any?>) -> Unit,
+        onError: (Throwable) -> Unit
+    ) {
+        TODO("Not yet implemented")
+    }
+
+    override fun presentPaymentSheet(
+        options: Map<String, Any?>,
+        onSuccess: (Map<String, Any?>) -> Unit,
+        onError: (Throwable) -> Unit
+    ) {
+        TODO("Not yet implemented")
+    }
+
     /**
      * Mock implementation of handleNextAction for testing.
      */

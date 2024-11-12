@@ -8,6 +8,8 @@ import model.ConfirmOptions
 import model.ConfirmParams
 import model.FutureUsage
 import model.InitialiseParams
+import model.PresentOptions
+import model.SetupParams
 import org.koin.core.component.KoinComponent
 import org.koin.core.component.inject
 import repository.StripeRepository
@@ -230,6 +232,60 @@ actual open class ProvideStripeSdk actual constructor() : CoroutineViewModel() {
                     paymentIntentClientSecret = paymentIntentClientSecret,
                     params = paramsDictionary,
                     options = optionsDictionary,
+                    onSuccess = { result ->
+                        // Pass the result back to the UI through the onSuccess callback
+                        onSuccess(result)
+                    },
+                    onError = { error ->
+                        // Pass the error back to the UI through the onError callback
+                        onError(error)
+                    }
+                )
+            }
+        } catch (e: Exception) {
+            // Handle any other exceptions and pass them to the onError callback
+            onError(e)
+        }
+    }
+
+    actual suspend fun initPaymentSheet(
+        params: SetupParams,
+        onSuccess: (Map<String, Any?>) -> Unit,
+        onError: (Throwable) -> Unit
+    ) {
+        try {
+            withContext(Dispatchers.Default) {
+                Stripe.provider.initPaymentSheet(
+
+                    params = params.toDictionary(),
+
+                    onSuccess = { result ->
+                        // Pass the result back to the UI through the onSuccess callback
+                        onSuccess(result)
+                    },
+                    onError = { error ->
+                        // Pass the error back to the UI through the onError callback
+                        onError(error)
+                    }
+                )
+            }
+        } catch (e: Exception) {
+            // Handle any other exceptions and pass them to the onError callback
+            onError(e)
+        }
+    }
+
+    actual suspend fun presentPaymentSheet(
+        options: PresentOptions,
+        onSuccess: (Map<String, Any?>) -> Unit,
+        onError: (Throwable) -> Unit
+    ) {
+        try {
+            withContext(Dispatchers.Default) {
+                Stripe.provider.presentPaymentSheet(
+
+                    options = options.toDictionary(),
+
                     onSuccess = { result ->
                         // Pass the result back to the UI through the onSuccess callback
                         onSuccess(result)
