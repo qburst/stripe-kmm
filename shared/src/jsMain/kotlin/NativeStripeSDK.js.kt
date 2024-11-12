@@ -14,8 +14,12 @@ actual class ProvideStripeSdk actual constructor()  {
         onSuccess: (Map<String, Any?>) -> Unit,
         onError: (Throwable) -> Unit
     ) {
-            val greeting = Greetings()
-          println( greeting.test())
+
+        val platform = choosePlatform() as JSMainPlatform
+        platform.fetchApiResponse("https://jsonplaceholder.typicode.com/posts/1")
+            .then { result ->
+                console.log("API Response: $result")
+            }
     }
     actual suspend fun confirmPayment(
         paymentIntentClientSecret: String,
