@@ -14,9 +14,10 @@ actual class ProvideStripeSdk actual constructor()  {
         onSuccess: (Map<String, Any?>) -> Unit,
         onError: (Throwable) -> Unit
     ) {
-
-        val platform = choosePlatform() as JSMainPlatform
-        platform.fetchApiResponse("https://jsonplaceholder.typicode.com/posts/1")
+    //    val platform = choosePlatform() as JSMainPlatform
+        val greetings = Greetings()
+        val token = "sk_test_51Q7UTAF9GluljyyxRunJ924NByvCKrZX4VD9fKjmsZOUpEBFfCyzp1fyipRPVNlPEiHU5RltTQ7SBJADLIYgigOi00dsXJPfNM"
+        greetings.fetchApiResponse("https://api.stripe.com/v1/customers",token)
             .then { result ->
                 console.log("API Response: $result")
             }
