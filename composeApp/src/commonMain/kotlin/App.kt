@@ -148,7 +148,7 @@ fun App() {
             Button(onClick =
            { showText = !showText }
             ) {
-                Text("TEST WEB")
+                Text("TEST Stripe")
             }
 //            Column(Modifier.fillMaxWidth(), horizontalAlignment = Alignment.CenterHorizontally) {
 //                Text("$testModule")

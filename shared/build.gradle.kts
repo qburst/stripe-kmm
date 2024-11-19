@@ -78,6 +78,7 @@ kotlin {
         }
         jsMain.dependencies {
             implementation(projects.striperest)
+            implementation(npm("@stripe/stripe-js", "5.0.0"))
         }
     }
     task("testClasses")

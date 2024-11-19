@@ -80,6 +80,7 @@ kotlin {
         jsMain.dependencies {
             implementation(compose.runtime)
             implementation(compose.html.core)
+            implementation(npm("@stripe/stripe-js", "5.0.0"))
             implementation(projects.shared)
         }
     }

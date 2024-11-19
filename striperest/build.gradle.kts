@@ -20,6 +20,7 @@ kotlin {
            implementation(libs.ktor.client.js)
            implementation(libs.ktor.client.content.negotiation)
            implementation(libs.ktor.serialization.kotlinx.json)
+           implementation(npm("@stripe/stripe-js", "5.0.0"))
        }
 
         jsMain.dependencies {
@@ -27,6 +28,9 @@ kotlin {
             implementation(libs.ktor.client.js)
             implementation(libs.ktor.client.content.negotiation)
             implementation(libs.ktor.serialization.kotlinx.json)
+            implementation(npm("@stripe/stripe-js", "5.0.0"))
+
+
 
         }
 
