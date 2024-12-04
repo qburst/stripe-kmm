@@ -95,6 +95,7 @@ dependencies {
         .forEach {
             add(it.name, "io.mockative:mockative-processor:2.2.2")
         }
+    implementation(kotlin("script-runtime"))
 }
 
 android {

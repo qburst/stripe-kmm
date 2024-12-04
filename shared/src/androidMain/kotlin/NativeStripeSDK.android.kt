@@ -9,6 +9,15 @@ import model.PresentOptions
 import model.SetupParams
 import repositories.PaymentRepository
 import repositories.PaymentRepositoryImpl
+import androidx.activity.ComponentActivity
+import com.stripe.android.PaymentConfiguration
+import com.stripe.android.paymentsheet.PaymentSheet
+import com.stripe.android.paymentsheet.PaymentSheetResult
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
+import android.content.Context
+import android.widget.Toast
 
 /**
  * This class is the actual implementation for android
@@ -17,6 +26,7 @@ import repositories.PaymentRepositoryImpl
  */
 actual class ProvideStripeSdk actual constructor() {
     private val paymentRepository: PaymentRepository = PaymentRepositoryImpl()
+    lateinit var paymentSheet: PaymentSheet
 
     /**
      * Initialize Android Stripe SDK
@@ -24,6 +34,13 @@ actual class ProvideStripeSdk actual constructor() {
      */
     actual suspend fun initialise(initialiseParams: InitialiseParams) {
         SingletonStripeInitialization.StripeInstanse.initializeStripe(initialiseParams)
+
+        PaymentConfiguration.init(context = initialiseParams.androidContext as Context, publishableKey = initialiseParams.publishableKey)
+
+        paymentSheet = PaymentSheet(initialiseParams.androidActivity as ComponentActivity) { paymentSheet ->
+            val result = onPaymentSheetResult(paymentSheet)
+            Toast.makeText(initialiseParams.androidContext, result, Toast.LENGTH_LONG).show()
+        }
     }
 
     /**
@@ -77,10 +94,51 @@ actual class ProvideStripeSdk actual constructor() {
     ) {
     }
 
+    private fun showPaymentSheet(
+        paymentSheet: PaymentSheet,
+        paymentIntentClientSecret: String
+    ) {
+        paymentSheet.presentWithPaymentIntent(
+            paymentIntentClientSecret,
+            PaymentSheet.Configuration(
+                merchantDisplayName = "Stripe Libray",
+                allowsDelayedPaymentMethods = true
+            )
+        )
+    }
+
+    private fun onPaymentSheetResult(paymentSheetResult: PaymentSheetResult): String {
+        when (paymentSheetResult) {
+            is PaymentSheetResult.Canceled -> {
+                return "cancelled"
+            }
+
+            is PaymentSheetResult.Failed -> {
+                return "Error: ${paymentSheetResult.error}"
+            }
+
+            is PaymentSheetResult.Completed -> {
+                return "Completed"
+            }
+        }
+    }
+
     actual suspend fun presentPaymentSheet(
         options: PresentOptions,
         onSuccess: (Map<String, Any?>) -> Unit,
         onError: (Throwable) -> Unit
     ) {
+        val paymentSheet = paymentSheet
+        CoroutineScope(Dispatchers.Main).launch {
+            try {
+                showPaymentSheet(
+                    paymentSheet = paymentSheet,
+                    paymentIntentClientSecret = "pi_1PmuqXKJ38Q1wp9dLgw8eijG_secret_5W09ySjx4NofVyUq9os07fOKj"
+                )
+                onSuccess(mapOf("status" to "Payment sheet presented"))
+            } catch (e: Exception) {
+                onError(e)
+            }
+        }
     }
 }
