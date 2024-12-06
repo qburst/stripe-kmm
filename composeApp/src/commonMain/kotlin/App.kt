@@ -25,18 +25,7 @@ import org.jetbrains.compose.ui.tooling.preview.Preview
 
 @Composable
 @Preview
-fun App() {
-//    sk_test_hPRNV2gZ6gcIV99ndFejwEHT
-    val stripe = ProvideStripeSdk()
-    val initialiseParams = InitialiseParams(
-        publishableKey = "pk_test_FkQvi0DNueKlNnVwNoJktg2W",
-        appInfo = AppInfo(
-            name = "Stripe App",
-            version = "1.2.3",
-            partnerId = "new",
-            url = "https://qburst.com",
-        )
-    )
+fun App(stripe : ProvideStripeSdk) {
 
 
     val params = CreateParams.IdealParams(
@@ -81,7 +70,7 @@ fun App() {
         Column(Modifier.fillMaxWidth(), horizontalAlignment = Alignment.CenterHorizontally) {
             Button(onClick = {
                 CoroutineScope(Dispatchers.Default).launch {
-                    stripe.initialise(initialiseParams)
+//                    stripe.initialise(initialiseParams)
                 }
             }) {
                 Text("setup stripe")
@@ -223,10 +212,10 @@ fun App() {
             }
 
             Column(Modifier.padding(15.dp)) {
-                Text(
-                    "publishableKey: ${initialiseParams.publishableKey}",
-                    fontWeight = FontWeight.Bold
-                )
+//                Text(
+////                    "publishableKey: ${initialiseParams.publishableKey}",
+//                    fontWeight = FontWeight.Bold
+//                )
                 Text("Response: $PaymentResponse", fontWeight = FontWeight.Light)
             }
         }

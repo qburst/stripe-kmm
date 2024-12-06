@@ -26,5 +26,5 @@ class InitializeStripe {
 }
 
 object SingletonStripeInitialization {
-    val StripeInstanse = InitializeStripe()
+public val StripeInstanse = InitializeStripe()
 }

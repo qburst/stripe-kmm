@@ -36,7 +36,7 @@ class MainActivity : ComponentActivity() {
 
 
         setContent {
-            App()
+            App(stripe)
         }
     }
 }
@@ -44,5 +44,5 @@ class MainActivity : ComponentActivity() {
 @Preview
 @Composable
 fun AppAndroidPreview() {
-    App()
+//    App()
 }

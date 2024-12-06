@@ -17,6 +17,7 @@ import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import android.content.Context
+import android.util.Log
 import android.widget.Toast
 
 /**
@@ -26,20 +27,30 @@ import android.widget.Toast
  */
 actual class ProvideStripeSdk actual constructor() {
     private val paymentRepository: PaymentRepository = PaymentRepositoryImpl()
-    lateinit var paymentSheet: PaymentSheet
-
+    var paymentSheet: PaymentSheet? = null
     /**
      * Initialize Android Stripe SDK
      * @param [InitialiseParams] with publishable key as a Not null parameter
      */
     actual suspend fun initialise(initialiseParams: InitialiseParams) {
+        Log.d("ProvideStripeSdk", "InitialiseParams: $initialiseParams")
+        val context = when (val androidContext = initialiseParams?.androidContext) {
+            null -> throw IllegalArgumentException("Context cannot be null. Provide a valid Android context.")
+            is Context -> androidContext
+            else -> throw IllegalArgumentException("Invalid context type. Must be an Android Context.")
+        }
+
+        val activity = when (val androidActivity = initialiseParams?.androidActivity) {
+            null -> throw IllegalArgumentException("Activity cannot be null. Provide a valid Android ComponentActivity.")
+            is ComponentActivity -> androidActivity
+            else -> throw IllegalArgumentException("Invalid activity type. Must be a ComponentActivity.")
+        }
         SingletonStripeInitialization.StripeInstanse.initializeStripe(initialiseParams)
+        PaymentConfiguration.init(context = initialiseParams?.androidContext as Context, publishableKey = initialiseParams!!.publishableKey)
 
-        PaymentConfiguration.init(context = initialiseParams.androidContext as Context, publishableKey = initialiseParams.publishableKey)
-
-        paymentSheet = PaymentSheet(initialiseParams.androidActivity as ComponentActivity) { paymentSheet ->
+        paymentSheet = PaymentSheet(initialiseParams?.androidActivity as ComponentActivity) { paymentSheet ->
             val result = onPaymentSheetResult(paymentSheet)
-            Toast.makeText(initialiseParams.androidContext, result, Toast.LENGTH_LONG).show()
+            Toast.makeText(initialiseParams?.androidContext as Context, result, Toast.LENGTH_LONG).show()
         }
     }
 
@@ -131,10 +142,13 @@ actual class ProvideStripeSdk actual constructor() {
         val paymentSheet = paymentSheet
         CoroutineScope(Dispatchers.Main).launch {
             try {
-                showPaymentSheet(
-                    paymentSheet = paymentSheet,
-                    paymentIntentClientSecret = "pi_1PmuqXKJ38Q1wp9dLgw8eijG_secret_5W09ySjx4NofVyUq9os07fOKj"
-                )
+                if (paymentSheet != null) {
+                    showPaymentSheet(
+                        paymentSheet = paymentSheet,
+                        paymentIntentClientSecret = "pi_1PmuqXKJ38Q1wp9dLgw8eijG_secret_5W09ySjx4NofVyUq9os07fOKj"
+                    )
+
+                }
                 onSuccess(mapOf("status" to "Payment sheet presented"))
             } catch (e: Exception) {
                 onError(e)
