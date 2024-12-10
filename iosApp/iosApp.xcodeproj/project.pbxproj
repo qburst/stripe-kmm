@@ -9,8 +9,7 @@
 /* Begin PBXBuildFile section */
 		058557BB273AAA24004C7B11 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 058557BA273AAA24004C7B11 /* Assets.xcassets */; };
 		058557D9273AAEEB004C7B11 /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 058557D8273AAEEB004C7B11 /* Preview Assets.xcassets */; };
-		0B4A27852CDA6D3B0018C045 /* SwiftKMMStripeKit in Frameworks */ = {isa = PBXBuildFile; productRef = 0B4B74DE2CD0E7170046F952 /* SwiftKMMStripeKit */; };
-		0B8944892CD89A4400511D17 /* SwiftKMMStripeKit in Frameworks */ = {isa = PBXBuildFile; productRef = 0B8944882CD89A4400511D17 /* SwiftKMMStripeKit */; };
+		0B6678A02D00CF6A00BE7B73 /* SwiftKMMStripeKit in Frameworks */ = {isa = PBXBuildFile; productRef = 0B66789F2D00CF6A00BE7B73 /* SwiftKMMStripeKit */; };
 		2152FB042600AC8F00CF470E /* iOSApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2152FB032600AC8F00CF470E /* iOSApp.swift */; };
 		7555FF83242A565900829871 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7555FF82242A565900829871 /* ContentView.swift */; };
 /* End PBXBuildFile section */
@@ -31,8 +30,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				0B4A27852CDA6D3B0018C045 /* SwiftKMMStripeKit in Frameworks */,
-				0B8944892CD89A4400511D17 /* SwiftKMMStripeKit in Frameworks */,
+				0B6678A02D00CF6A00BE7B73 /* SwiftKMMStripeKit in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -112,8 +110,7 @@
 			);
 			name = iosApp;
 			packageProductDependencies = (
-				0B4B74DE2CD0E7170046F952 /* SwiftKMMStripeKit */,
-				0B8944882CD89A4400511D17 /* SwiftKMMStripeKit */,
+				0B66789F2D00CF6A00BE7B73 /* SwiftKMMStripeKit */,
 			);
 			productName = iosApp;
 			productReference = 7555FF7B242A565900829871 /* Stripe_KMM.app */;
@@ -146,7 +143,7 @@
 			);
 			mainGroup = 7555FF72242A565900829871;
 			packageReferences = (
-				0B8944872CD89A4400511D17 /* XCLocalSwiftPackageReference "../../Downloads/SwiftKMMStripeKit" */,
+				0B66789E2D00CF6A00BE7B73 /* XCLocalSwiftPackageReference "../../SwiftKMMStripeKit" */,
 			);
 			productRefGroup = 7555FF7C242A565900829871 /* Products */;
 			projectDirPath = "";
@@ -432,18 +429,14 @@
 /* End XCConfigurationList section */
 
 /* Begin XCLocalSwiftPackageReference section */
-		0B8944872CD89A4400511D17 /* XCLocalSwiftPackageReference "../../Downloads/SwiftKMMStripeKit" */ = {
+		0B66789E2D00CF6A00BE7B73 /* XCLocalSwiftPackageReference "../../SwiftKMMStripeKit" */ = {
 			isa = XCLocalSwiftPackageReference;
-			relativePath = ../../Downloads/SwiftKMMStripeKit;
+			relativePath = ../../SwiftKMMStripeKit;
 		};
 /* End XCLocalSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
-		0B4B74DE2CD0E7170046F952 /* SwiftKMMStripeKit */ = {
-			isa = XCSwiftPackageProductDependency;
-			productName = SwiftKMMStripeKit;
-		};
-		0B8944882CD89A4400511D17 /* SwiftKMMStripeKit */ = {
+		0B66789F2D00CF6A00BE7B73 /* SwiftKMMStripeKit */ = {
 			isa = XCSwiftPackageProductDependency;
 			productName = SwiftKMMStripeKit;
 		};

@@ -2,10 +2,13 @@ import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.Button
 import androidx.compose.material.MaterialTheme
+import androidx.compose.material.Scaffold
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.shadow
@@ -14,65 +17,161 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.common.models.CartItem
+import com.common.navigation.Screen
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
+import model.AppInfo
+import model.InitialiseParams
+import model.PresentOptions
+import model.SetupParams
 import kotlin.math.roundToInt
 
 @Composable
-fun Cart( onCheckout: () -> Unit) {
+fun Cart( onFailure: (Screen) -> Unit, ) {
+    val stripe = ProvideStripeSdk()
 
-    val cartItems = listOf(
-        CartItem(id = 1, name = "Item 1", price = 10.0, quantity = 2),
-        CartItem(id = 2, name = "Item 2", price = 15.5, quantity = 1),
-        CartItem(id = 3, name = "Item 3", price = 7.0, quantity = 3)
+    var paymentIntentParams = SetupParams(
+        merchantDisplayName = "Qburst",
+        paymentIntentClientSecret = "pi_1QSXzrKJ38Q1wp9ddW8Fy1YN_secret_C8f5XoqskcHlLFoaexQ1h2wiZ"
     )
 
-    Column(modifier = Modifier.fillMaxSize().padding(16.dp)) {
-        Box(
-            modifier = Modifier
-                .fillMaxWidth()
-                .padding(vertical = 8.dp)
-                .shadow(4.dp, shape = MaterialTheme.shapes.medium)
-                .background(Color.LightGray),
-            contentAlignment = Alignment.Center
-        ) {
-            Text(
-                text = "Your Cart",
-                modifier = Modifier.padding(vertical = 16.dp),
-                fontSize = 20.sp,
-                color = Color.Black
-            )
-        }
+    val initialiseParams = InitialiseParams(
+        publishableKey = "pk_test_FkQvi0DNueKlNnVwNoJktg2W",
+        appInfo = AppInfo(
+            name = "Stripe App",
+            version = "1.2.3",
+            partnerId = "new",
+            url = "https://qburst.com",
+        )
+    )
 
-        Spacer(modifier = Modifier.height(8.dp))
-
-        LazyColumn(modifier = Modifier.weight(1f)) {
-            items(cartItems) { item ->
-                CartItemRow(item)
-            }
-        }
-
-        val totalPrice = cartItems.sumOf { it.price * it.quantity }
-        val roundedTotalPrice = (totalPrice * 100).roundToInt() / 100.0
-        Text("Total: $$roundedTotalPrice", modifier = Modifier.padding(8.dp))
-
-        Button(
-            onClick = onCheckout,
-            modifier = Modifier.fillMaxWidth().padding(vertical = 16.dp)
-        ) {
-            Text("Checkout")
+    LaunchedEffect(Unit) {
+        CoroutineScope(Dispatchers.Default).launch {
+            stripe.initialise(initialiseParams)
         }
     }
+
+    Scaffold(
+        topBar = {
+            AppBar("Cart", null)
+        }
+    ) {
+
+
+        val cartItems = listOf(
+            CartItem(id = 1, name = "Keyboard", price = 899.99, quantity = 2),
+            CartItem(id = 2, name = "Mouse", price = 499.99, quantity = 1),
+            CartItem(id = 3, name = "Monitor", price = 12499.99, quantity = 3)
+        )
+
+        Box(modifier = Modifier.fillMaxSize().background(color = Color(0xF9F8FE))){
+
+
+        Column(modifier = Modifier.fillMaxSize().padding(16.dp)) {
+
+            Spacer(modifier = Modifier.height(8.dp))
+
+            LazyColumn(modifier = Modifier.weight(1f)) {
+                items(cartItems) { item ->
+                    CartItemRow(item)
+                }
+            }
+
+            val totalPrice = cartItems.sumOf { it.price * it.quantity }
+            val roundedTotalPrice = (totalPrice * 100).roundToInt() / 100.0
+
+            Box(
+                modifier = Modifier
+                    .fillMaxWidth()
+//                    .padding(16.dp)
+                    .background(Color(0xFFE0F7FA), shape = RoundedCornerShape(10.dp)) // Island with rounded corners
+                    .padding(10.dp), // Inner padding inside the island
+                contentAlignment = Alignment.Center
+            ) {
+                Row (
+                    modifier = Modifier.fillMaxWidth(),
+                    horizontalArrangement = Arrangement.SpaceBetween, // Spaces out the elements
+                    verticalAlignment = Alignment.CenterVertically
+                ){
+
+                    Row(){
+                        Text("Total: ", modifier = Modifier.padding(8.dp))
+                        Text("₹$totalPrice", fontSize = 24.sp,
+                            fontWeight = FontWeight.Bold,
+                            color = Color(0xFF00796B))
+
+                    }
+
+
+                    Button(
+                        shape = RoundedCornerShape(24.dp),
+                        onClick = {
+                            CoroutineScope(Dispatchers.Default).launch {
+                                stripe.initPaymentSheet(
+                                    params = paymentIntentParams,
+                                    onSuccess = { result ->
+                                        print(" result = $result")
+                                        // Pass the result back to the UI through the onSuccess callback
+                                        CoroutineScope(Dispatchers.Default).launch {
+                                            stripe.presentPaymentSheet(
+                                                options = PresentOptions(),
+                                                onSuccess = { result ->
+                                                    print(" result = $result")
+                                                    // Pass the result back to the UI through the onSuccess callback
+                                                },
+                                                onError = { error ->
+                                                    // Pass the error back to the UI through the onError callback
+                                                    onFailure(Screen.OrderFailed)
+                                                    print(error)
+                                                }
+                                            )
+                                        }
+                                    },
+                                    onError = { error ->
+                                        // Pass the error back to the UI through the onError callback
+                                        print(error)
+                                    }
+                                )
+                            }
+
+                    }) {
+                    Text("Checkout")
+                }}
+            }
+
+        }
+    }}
+
+
 }
 
 @Composable
 fun CartItemRow(item: CartItem) {
+    Box(
+        modifier = Modifier
+            .fillMaxWidth()
+            .padding(bottom = 10.dp)
+            .background(Color(0xFFE0F7FA), shape = RoundedCornerShape(10.dp)) // Island with rounded corners
+            .padding(10.dp), // Inner padding inside the island
+    ){
+
     Row(
-        modifier = Modifier.fillMaxWidth().padding(vertical = 8.dp),
-        horizontalArrangement = Arrangement.SpaceBetween
+        horizontalArrangement = Arrangement.SpaceBetween,
+        modifier = Modifier.fillMaxWidth()
     ) {
-        Text(item.name)
-        Text("${item.quantity}")
-        Text("${item.price}")
-        val totalItemPrice = (item.price * item.quantity * 100).roundToInt() / 100.0
-        Text("$$totalItemPrice")
+        Column (){ Text(item.name, fontSize = 15.sp)
+            Text("Qty: ${item.quantity}") }
+        Column {
+            Text("₹${item.price}")
+            Text("x ${item.quantity}")
+            val totalItemPrice = (item.price * item.quantity * 100).roundToInt() / 100.0
+            Text("$totalItemPrice", fontSize = 15.sp,
+                fontWeight = FontWeight.Bold,
+                color = Color(0xFF8C52F6),
+                modifier = Modifier.padding(top = 5.dp))
+        }
     }
+    }
+
 }
