@@ -37,4 +37,10 @@ actual class ProvideStripeSdk actual constructor()  {
         onError: (Throwable) -> Unit
     ) {
     }
+   actual  suspend fun presentPaymentSheet(
+        options: Any,
+        onSuccess: (Map<String, Any?>) -> Unit,
+        onError: (Throwable) -> Unit){
+
+   }
 }

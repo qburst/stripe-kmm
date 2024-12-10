@@ -23,4 +23,9 @@ expect class ProvideStripeSdk() {
         onSuccess: (Map<String, Any?>) -> Unit,
         onError: (Throwable) -> Unit
     )
+
+   suspend fun presentPaymentSheet(
+        options: Any,
+        onSuccess: (Map<String, Any?>) -> Unit,
+        onError: (Throwable) -> Unit)
 }
