@@ -71,11 +71,6 @@ kotlin {
             implementation("org.jetbrains.compose.foundation:foundation:1.5.0")
             implementation("org.jetbrains.compose.material:material:1.5.0")
             implementation("org.jetbrains.compose.ui:ui:1.5.0")
-            implementation("io.ktor:ktor-client-core:2.x.x")
-            implementation("io.ktor:ktor-client-cio:2.x.x")
-            implementation("io.ktor:ktor-client-json:2.x.x")
-            implementation("io.ktor:ktor-client-content-negotiation:2.x.x")
-            implementation("io.ktor:ktor-serialization-kotlinx-json:2.x.x")
         }
         desktopMain.dependencies {
             implementation(compose.desktop.currentOs)
