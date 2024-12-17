@@ -32,7 +32,7 @@ fun Cart( onFailure: (Screen) -> Unit, ) {
     val stripe = ProvideStripeSdk()
     var paymentIntentParams = SetupParams(
         merchantDisplayName = "Qburst",
-        paymentIntentClientSecret = "pi_1QSXzrKJ38Q1wp9ddW8Fy1YN_secret_C8f5XoqskcHlLFoaexQ1h2wiZ"
+        paymentIntentClientSecret = "pi_1QWvPJKJ38Q1wp9dKqfcbrFo_secret_FW6Hs3y3xS83Ephjov9c9CTVA"
     )
 
     val initialiseParams = InitialiseParams(

@@ -1,9 +1,14 @@
-import com.google.gson.Gson
-import com.stripe.android.ApiResultCallback
-import com.stripe.android.model.PaymentMethod
+import android.content.Context
+import android.widget.Toast
+import androidx.activity.ComponentActivity
+import com.stripe.android.PaymentConfiguration
+import com.stripe.android.paymentsheet.PaymentSheet
+import com.stripe.android.paymentsheet.PaymentSheetResult
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
 import model.ConfirmOptions
 import model.ConfirmParams
-import model.CreatePaymentModel
 import model.InitialiseParams
 import model.PresentOptions
 import model.SetupParams
@@ -24,6 +29,8 @@ actual class ProvideStripeSdk actual constructor() {
      */
     actual suspend fun initialise(initialiseParams: InitialiseParams) {
         SingletonStripeInitialization.StripeInstanse.initializeStripe(initialiseParams)
+        SingletonStripeInitialization.StripeInstanse.initialisePaymentSheet(initialiseParams)
+
     }
 
     /**
@@ -75,6 +82,8 @@ actual class ProvideStripeSdk actual constructor() {
         onSuccess: (Map<String, Any?>) -> Unit,
         onError: (Throwable) -> Unit
     ) {
+        SingletonStripeInitialization.StripeInstanse.clientSecret = params.paymentIntentClientSecret ?: ""
+        onSuccess(mapOf("Success" to "Success"))
     }
 
     actual suspend fun presentPaymentSheet(
@@ -82,5 +91,26 @@ actual class ProvideStripeSdk actual constructor() {
         onSuccess: (Map<String, Any?>) -> Unit,
         onError: (Throwable) -> Unit
     ) {
+        CoroutineScope(Dispatchers.Default).launch {
+            SingletonStripeInitialization.StripeInstanse.paymentSheet.let {
+                presentPaymentSheet(
+                    paymentSheet = it,
+                    SingletonStripeInitialization.StripeInstanse.clientSecret
+                )
+            }
+        }
+    }
+
+    private fun presentPaymentSheet(
+        paymentSheet: PaymentSheet,
+        paymentIntentClientSecret: String
+    ) {
+        paymentSheet.presentWithPaymentIntent(
+            paymentIntentClientSecret,
+            PaymentSheet.Configuration(
+                merchantDisplayName = "Stripe Libray",
+                allowsDelayedPaymentMethods = true
+            )
+        )
     }
 }
