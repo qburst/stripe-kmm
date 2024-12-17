@@ -1,10 +1,15 @@
+
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material.Button
 import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Text
-import androidx.compose.runtime.*
+import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.font.FontWeight
@@ -12,12 +17,9 @@ import androidx.compose.ui.unit.dp
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
-import model.AppInfo
 import model.BillingDetails
 import model.ConfirmParams
 import model.FutureUsage
-import model.InitialiseParams
-import model.IntentParams
 import model.PresentOptions
 import model.SetupParams
 import org.jetbrains.compose.ui.tooling.preview.Preview
@@ -52,7 +54,7 @@ fun App(stripe : ProvideStripeSdk) {
             )
         )
     )
-    val paymentIntentClientSecret = "pi_1QFVQFKJ38Q1wp9dnqLojinN_secret_H2qSeJTtRZaTAA4MaQsC6pbuY"
+    val paymentIntentClientSecret = "pi_1QWvFjKJ38Q1wp9dZx7sMpil_secret_xCUHjSyAY2wO6LtEiLLrBnPZE"
     val paymentIntentClientSecretForSetup = "seti_1QFVM9KJ38Q1wp9d1C1GwLEG_secret_R7kruZMp6KaJj36bi63kij16cZaZviZ"
 
 
@@ -63,7 +65,7 @@ fun App(stripe : ProvideStripeSdk) {
 
     var paymentIntentParams = SetupParams(
         merchantDisplayName = "Qburst",
-            paymentIntentClientSecret = "pi_1QGJFAKJ38Q1wp9dTYiMh8Ky_secret_XIqXggjC122NecfipP2KQOWQH"
+        paymentIntentClientSecret = "pi_1QWvFjKJ38Q1wp9dZx7sMpil_secret_xCUHjSyAY2wO6LtEiLLrBnPZE"
     )
 
     MaterialTheme {

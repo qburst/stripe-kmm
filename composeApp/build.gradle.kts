@@ -1,7 +1,7 @@
+
 import org.jetbrains.compose.desktop.application.dsl.TargetFormat
 import org.jetbrains.kotlin.gradle.ExperimentalKotlinGradlePluginApi
 import org.jetbrains.kotlin.gradle.dsl.JvmTarget
-import org.jetbrains.kotlin.gradle.plugin.mpp.apple.XCFramework
 import org.jetbrains.kotlin.gradle.targets.js.dsl.ExperimentalWasmDsl
 import org.jetbrains.kotlin.gradle.targets.js.webpack.KotlinWebpackConfig
 
@@ -58,6 +58,15 @@ kotlin {
             implementation(compose.preview)
             implementation(libs.androidx.activity.compose)
             implementation(libs.stripe.android)
+            implementation(libs.ktor.client.core)
+            implementation(libs.ktor.client.json)
+            implementation(libs.ktor.client.content.negotiation)
+            implementation(libs.ktor.serialization.kotlinx.json)
+            implementation(libs.ktor.client.okhttp)
+            implementation("io.ktor:ktor-client-okhttp:2.3.12")
+            implementation("io.ktor:ktor-client-content-negotiation:2.3.12")
+            implementation("io.ktor:ktor-serialization-kotlinx-json:2.3.12")
+
         }
         commonMain.dependencies {
             implementation(compose.runtime)
@@ -107,7 +116,6 @@ android {
         compose = true
     }
     dependencies {
-        debugImplementation(compose.uiTooling)
     }
 }
 

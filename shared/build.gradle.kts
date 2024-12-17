@@ -69,6 +69,15 @@ kotlin {
             implementation (libs.stripe.android)
             implementation(libs.jetbrains.kotlinx.coroutines.core)
             implementation(libs.gson)
+            implementation(libs.ktor.client.core)
+            implementation(libs.ktor.client.json)
+            implementation(libs.ktor.client.content.negotiation)
+            implementation(libs.ktor.serialization.kotlinx.json)
+            implementation(libs.ktor.client.okhttp)
+            implementation("io.ktor:ktor-client-okhttp:2.3.12")
+            implementation("io.ktor:ktor-client-content-negotiation:2.3.12")
+            implementation("io.ktor:ktor-serialization-kotlinx-json:2.3.12")
+
         }
         iosTest.dependencies {
             implementation(kotlin("test"))

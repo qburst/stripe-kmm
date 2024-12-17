@@ -1,24 +1,30 @@
-import com.google.gson.Gson
-import com.stripe.android.ApiResultCallback
-import com.stripe.android.model.PaymentMethod
-import model.ConfirmOptions
-import model.ConfirmParams
-import model.CreatePaymentModel
-import model.InitialiseParams
-import model.PresentOptions
-import model.SetupParams
-import repositories.PaymentRepository
-import repositories.PaymentRepositoryImpl
+
+
+import android.content.Context
+import android.util.Log
+import android.widget.Toast
 import androidx.activity.ComponentActivity
 import com.stripe.android.PaymentConfiguration
 import com.stripe.android.paymentsheet.PaymentSheet
 import com.stripe.android.paymentsheet.PaymentSheetResult
+import io.ktor.client.*
+import io.ktor.client.engine.okhttp.*
+import io.ktor.client.plugins.contentnegotiation.*
+import io.ktor.client.request.*
+import io.ktor.client.statement.*
+import io.ktor.http.*
+import io.ktor.serialization.kotlinx.json.*
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
-import android.content.Context
-import android.util.Log
-import android.widget.Toast
+import model.ConfirmOptions
+import model.ConfirmParams
+import model.InitialiseParams
+import model.PresentOptions
+import model.SetupParams
+import org.json.JSONObject
+import repositories.PaymentRepository
+import repositories.PaymentRepositoryImpl
 
 /**
  * This class is the actual implementation for android
@@ -28,6 +34,7 @@ import android.widget.Toast
 actual class ProvideStripeSdk actual constructor() {
     private val paymentRepository: PaymentRepository = PaymentRepositoryImpl()
     var paymentSheet: PaymentSheet? = null
+
     /**
      * Initialize Android Stripe SDK
      * @param [InitialiseParams] with publishable key as a Not null parameter
@@ -139,20 +146,59 @@ actual class ProvideStripeSdk actual constructor() {
         onSuccess: (Map<String, Any?>) -> Unit,
         onError: (Throwable) -> Unit
     ) {
-        val paymentSheet = paymentSheet
         CoroutineScope(Dispatchers.Main).launch {
             try {
-                if (paymentSheet != null) {
-                    showPaymentSheet(
-                        paymentSheet = paymentSheet,
-                        paymentIntentClientSecret = "pi_1PmuqXKJ38Q1wp9dLgw8eijG_secret_5W09ySjx4NofVyUq9os07fOKj"
-                    )
+                // Call to fetch the paymentIntentClientSecret from Stripe API
+                val paymentIntentClientSecret = fetchPaymentIntentClientSecret()
 
+                // Call to show payment sheet
+                paymentSheet?.let {
+                    showPaymentSheet(
+                        paymentSheet = it,
+                        paymentIntentClientSecret = paymentIntentClientSecret
+                    )
                 }
+
+                // Handle success
                 onSuccess(mapOf("status" to "Payment sheet presented"))
             } catch (e: Exception) {
+                // Handle error
                 onError(e)
             }
+        }
+    }
+
+    /**
+     * Fetches paymentIntentClientSecret from Stripe API
+     */
+    private suspend fun fetchPaymentIntentClientSecret(): String {
+        val client = HttpClient(OkHttp) {
+            install(ContentNegotiation) {
+                json() // Configure JSON serialization
+            }
+        }
+
+        try {
+            val response: HttpResponse = client.post("https://api.stripe.com/v1/payment_intents") {
+                header(HttpHeaders.Authorization, "Bearer sk_test_hPRNV2gZ6gcIV99ndFejwEHT")
+                contentType(ContentType.Application.FormUrlEncoded)
+                setBody(
+                    listOf(
+                        "amount" to "2000", // Amount in the smallest currency unit (e.g., paise for INR)
+                        "currency" to "inr",
+                        "automatic_payment_methods[enabled]" to "true"
+                    ).formUrlEncode()
+                )
+            }
+
+            // Parse the response JSON to get the paymentIntentClientSecret
+            val responseBody = response.bodyAsText()
+            val jsonObject = JSONObject(responseBody)
+            return jsonObject.getString("client_secret")
+        } catch (e: Exception) {
+            throw Exception("Error fetching Payment Intent: ${e.message}")
+        } finally {
+            client.close() // Close the client
         }
     }
 }
