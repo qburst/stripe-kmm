@@ -1,9 +1,11 @@
-import android.content.Context
-import android.widget.Toast
-import androidx.activity.ComponentActivity
-import com.stripe.android.PaymentConfiguration
 import com.stripe.android.paymentsheet.PaymentSheet
-import com.stripe.android.paymentsheet.PaymentSheetResult
+import io.ktor.client.*
+import io.ktor.client.engine.okhttp.*
+import io.ktor.client.plugins.contentnegotiation.*
+import io.ktor.client.request.*
+import io.ktor.client.statement.*
+import io.ktor.http.*
+import io.ktor.serialization.kotlinx.json.json
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -12,6 +14,7 @@ import model.ConfirmParams
 import model.InitialiseParams
 import model.PresentOptions
 import model.SetupParams
+import org.json.JSONObject
 import repositories.PaymentRepository
 import repositories.PaymentRepositoryImpl
 
@@ -30,7 +33,6 @@ actual class ProvideStripeSdk actual constructor() {
     actual suspend fun initialise(initialiseParams: InitialiseParams) {
         SingletonStripeInitialization.StripeInstanse.initializeStripe(initialiseParams)
         SingletonStripeInitialization.StripeInstanse.initialisePaymentSheet(initialiseParams)
-
     }
 
     /**
@@ -59,7 +61,9 @@ actual class ProvideStripeSdk actual constructor() {
         options: ConfirmOptions,
         onSuccess: (Map<String, Any?>) -> Unit,
         onError: (Throwable) -> Unit
-    ) { }
+    ) {
+        // You can implement the confirm payment logic here
+    }
 
     actual suspend fun handleNextAction(
         paymentIntentClientSecret: String,
@@ -67,6 +71,7 @@ actual class ProvideStripeSdk actual constructor() {
         onSuccess: (Map<String, Any?>) -> Unit,
         onError: (Throwable) -> Unit
     ) {
+        // Implement your handle next action here
     }
 
     actual suspend fun handleNextActionForSetup(
@@ -75,6 +80,7 @@ actual class ProvideStripeSdk actual constructor() {
         onSuccess: (Map<String, Any?>) -> Unit,
         onError: (Throwable) -> Unit
     ) {
+        // Implement the setup handle next action here
     }
 
     actual suspend fun initPaymentSheet(
@@ -82,8 +88,16 @@ actual class ProvideStripeSdk actual constructor() {
         onSuccess: (Map<String, Any?>) -> Unit,
         onError: (Throwable) -> Unit
     ) {
-        SingletonStripeInitialization.StripeInstanse.clientSecret = params.paymentIntentClientSecret ?: ""
-        onSuccess(mapOf("Success" to "Success"))
+        try {
+            // Fetch the payment intent client secret using the provided function
+            val paymentIntentClientSecret = fetchPaymentIntentClientSecret()
+            SingletonStripeInitialization.StripeInstanse.clientSecret = paymentIntentClientSecret
+
+            // Call the success callback once everything is set
+            onSuccess(mapOf("Success" to "Success"))
+        } catch (e: Exception) {
+            onError(e)
+        }
     }
 
     actual suspend fun presentPaymentSheet(
@@ -108,9 +122,43 @@ actual class ProvideStripeSdk actual constructor() {
         paymentSheet.presentWithPaymentIntent(
             paymentIntentClientSecret,
             PaymentSheet.Configuration(
-                merchantDisplayName = "Stripe Libray",
+                merchantDisplayName = "Stripe Library",
                 allowsDelayedPaymentMethods = true
             )
         )
+    }
+
+    /**
+     * Fetches the PaymentIntent client secret from Stripe's API.
+     */
+    private suspend fun fetchPaymentIntentClientSecret(): String {
+        val client = HttpClient(OkHttp) {
+            install(ContentNegotiation) {
+                json() // Configure JSON serialization
+            }
+        }
+
+        try {
+            val response: HttpResponse = client.post("https://api.stripe.com/v1/payment_intents") {
+                header(HttpHeaders.Authorization, "Bearer sk_test_hPRNV2gZ6gcIV99ndFejwEHT")
+                contentType(ContentType.Application.FormUrlEncoded)
+                setBody(
+                    listOf(
+                        "amount" to "4000", // Amount in the smallest currency unit (e.g., paise for INR)
+                        "currency" to "inr",
+                        "automatic_payment_methods[enabled]" to "true"
+                    ).formUrlEncode()
+                )
+            }
+
+            // Parse the response JSON to get the paymentIntentClientSecret
+            val responseBody = response.bodyAsText()
+            val jsonObject = JSONObject(responseBody)
+            return jsonObject.getString("client_secret")
+        } catch (e: Exception) {
+            throw Exception("Error fetching Payment Intent: ${e.message}")
+        } finally {
+            client.close() // Close the client
+        }
     }
 }
