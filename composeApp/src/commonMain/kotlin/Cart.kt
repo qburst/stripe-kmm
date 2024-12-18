@@ -28,11 +28,14 @@ import model.SetupParams
 import kotlin.math.roundToInt
 
 @Composable
-fun Cart( onFailure: (Screen) -> Unit, ) {
+fun Cart(
+     onFailure: (Screen) -> Unit,
+     onSuccess: (Screen) -> Unit
+) {
     val stripe = ProvideStripeSdk()
     var paymentIntentParams = SetupParams(
         merchantDisplayName = "Qburst",
-        paymentIntentClientSecret = "pi_1QWvPJKJ38Q1wp9dKqfcbrFo_secret_FW6Hs3y3xS83Ephjov9c9CTVA"
+        paymentIntentClientSecret = "pi_1QX5YgKJ38Q1wp9deyT9UlZ8_secret_wZ3FaNQwEGmuTEz59GzHUpUvt"
     )
 
     val initialiseParams = InitialiseParams(
@@ -116,6 +119,7 @@ fun Cart( onFailure: (Screen) -> Unit, ) {
                                             stripe.presentPaymentSheet(
                                                 options = PresentOptions(),
                                                 onSuccess = { result ->
+                                                    onSuccess(Screen.OrderSuccess)
                                                     print(" result = $result")
                                                     // Pass the result back to the UI through the onSuccess callback
                                                 },
