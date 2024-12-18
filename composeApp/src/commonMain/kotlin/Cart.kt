@@ -35,10 +35,12 @@ import model.SetupParams
 import kotlin.math.roundToInt
 
 @Composable
-fun Cart( onFailure: (Screen) -> Unit, ) {
+fun Cart(
+     onFailure: (Screen) -> Unit,
+     onSuccess: (Screen) -> Unit
+) {
     val stripe = ProvideStripeSdk()
     var amount="0"
-
     val initialiseParams = InitialiseParams(
         publishableKey = "pk_test_FkQvi0DNueKlNnVwNoJktg2W",
         appInfo = AppInfo(
@@ -125,6 +127,7 @@ fun Cart( onFailure: (Screen) -> Unit, ) {
                                             stripe.presentPaymentSheet(
                                                 options = PresentOptions(),
                                                 onSuccess = { result ->
+                                                    onSuccess(Screen.OrderSuccess)
                                                     print(" result = $result")
                                                     // Pass the result back to the UI through the onSuccess callback
                                                 },
