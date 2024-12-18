@@ -1,17 +1,24 @@
+
 import androidx.compose.foundation.background
-import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.Button
-import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Scaffold
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.draw.shadow
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
@@ -33,11 +40,7 @@ fun Cart(
      onSuccess: (Screen) -> Unit
 ) {
     val stripe = ProvideStripeSdk()
-    var paymentIntentParams = SetupParams(
-        merchantDisplayName = "Qburst",
-        paymentIntentClientSecret = "pi_1QX5YgKJ38Q1wp9deyT9UlZ8_secret_wZ3FaNQwEGmuTEz59GzHUpUvt"
-    )
-
+    var amount="0"
     val initialiseParams = InitialiseParams(
         publishableKey = "pk_test_FkQvi0DNueKlNnVwNoJktg2W",
         appInfo = AppInfo(
@@ -81,7 +84,7 @@ fun Cart(
             }
 
             val totalPrice = cartItems.sumOf { it.price * it.quantity }
-            val roundedTotalPrice = (totalPrice * 100).roundToInt() / 100.0
+             amount = ((totalPrice * 100).roundToInt() ).toString()
 
             Box(
                 modifier = Modifier
@@ -109,6 +112,11 @@ fun Cart(
                     Button(
                         shape = RoundedCornerShape(24.dp),
                         onClick = {
+                            var paymentIntentParams = SetupParams(
+                                merchantDisplayName = "Qburst",
+                                amount=amount,
+                                paymentIntentClientSecret = "pi_1QWvPJKJ38Q1wp9dKqfcbrFo_secret_FW6Hs3y3xS83Ephjov9c9CTVA"
+                            )
                             CoroutineScope(Dispatchers.Default).launch {
                                 stripe.initPaymentSheet(
                                     params = paymentIntentParams,

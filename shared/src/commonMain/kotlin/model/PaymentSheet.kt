@@ -61,7 +61,9 @@ data class SetupParams(
     val preferredNetworks: List<CardBrand>? = null,
     val paymentMethodOrder: List<String>? = null,
     val allowsRemovalOfLastSavedPaymentMethod: Boolean = true,
-    val paymentIntentClientSecret: String?
+    val paymentIntentClientSecret: String? ,
+    val amount:String?="0"
+
 ) {
     fun toDictionary() = mapOf(
         "merchantDisplayName" to merchantDisplayName,

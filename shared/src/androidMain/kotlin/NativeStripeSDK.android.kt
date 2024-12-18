@@ -90,8 +90,10 @@ actual class ProvideStripeSdk actual constructor() {
     ) {
         try {
             // Fetch the payment intent client secret using the provided function
-            val paymentIntentClientSecret = fetchPaymentIntentClientSecret()
-            SingletonStripeInitialization.StripeInstanse.clientSecret = paymentIntentClientSecret
+            val paymentIntentClientSecret = params.amount?.let { fetchPaymentIntentClientSecret(it) }
+            if (paymentIntentClientSecret != null) {
+                SingletonStripeInitialization.StripeInstanse.clientSecret = paymentIntentClientSecret
+            }
 
             // Call the success callback once everything is set
             onSuccess(mapOf("Success" to "Success"))
@@ -131,7 +133,7 @@ actual class ProvideStripeSdk actual constructor() {
     /**
      * Fetches the PaymentIntent client secret from Stripe's API.
      */
-    private suspend fun fetchPaymentIntentClientSecret(): String {
+    private suspend fun fetchPaymentIntentClientSecret(amount:String): String {
         val client = HttpClient(OkHttp) {
             install(ContentNegotiation) {
                 json() // Configure JSON serialization
@@ -144,7 +146,7 @@ actual class ProvideStripeSdk actual constructor() {
                 contentType(ContentType.Application.FormUrlEncoded)
                 setBody(
                     listOf(
-                        "amount" to "4000", // Amount in the smallest currency unit (e.g., paise for INR)
+                        "amount" to amount, // Amount in the smallest currency unit (e.g., paise for INR)
                         "currency" to "inr",
                         "automatic_payment_methods[enabled]" to "true"
                     ).formUrlEncode()
