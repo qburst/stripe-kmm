@@ -26,14 +26,30 @@ import repositories.PaymentRepositoryImpl
 actual class ProvideStripeSdk actual constructor() {
     private val paymentRepository: PaymentRepository = PaymentRepositoryImpl()
 
+    var onSuccess: ((Map<String, Any?>) -> Unit)?=null
+    var onError: ((Throwable) -> Unit)?=null
+
     /**
      * Initialize Android Stripe SDK
      * @param [InitialiseParams] with publishable key as a Not null parameter
      */
     actual suspend fun initialise(initialiseParams: InitialiseParams) {
         SingletonStripeInitialization.StripeInstanse.initializeStripe(initialiseParams)
-        SingletonStripeInitialization.StripeInstanse.initialisePaymentSheet(initialiseParams)
+        SingletonStripeInitialization.StripeInstanse.initialisePaymentSheet(initialiseParams, object:InitializeStripe.PaymentResult{
+            override fun onFailure(throwable: Throwable) {
+                onError?.invoke(throwable)
+                onError = null
+                onSuccess = null
+            }
+
+            override fun onSuccess(status: Map<String, Any?>) {
+                onSuccess?.invoke(status)
+                onError = null
+                onSuccess = null
+            }
+        })
     }
+
 
     /**
      *It creates a payment parameter in Stripe SDK
@@ -107,6 +123,8 @@ actual class ProvideStripeSdk actual constructor() {
         onSuccess: (Map<String, Any?>) -> Unit,
         onError: (Throwable) -> Unit
     ) {
+        this.onSuccess = onSuccess
+        this.onError = onError
         CoroutineScope(Dispatchers.Default).launch {
             SingletonStripeInitialization.StripeInstanse.paymentSheet.let {
                 presentPaymentSheet(

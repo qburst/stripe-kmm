@@ -17,6 +17,12 @@ class InitializeStripe {
     var clientSecret = ""
 
 
+    interface PaymentResult {
+        fun onSuccess(status: Map<String, Any?>)
+        fun onFailure(throwable: Throwable)
+    }
+
+
     // Initialize Stripe only once
     fun initializeStripe(initialObject: InitialiseParams) {
         if (_activity == null && _context == null && _publishableKey == null) {
@@ -31,7 +37,8 @@ class InitializeStripe {
         }
     }
 
-    fun initialisePaymentSheet(initialiseParams: InitialiseParams) {
+
+    fun initialisePaymentSheet(initialiseParams: InitialiseParams,callbacks: PaymentResult) {
         if((initialiseParams.androidContext != null ) && (initialiseParams.androidActivity != null)) {
             PaymentConfiguration.init(
                 context = initialiseParams.androidContext as Context,
@@ -40,27 +47,22 @@ class InitializeStripe {
 
             paymentSheet =
                 PaymentSheet(initialiseParams.androidActivity as ComponentActivity) { paymentSheet ->
-                    val result = onPaymentSheetResult(paymentSheet)
-                    Toast.makeText(
-                        initialiseParams.androidContext as Context,
-                        result,
-                        Toast.LENGTH_LONG
-                    ).show()
+                     onPaymentSheetResult(paymentSheet, callbacks)
                 }
         }
     }
-    private fun onPaymentSheetResult(paymentSheetResult: PaymentSheetResult): String {
+    private fun onPaymentSheetResult(paymentSheetResult: PaymentSheetResult, callbacks: PaymentResult) {
         when (paymentSheetResult) {
             is PaymentSheetResult.Canceled -> {
-                return "cancelled"
+                callbacks.onFailure(Exception(message = "Cancelled"))
             }
 
             is PaymentSheetResult.Failed -> {
-                return "Error: ${paymentSheetResult.error}"
+                callbacks.onFailure(Exception(message = "Failed"))
             }
 
             is PaymentSheetResult.Completed -> {
-                return "Completed"
+                callbacks.onSuccess()
             }
         }
     }
