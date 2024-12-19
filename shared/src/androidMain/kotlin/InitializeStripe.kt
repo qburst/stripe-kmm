@@ -3,6 +3,7 @@ import android.widget.Toast
 import androidx.activity.ComponentActivity
 import com.stripe.android.PaymentConfiguration
 import com.stripe.android.Stripe
+import com.stripe.android.payments.paymentlauncher.PaymentLauncher
 import com.stripe.android.paymentsheet.PaymentSheet
 import com.stripe.android.paymentsheet.PaymentSheetResult
 import model.InitialiseParams
@@ -15,6 +16,8 @@ class InitializeStripe {
     lateinit var stripe: Stripe
     lateinit var paymentSheet: PaymentSheet
     var clientSecret = ""
+
+    private var paymentResultCallback:PaymentResult ? =null
 
 
     interface PaymentResult {
@@ -38,7 +41,7 @@ class InitializeStripe {
     }
 
 
-    fun initialisePaymentSheet(initialiseParams: InitialiseParams,callbacks: PaymentResult) {
+    fun initialisePaymentSheet(initialiseParams: InitialiseParams) {
         if((initialiseParams.androidContext != null ) && (initialiseParams.androidActivity != null)) {
             PaymentConfiguration.init(
                 context = initialiseParams.androidContext as Context,
@@ -47,25 +50,34 @@ class InitializeStripe {
 
             paymentSheet =
                 PaymentSheet(initialiseParams.androidActivity as ComponentActivity) { paymentSheet ->
-                     onPaymentSheetResult(paymentSheet, callbacks)
+                     onPaymentSheetResult(paymentSheet)
                 }
         }
     }
-    private fun onPaymentSheetResult(paymentSheetResult: PaymentSheetResult, callbacks: PaymentResult) {
+    private fun onPaymentSheetResult(paymentSheetResult: PaymentSheetResult) {
         when (paymentSheetResult) {
             is PaymentSheetResult.Canceled -> {
-                callbacks.onFailure(Exception(message = "Cancelled"))
+                paymentResultCallback?.onFailure(Throwable(message = "Cancelled"))
+                paymentResultCallback = null
             }
 
             is PaymentSheetResult.Failed -> {
-                callbacks.onFailure(Exception(message = "Failed"))
+                paymentResultCallback?.onFailure(Throwable(message = "Failed"))
+                paymentResultCallback = null
             }
 
             is PaymentSheetResult.Completed -> {
-                callbacks.onSuccess()
+                //TODO: Handle paymentSheetResult
+                paymentResultCallback?.onSuccess(emptyMap())
+                paymentResultCallback = null
             }
         }
     }
+
+    fun setPaymentResultCallback(callback: InitializeStripe.PaymentResult) {
+        paymentResultCallback = callback
+    }
+
 }
 
 object SingletonStripeInitialization {

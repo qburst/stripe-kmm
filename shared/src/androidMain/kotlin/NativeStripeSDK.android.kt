@@ -24,10 +24,16 @@ import repositories.PaymentRepositoryImpl
  * It is the starting point of Android native stripe SDK
  */
 actual class ProvideStripeSdk actual constructor() {
-    private val paymentRepository: PaymentRepository = PaymentRepositoryImpl()
 
-    var onSuccess: ((Map<String, Any?>) -> Unit)?=null
-    var onError: ((Throwable) -> Unit)?=null
+    companion object{
+        var count = 0
+    }
+
+    init {
+        count ++
+    }
+
+    private val paymentRepository: PaymentRepository = PaymentRepositoryImpl()
 
     /**
      * Initialize Android Stripe SDK
@@ -35,19 +41,7 @@ actual class ProvideStripeSdk actual constructor() {
      */
     actual suspend fun initialise(initialiseParams: InitialiseParams) {
         SingletonStripeInitialization.StripeInstanse.initializeStripe(initialiseParams)
-        SingletonStripeInitialization.StripeInstanse.initialisePaymentSheet(initialiseParams, object:InitializeStripe.PaymentResult{
-            override fun onFailure(throwable: Throwable) {
-                onError?.invoke(throwable)
-                onError = null
-                onSuccess = null
-            }
-
-            override fun onSuccess(status: Map<String, Any?>) {
-                onSuccess?.invoke(status)
-                onError = null
-                onSuccess = null
-            }
-        })
+        SingletonStripeInitialization.StripeInstanse.initialisePaymentSheet(initialiseParams)
     }
 
 
@@ -123,9 +117,18 @@ actual class ProvideStripeSdk actual constructor() {
         onSuccess: (Map<String, Any?>) -> Unit,
         onError: (Throwable) -> Unit
     ) {
-        this.onSuccess = onSuccess
-        this.onError = onError
         CoroutineScope(Dispatchers.Default).launch {
+            //For Payment Sheet result
+            SingletonStripeInitialization.StripeInstanse.setPaymentResultCallback(object : InitializeStripe.PaymentResult {
+                override fun onSuccess(status: Map<String, Any?>) {
+                    onSuccess(status)
+                }
+
+                override fun onFailure(throwable: Throwable) {
+                    onError(throwable)
+                }
+            })
+
             SingletonStripeInitialization.StripeInstanse.paymentSheet.let {
                 presentPaymentSheet(
                     paymentSheet = it,
