@@ -25,14 +25,6 @@ import repositories.PaymentRepositoryImpl
  */
 actual class ProvideStripeSdk actual constructor() {
 
-    companion object{
-        var count = 0
-    }
-
-    init {
-        count ++
-    }
-
     private val paymentRepository: PaymentRepository = PaymentRepositoryImpl()
 
     /**
