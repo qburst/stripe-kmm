@@ -115,7 +115,7 @@ fun Cart(
                             var paymentIntentParams = SetupParams(
                                 merchantDisplayName = "Qburst",
                                 amount=amount,
-                                paymentIntentClientSecret = "pi_1QWvPJKJ38Q1wp9dKqfcbrFo_secret_FW6Hs3y3xS83Ephjov9c9CTVA"
+                                paymentIntentClientSecret = "pi_1QXLRzKJ38Q1wp9dF6c5MrT1_secret_9EDiqf0eNa3rfEyE1U2RDMcQj"
                             )
                             CoroutineScope(Dispatchers.Default).launch {
                                 stripe.initPaymentSheet(

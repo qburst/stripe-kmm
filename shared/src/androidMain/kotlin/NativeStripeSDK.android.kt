@@ -24,6 +24,7 @@ import repositories.PaymentRepositoryImpl
  * It is the starting point of Android native stripe SDK
  */
 actual class ProvideStripeSdk actual constructor() {
+
     private val paymentRepository: PaymentRepository = PaymentRepositoryImpl()
 
     /**
@@ -34,6 +35,7 @@ actual class ProvideStripeSdk actual constructor() {
         SingletonStripeInitialization.StripeInstanse.initializeStripe(initialiseParams)
         SingletonStripeInitialization.StripeInstanse.initialisePaymentSheet(initialiseParams)
     }
+
 
     /**
      *It creates a payment parameter in Stripe SDK
@@ -108,6 +110,17 @@ actual class ProvideStripeSdk actual constructor() {
         onError: (Throwable) -> Unit
     ) {
         CoroutineScope(Dispatchers.Default).launch {
+            //For Payment Sheet result
+            SingletonStripeInitialization.StripeInstanse.setPaymentResultCallback(object : InitializeStripe.PaymentResult {
+                override fun onSuccess(status: Map<String, Any?>) {
+                    onSuccess(status)
+                }
+
+                override fun onFailure(throwable: Throwable) {
+                    onError(throwable)
+                }
+            })
+
             SingletonStripeInitialization.StripeInstanse.paymentSheet.let {
                 presentPaymentSheet(
                     paymentSheet = it,
