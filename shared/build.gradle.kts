@@ -6,7 +6,7 @@ plugins {
 }
 
 group = "io.github.abdulbasithqb"
-version = "1.0.0"
+version = "1.0.1"
 
 
 kotlin {
@@ -72,7 +72,7 @@ mavenPublishing {
 
     signAllPublications()
 
-    coordinates(group.toString(), "fibonacci", version.toString())
+    coordinates(group.toString(), "stripekmm", version.toString())
 
     pom {
         name = "Stripe KMM library"
