@@ -1,11 +1,5 @@
+
 import com.stripe.android.paymentsheet.PaymentSheet
-import io.ktor.client.*
-import io.ktor.client.engine.okhttp.*
-import io.ktor.client.plugins.contentnegotiation.*
-import io.ktor.client.request.*
-import io.ktor.client.statement.*
-import io.ktor.http.*
-import io.ktor.serialization.kotlinx.json.json
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -14,7 +8,6 @@ import model.ConfirmParams
 import model.InitialiseParams
 import model.PresentOptions
 import model.SetupParams
-import org.json.JSONObject
 import repositories.PaymentRepository
 import repositories.PaymentRepositoryImpl
 
@@ -92,7 +85,7 @@ actual class ProvideStripeSdk actual constructor() {
     ) {
         try {
             // Fetch the payment intent client secret using the provided function
-            val paymentIntentClientSecret = params.amount?.let { fetchPaymentIntentClientSecret(it) }
+            val paymentIntentClientSecret = params.paymentIntentClientSecret
             if (paymentIntentClientSecret != null) {
                 SingletonStripeInitialization.StripeInstanse.clientSecret = paymentIntentClientSecret
             }
@@ -146,34 +139,4 @@ actual class ProvideStripeSdk actual constructor() {
     /**
      * Fetches the PaymentIntent client secret from Stripe's API.
      */
-    private suspend fun fetchPaymentIntentClientSecret(amount:String): String {
-        val client = HttpClient(OkHttp) {
-            install(ContentNegotiation) {
-                json() // Configure JSON serialization
-            }
-        }
-
-        try {
-            val response: HttpResponse = client.post("https://api.stripe.com/v1/payment_intents") {
-                header(HttpHeaders.Authorization, "Bearer sk_test_hPRNV2gZ6gcIV99ndFejwEHT")
-                contentType(ContentType.Application.FormUrlEncoded)
-                setBody(
-                    listOf(
-                        "amount" to amount, // Amount in the smallest currency unit (e.g., paise for INR)
-                        "currency" to "inr",
-                        "automatic_payment_methods[enabled]" to "true"
-                    ).formUrlEncode()
-                )
-            }
-
-            // Parse the response JSON to get the paymentIntentClientSecret
-            val responseBody = response.bodyAsText()
-            val jsonObject = JSONObject(responseBody)
-            return jsonObject.getString("client_secret")
-        } catch (e: Exception) {
-            throw Exception("Error fetching Payment Intent: ${e.message}")
-        } finally {
-            client.close() // Close the client
-        }
-    }
-}
+   }

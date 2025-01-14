@@ -1,36 +1,17 @@
+
 import org.jetbrains.kotlin.gradle.ExperimentalKotlinGradlePluginApi
 import org.jetbrains.kotlin.gradle.dsl.JvmTarget
-import org.jetbrains.kotlin.gradle.targets.js.dsl.ExperimentalWasmDsl
-import org.jetbrains.kotlin.gradle.targets.js.webpack.KotlinWebpackConfig
 
 plugins {
     id("com.google.devtools.ksp") version "2.0.20-1.0.25"
     kotlin("plugin.allopen") version "2.0.20"
     alias(libs.plugins.kotlinMultiplatform)
     alias(libs.plugins.androidLibrary)
+    id("maven-publish")
 }
 
 kotlin {
 
-
-
-    @OptIn(ExperimentalWasmDsl::class)
-    wasmJs {
-        browser {
-            val projectDirPath = project.projectDir.path
-            commonWebpackConfig {
-                devServer = (devServer ?: KotlinWebpackConfig.DevServer()).apply {
-                    static = (static ?: mutableListOf()).apply {
-                        // Serve sources to debug inside browser
-                        add(projectDirPath)
-                    }
-                }
-            }
-        }
-    }
-
-
-    
     androidTarget {
         @OptIn(ExperimentalKotlinGradlePluginApi::class)
         compilerOptions {
@@ -63,22 +44,11 @@ kotlin {
             implementation(project.dependencies.platform("io.insert-koin:koin-bom:4.0.0-RC2"))
             implementation("io.insert-koin:koin-core")
             implementation("io.insert-koin:koin-test")
-            implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:1.8.0")
-            implementation("io.ktor:ktor-client-darwin:2.3.12")
-            implementation("io.ktor:ktor-client-content-negotiation:2.3.12")
-            implementation("io.ktor:ktor-serialization-kotlinx-json:2.3.12")
-
         }
         androidMain.dependencies {
             implementation (libs.stripe.android)
             implementation(libs.jetbrains.kotlinx.coroutines.core)
             implementation(libs.gson)
-            implementation(libs.ktor.client.content.negotiation)
-            implementation(libs.ktor.serialization.kotlinx.json)
-            implementation(libs.ktor.client.okhttp)
-            implementation("io.ktor:ktor-client-okhttp:2.3.12")
-            implementation("io.ktor:ktor-client-content-negotiation:2.3.12")
-            implementation("io.ktor:ktor-serialization-kotlinx-json:2.3.12")
 
 
         }
@@ -137,3 +107,7 @@ ksp {
     arg("io.mockative:mockative:opt-in:io.github.*", "kotlin.ExperimentalStdlibApi")
     arg("io.mockative:mockative:opt-in", "kotlin.ExperimentalUnsignedTypes")
 }
+
+
+
+
