@@ -1,10 +1,10 @@
 name: Deploy
 
-# Trigger on release events (released or prereleased)
 on:
-  release:
-    types: [released, prereleased]
-  workflow_dispatch: # Allow manual trigger for testing
+  workflow_run:
+    workflows: ["Build Verification"] # Name of the build verification workflow
+    types:
+      - completed
 
 jobs:
   publish:
@@ -40,7 +40,3 @@ jobs:
           ORG_GRADLE_PROJECT_signingInMemoryKeyId: ${{ secrets.SIGNING_KEY_ID }}
           ORG_GRADLE_PROJECT_signingInMemoryKeyPassword: ${{ secrets.SIGNING_PASSWORD }}
           ORG_GRADLE_PROJECT_signingInMemoryKey: ${{ secrets.GPG_KEY_CONTENTS }}
-
-      # Optional: Check the output of the publish command (optional for debugging)
-      # - name: Check Gradle output
-      #   run: tail -n 20 build.gradle
