@@ -4,7 +4,7 @@ name: Build Verification
 on:
   push:
     branches:
-      - main
+      - poc/maven_publish
   pull_request:
 
 jobs:
