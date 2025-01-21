@@ -1,6 +1,5 @@
 name: Build Verification
-
-# Trigger on pull requests and pushes to main branch
+# Trigger on pull requests and pushes 
 on:
   push:
     branches:
