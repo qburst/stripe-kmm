@@ -1,4 +1,6 @@
 import com.vanniktech.maven.publish.SonatypeHost
+import org.jetbrains.kotlin.gradle.ExperimentalKotlinGradlePluginApi
+
 plugins {
     alias(libs.plugins.kotlinMultiplatform)
     alias(libs.plugins.androidLibrary)
@@ -14,6 +16,16 @@ kotlin {
         compilations.all {
             kotlinOptions {
                 jvmTarget = "1.8"
+            }
+        }
+
+        @OptIn(ExperimentalKotlinGradlePluginApi::class)
+        unitTestVariant {
+            dependencies {
+                testImplementation(libs.mockative)
+                testImplementation(kotlin("test-junit"))
+                testImplementation(libs.junit)
+                testImplementation(libs.kotlinx.coroutines.test)
             }
         }
     }
@@ -47,6 +59,10 @@ kotlin {
 
         commonTest.dependencies {
             implementation(libs.kotlin.test)
+        }
+        iosTest.dependencies {
+            implementation(kotlin("test"))
+            implementation(libs.mockative)
         }
     }
 }
