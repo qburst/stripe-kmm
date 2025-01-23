@@ -48,6 +48,10 @@ kotlin {
         commonTest.dependencies {
             implementation(libs.kotlin.test)
         }
+        iosTest.dependencies {
+            implementation(kotlin("test"))
+            implementation(libs.mockative)
+        }
     }
 }
 
