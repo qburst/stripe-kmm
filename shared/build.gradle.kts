@@ -44,14 +44,14 @@ kotlin {
             implementation(project.dependencies.platform("io.insert-koin:koin-bom:4.0.0-RC2"))
             implementation("io.insert-koin:koin-core")
             implementation("io.insert-koin:koin-test")
+            implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:1.8.0")
         }
         androidMain.dependencies {
             implementation (libs.stripe.android)
             implementation(libs.jetbrains.kotlinx.coroutines.core)
             implementation(libs.gson)
-
-
         }
+
         iosTest.dependencies {
             implementation(kotlin("test"))
             implementation(libs.mockative)
