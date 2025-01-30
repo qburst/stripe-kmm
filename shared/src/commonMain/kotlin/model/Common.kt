@@ -8,6 +8,11 @@ data class Address(
     val postalCode: String? = null,
     val state: String?  = null,
 ) {
+    /**
+     * Converts the Address object to a dictionary representation.
+     *
+     * @return A map containing address fields as key-value pairs.
+     */
     fun toDictionary(): Map<String, Any?> {
         return mapOf(
             "city" to city,
@@ -28,41 +33,35 @@ data class AddressDetails(
     val isCheckboxSelected: Boolean? = null,
 
 ) {
+    /**
+     * Converts the AddressDetails object to a dictionary representation.
+     *
+     * @return A map containing address details fields as key-value pairs.
+     */
     fun toDictionary(): Map<String, Any?> {
         return mapOf(
             "name" to name,
-            "address" to address.toString(),
+            "address" to address?.toDictionary(),
             "phone" to phone,
             "isCheckboxSelected" to isCheckboxSelected
         )
     }
 }
 
-
-
-//export type AddressDetails = {
-//    /** The customer's full name. */
-//    name?: string;
-//    /** The customer's address. */
-//    address?: Address;
-//    /** The customer's phone number. */
-//    phone?: string;
-//    /** Whether or not the checkbox is initally selected. Defaults to false.
-//     *  Note: The checkbox is displayed below the other fields when additionalFields.checkboxLabel is set.
-//     *  */
-//    isCheckboxSelected?: boolean;
-//};
-
-
-
-// Data class for BillingDetails
-
+/**
+ * Data class representing billing details, which can also be used as shipping details.
+ */
 data class BillingDetails(
     val email: String? = null,
     val phone: String? = null,
     val name: String? = null,
     val address: Address? = null
 ) {
+    /**
+     * Converts the BillingDetails object to a dictionary representation.
+     *
+     * @return A map containing billing details fields as key-value pairs.
+     */
     fun toDictionary(): Map<String, Any?> {
         return mapOf(
             "email" to email,
@@ -73,4 +72,7 @@ data class BillingDetails(
     }
 }
 
+/**
+ * Alias for BillingDetails to represent shipping details.
+ */
 typealias ShippingDetails = BillingDetails
