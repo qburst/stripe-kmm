@@ -2,7 +2,7 @@ name: Deploy
 
 on:
   workflow_run:
-    workflows: ["Build Verification"] # Name of the build verification workflow
+    workflows: ["Build Verification"] # Name of the build verification workflow.
     types:
       - completed
 
