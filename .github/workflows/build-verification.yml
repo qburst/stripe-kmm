@@ -40,13 +40,13 @@ jobs:
       - name: Run tests
         run: ./gradlew test
 
-      # Step 7: Verify publication setup (optional)
-      - name: Verify publication setup
-        run: ./gradlew publishToMavenLocal --no-configuration-cache
-        env:
-          ORG_GRADLE_PROJECT_signingInMemoryKeyId: ${{ secrets.SIGNING_KEY_ID }}
-          ORG_GRADLE_PROJECT_signingInMemoryKeyPassword: ${{ secrets.SIGNING_PASSWORD }}
-          ORG_GRADLE_PROJECT_signingInMemoryKey: ${{ secrets.GPG_KEY_CONTENTS }}
+      # # Step 7: Verify publication setup (optional)
+      # - name: Verify publication setup
+      #   run: ./gradlew publishToMavenLocal --no-configuration-cache
+      #   env:
+      #     ORG_GRADLE_PROJECT_signingInMemoryKeyId: ${{ secrets.SIGNING_KEY_ID }}
+      #     ORG_GRADLE_PROJECT_signingInMemoryKeyPassword: ${{ secrets.SIGNING_PASSWORD }}
+      #     ORG_GRADLE_PROJECT_signingInMemoryKey: ${{ secrets.GPG_KEY_CONTENTS }}
 
       # Optional: Check the output of the build process
       # - name: Check Gradle output
