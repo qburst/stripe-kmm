@@ -22,6 +22,7 @@ stripeAndroid = "20.48.1"
 swiftklib = "0.6.3"
 cocoapods = "2.0.0"
 
+
 [libraries]
 gson = { module = "com.google.code.gson:gson", version.ref = "gson" }
 jetbrains-kotlinx-coroutines-core = { module = "org.jetbrains.kotlinx:kotlinx-coroutines-core", version.ref = "kotlinxCoroutinesCoreVersion" }
