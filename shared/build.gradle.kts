@@ -1,40 +1,22 @@
+import com.vanniktech.maven.publish.SonatypeHost
 import org.jetbrains.kotlin.gradle.ExperimentalKotlinGradlePluginApi
-import org.jetbrains.kotlin.gradle.dsl.JvmTarget
-import org.jetbrains.kotlin.gradle.targets.js.dsl.ExperimentalWasmDsl
-import org.jetbrains.kotlin.gradle.targets.js.webpack.KotlinWebpackConfig
 
 plugins {
-    id("com.google.devtools.ksp") version "2.0.20-1.0.25"
-    kotlin("plugin.allopen") version "2.0.20"
     alias(libs.plugins.kotlinMultiplatform)
     alias(libs.plugins.androidLibrary)
+    id("com.vanniktech.maven.publish") version "0.29.0"
 }
 
+group = "io.github.abdulbasithqb"
+version = "1.0.1"
+
+
 kotlin {
-
-
-
-    @OptIn(ExperimentalWasmDsl::class)
-    wasmJs {
-        browser {
-            val projectDirPath = project.projectDir.path
-            commonWebpackConfig {
-                devServer = (devServer ?: KotlinWebpackConfig.DevServer()).apply {
-                    static = (static ?: mutableListOf()).apply {
-                        // Serve sources to debug inside browser
-                        add(projectDirPath)
-                    }
-                }
-            }
-        }
-    }
-
-
-    
     androidTarget {
-        @OptIn(ExperimentalKotlinGradlePluginApi::class)
-        compilerOptions {
-            jvmTarget.set(JvmTarget.JVM_11)
+        compilations.all {
+            kotlinOptions {
+                jvmTarget = "1.8"
+            }
         }
 
         @OptIn(ExperimentalKotlinGradlePluginApi::class)
@@ -48,92 +30,89 @@ kotlin {
         }
     }
 
-    iosX64()
-    iosArm64()
-    iosSimulatorArm64()
-    jvm()
+    listOf(
+        iosX64(),
+        iosArm64(),
+        iosSimulatorArm64()
+    ).forEach {
+        it.binaries.framework {
+            baseName = "shared"
+            isStatic = true
+        }
+    }
 
     sourceSets {
         commonMain.dependencies {
-            // put your Multiplatform dependencies here
-
-
+            //put your multiplatform dependencies here
         }
         iosMain.dependencies {
             implementation(project.dependencies.platform("io.insert-koin:koin-bom:4.0.0-RC2"))
             implementation("io.insert-koin:koin-core")
             implementation("io.insert-koin:koin-test")
             implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:1.8.0")
-            implementation("io.ktor:ktor-client-darwin:2.3.12")
-            implementation("io.ktor:ktor-client-content-negotiation:2.3.12")
-            implementation("io.ktor:ktor-serialization-kotlinx-json:2.3.12")
-
         }
         androidMain.dependencies {
             implementation (libs.stripe.android)
             implementation(libs.jetbrains.kotlinx.coroutines.core)
             implementation(libs.gson)
-            implementation(libs.ktor.client.content.negotiation)
-            implementation(libs.ktor.serialization.kotlinx.json)
-            implementation(libs.ktor.client.okhttp)
-            implementation("io.ktor:ktor-client-okhttp:2.3.12")
-            implementation("io.ktor:ktor-client-content-negotiation:2.3.12")
-            implementation("io.ktor:ktor-serialization-kotlinx-json:2.3.12")
+        }
 
-
+        commonTest.dependencies {
+            implementation(libs.kotlin.test)
         }
         iosTest.dependencies {
             implementation(kotlin("test"))
             implementation(libs.mockative)
         }
     }
-    task("testClasses")
-    listOf(
-        iosX64(),
-        iosArm64(),
-        iosSimulatorArm64()
-    ).forEach {iosTarget ->
-        iosTarget.binaries.framework {
-            baseName = "shared"
-            isStatic = true
-        }
-    }
-}
-
-
-dependencies {
-    configurations
-        .filter { it.name.startsWith("ksp") && it.name.contains("Test") }
-        .forEach {
-            add(it.name, "io.mockative:mockative-processor:2.2.2")
-        }
 }
 
 android {
-    namespace = "com.qburst.stripe_kmm.shared"
-    compileSdk = libs.versions.android.compileSdk.get().toInt()
-    compileOptions {
-        sourceCompatibility = JavaVersion.VERSION_11
-        targetCompatibility = JavaVersion.VERSION_11
-    }
+    namespace = "io.github.abdulbasithqb.stripekmm"
+    compileSdk = 34
     defaultConfig {
-        minSdk = libs.versions.android.minSdk.get().toInt()
+        minSdk = 30
+    }
+    compileOptions {
+        sourceCompatibility = JavaVersion.VERSION_1_8
+        targetCompatibility = JavaVersion.VERSION_1_8
     }
     dependencies {
         implementation(libs.androidx.activity.compose)
     }
 }
-val taskIsRunningTest = gradle.startParameter.taskNames
-    .any { it == "check" || it.startsWith("test") || it.contains("Test") }
 
-if (taskIsRunningTest) {
-    allOpen {
-        annotation("Mockable")
+
+mavenPublishing {
+    publishToMavenCentral(SonatypeHost.CENTRAL_PORTAL)
+
+    signAllPublications()
+
+    coordinates(group.toString(), "stripekmm", version.toString())
+
+    pom {
+        name = "Stripe KMM library"
+        description = "A stripe kmm library."
+        inceptionYear = "2024"
+        url = "https://github.com/qburst/stripe-kmm/"
+        licenses {
+            license {
+                name = "The Apache License, Version 2.0"
+                url = "https://www.apache.org/licenses/LICENSE-2.0.txt"
+                distribution = "https://www.apache.org/licenses/LICENSE-2.0.txt"
+            }
+        }
+        developers {
+            developer {
+                id = "qburst"
+                name = "Qburst Open source community"
+                url = "https://github.com/qburst/"
+            }
+        }
+        scm {
+            url = "https://github.com/qburst/stripe-kmm/"
+            connection = "scm:git:git://github.com/qburst/stripe-kmm.git"
+            developerConnection = "scm:git:ssh://git@github.com/qburst/stripe-kmm.git"
+        }
     }
-}
-
-ksp {
-    arg("io.mockative:mockative:opt-in:io.github.OptInType", "kotlinx.cinterop.ExperimentalForeignApi")
-    arg("io.mockative:mockative:opt-in:io.github.*", "kotlin.ExperimentalStdlibApi")
-    arg("io.mockative:mockative:opt-in", "kotlin.ExperimentalUnsignedTypes")
 }
