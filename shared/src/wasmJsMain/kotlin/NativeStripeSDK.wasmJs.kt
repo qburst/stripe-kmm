@@ -4,7 +4,7 @@ import model.InitialiseParams
 import model.PresentOptions
 import model.SetupParams
 
-actual class ProvideStripeSdk  {
+actual class ProvideStripeSdk actual constructor()  {
     actual suspend fun initialise(initialiseParams: InitialiseParams) {
         TODO("Not yet implemented")
     }
@@ -53,6 +53,4 @@ actual class ProvideStripeSdk  {
         onError: (Throwable) -> Unit
     ) {
     }
-
-
 }
