@@ -28,6 +28,8 @@ class InitializeStripe {
      */
     lateinit var paymentSheet: PaymentSheet
 
+    var clientSecret = ""
+
     /**
      * Callback interface for payment result handling.
      */
