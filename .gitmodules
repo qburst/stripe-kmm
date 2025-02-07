@@ -1,0 +1,3 @@
+[submodule "SwiftKMMStripeKit"]
+	path = SwiftKMMStripeKit
+	url = https://github.com/qburst/SwiftKMMStripeKit.git
