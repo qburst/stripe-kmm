@@ -14,24 +14,6 @@ plugins {
 }
 
 kotlin {
-    @OptIn(ExperimentalWasmDsl::class)
-   wasmJs {
-       moduleName = "composeApp"
-       browser {
-           val projectDirPath = project.projectDir.path
-           commonWebpackConfig {
-               outputFileName = "composeApp.js"
-               devServer = (devServer ?: KotlinWebpackConfig.DevServer()).apply {
-                   static = (static ?: mutableListOf()).apply {
-                       // Serve sources to debug inside browser
-                       add(projectDirPath)
-                   }
-               }
-           }
-       }
-       binaries.executable()
-   }
-
     androidTarget {
         @OptIn(ExperimentalKotlinGradlePluginApi::class)
         compilerOptions {
