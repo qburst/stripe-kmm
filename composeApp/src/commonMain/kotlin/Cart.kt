@@ -34,27 +34,34 @@ import model.PresentOptions
 import model.SetupParams
 import kotlin.math.roundToInt
 
+
+
 @Composable
 fun Cart(
-     onFailure: (Screen) -> Unit,
-     onSuccess: (Screen) -> Unit
+    onFailure: (Screen) -> Unit,
+    onSuccess: (Screen) -> Unit
 ) {
     val stripe = ProvideStripeSdk()
-    var amount="0"
-    val initialiseParams = InitialiseParams(
-        publishableKey = "pk_test_FkQvi0DNueKlNnVwNoJktg2W",
-        appInfo = AppInfo(
-            name = "Stripe App",
-            version = "1.2.3",
-            partnerId = "new",
-            url = "https://qburst.com",
-        )
-    )
 
-    LaunchedEffect(Unit) {
+    // Extracted initialization logic
+    fun initializeStripe() {
+        val initialiseParams = InitialiseParams(
+            publishableKey = "pk_test_FkQvi0DNueKlNnVwNoJktg2W",
+            appInfo = AppInfo(
+                name = "Stripe App",
+                version = "1.2.3",
+                partnerId = "new",
+                url = "https://qburst.com",
+            )
+        )
         CoroutineScope(Dispatchers.Default).launch {
             stripe.initialise(initialiseParams)
         }
+    }
+
+    // Ensure initialization runs only once
+    LaunchedEffect(Unit) {
+        initializeStripe()
     }
 
     Scaffold(
@@ -62,100 +69,215 @@ fun Cart(
             AppBar("Cart", null)
         }
     ) {
-
-
         val cartItems = listOf(
             CartItem(id = 1, name = "Keyboard", price = 899.99, quantity = 2),
             CartItem(id = 2, name = "Mouse", price = 499.99, quantity = 1),
             CartItem(id = 3, name = "Monitor", price = 12499.99, quantity = 3)
         )
 
-        Box(modifier = Modifier.fillMaxSize().background(color = Color(0xF9F8FE))){
+        val totalPrice = cartItems.sumOf { it.price * it.quantity }
+        val amount = ((totalPrice * 100).roundToInt()).toString()
 
+        Box(
+            modifier = Modifier
+                .fillMaxSize()
+                .background(color = Color(0xF9F8FE))
+        ) {
+            Column(modifier = Modifier.fillMaxSize().padding(16.dp)) {
 
-        Column(modifier = Modifier.fillMaxSize().padding(16.dp)) {
+                Spacer(modifier = Modifier.height(8.dp))
 
-            Spacer(modifier = Modifier.height(8.dp))
-
-            LazyColumn(modifier = Modifier.weight(1f)) {
-                items(cartItems) { item ->
-                    CartItemRow(item)
-                }
-            }
-
-            val totalPrice = cartItems.sumOf { it.price * it.quantity }
-             amount = ((totalPrice * 100).roundToInt() ).toString()
-
-            Box(
-                modifier = Modifier
-                    .fillMaxWidth()
-//                    .padding(16.dp)
-                    .background(Color(0xFFE0F7FA), shape = RoundedCornerShape(10.dp)) // Island with rounded corners
-                    .padding(10.dp), // Inner padding inside the island
-                contentAlignment = Alignment.Center
-            ) {
-                Row (
-                    modifier = Modifier.fillMaxWidth(),
-                    horizontalArrangement = Arrangement.SpaceBetween, // Spaces out the elements
-                    verticalAlignment = Alignment.CenterVertically
-                ){
-
-                    Row(){
-                        Text("Total: ", modifier = Modifier.padding(8.dp))
-                        Text("₹$totalPrice", fontSize = 24.sp,
-                            fontWeight = FontWeight.Bold,
-                            color = Color(0xFF00796B))
-
+                LazyColumn(modifier = Modifier.weight(1f)) {
+                    items(cartItems) { item ->
+                        CartItemRow(item)
                     }
+                }
 
-
-                    Button(
-                        shape = RoundedCornerShape(24.dp),
-                        onClick = {
-                            var paymentIntentParams = SetupParams(
-                                merchantDisplayName = "Qburst",
-                                amount=amount,
-                                paymentIntentClientSecret = "pi_1Qh7GBKJ38Q1wp9dzgi4FRes_secret_xVx43XhW0VG6qbKpVeH46gsfY"
+                // Total Price and Checkout Button
+                Box(
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .background(Color(0xFFE0F7FA), shape = RoundedCornerShape(10.dp))
+                        .padding(10.dp),
+                    contentAlignment = Alignment.Center
+                ) {
+                    Row(
+                        modifier = Modifier.fillMaxWidth(),
+                        horizontalArrangement = Arrangement.SpaceBetween,
+                        verticalAlignment = Alignment.CenterVertically
+                    ) {
+                        Row {
+                            Text("Total: ", modifier = Modifier.padding(8.dp))
+                            Text(
+                                "₹$totalPrice",
+                                fontSize = 24.sp,
+                                fontWeight = FontWeight.Bold,
+                                color = Color(0xFF00796B)
                             )
-                            CoroutineScope(Dispatchers.Default).launch {
-                                stripe.initPaymentSheet(
-                                    params = paymentIntentParams,
-                                    onSuccess = { result ->
-                                        print(" result = $result")
-                                        // Pass the result back to the UI through the onSuccess callback
-                                        CoroutineScope(Dispatchers.Default).launch {
+                        }
+
+                        Button(
+                            shape = RoundedCornerShape(24.dp),
+                            onClick = {
+                                val paymentIntentParams = SetupParams(
+                                    merchantDisplayName = "Qburst",
+                                    amount = amount,
+                                    paymentIntentClientSecret = "pi_1Qh7GBKJ38Q1wp9dzgi4FRes_secret_xVx43XhW0VG6qbKpVeH46gsfY"
+                                )
+
+                                CoroutineScope(Dispatchers.Default).launch {
+                                    stripe.initPaymentSheet(
+                                        params = paymentIntentParams,
+                                        onSuccess = { result ->
                                             stripe.presentPaymentSheet(
                                                 options = PresentOptions(),
-                                                onSuccess = { result ->
+                                                onSuccess = {
                                                     onSuccess(Screen.OrderSuccess)
-                                                    print(" result = $result")
-                                                    // Pass the result back to the UI through the onSuccess callback
                                                 },
-                                                onError = { error ->
-                                                    // Pass the error back to the UI through the onError callback
+                                                onError = {
                                                     onFailure(Screen.OrderFailed)
-                                                    print(error)
                                                 }
                                             )
+                                        },
+                                        onError = {
+                                            onFailure(Screen.OrderFailed)
                                         }
-                                    },
-                                    onError = { error ->
-                                        // Pass the error back to the UI through the onError callback
-                                        print(error)
-                                    }
-                                )
+                                    )
+                                }
                             }
-
-                    }) {
-                    Text("Checkout")
-                }}
+                        ) {
+                            Text("Checkout")
+                        }
+                    }
+                }
             }
-
         }
-    }}
-
-
+    }
 }
+
+
+//@Composable
+//fun Cart(
+//     onFailure: (Screen) -> Unit,
+//     onSuccess: (Screen) -> Unit
+//) {
+//    val stripe = ProvideStripeSdk()
+//    var amount="0"
+//    val initialiseParams = InitialiseParams(
+//        publishableKey = "pk_test_FkQvi0DNueKlNnVwNoJktg2W",
+//        appInfo = AppInfo(
+//            name = "Stripe App",
+//            version = "1.2.3",
+//            partnerId = "new",
+//            url = "https://qburst.com",
+//        )
+//    )
+//
+//    LaunchedEffect(Unit) {
+//        CoroutineScope(Dispatchers.Default).launch {
+//            stripe.initialise(initialiseParams)
+//        }
+//    }
+//
+//    Scaffold(
+//        topBar = {
+//            AppBar("Cart", null)
+//        }
+//    ) {
+//
+//
+//        val cartItems = listOf(
+//            CartItem(id = 1, name = "Keyboard", price = 899.99, quantity = 2),
+//            CartItem(id = 2, name = "Mouse", price = 499.99, quantity = 1),
+//            CartItem(id = 3, name = "Monitor", price = 12499.99, quantity = 3)
+//        )
+//
+//        Box(modifier = Modifier.fillMaxSize().background(color = Color(0xF9F8FE))){
+//
+//
+//        Column(modifier = Modifier.fillMaxSize().padding(16.dp)) {
+//
+//            Spacer(modifier = Modifier.height(8.dp))
+//
+//            LazyColumn(modifier = Modifier.weight(1f)) {
+//                items(cartItems) { item ->
+//                    CartItemRow(item)
+//                }
+//            }
+//
+//            val totalPrice = cartItems.sumOf { it.price * it.quantity }
+//             amount = ((totalPrice * 100).roundToInt() ).toString()
+//
+//            Box(
+//                modifier = Modifier
+//                    .fillMaxWidth()
+////                    .padding(16.dp)
+//                    .background(Color(0xFFE0F7FA), shape = RoundedCornerShape(10.dp)) // Island with rounded corners
+//                    .padding(10.dp), // Inner padding inside the island
+//                contentAlignment = Alignment.Center
+//            ) {
+//                Row (
+//                    modifier = Modifier.fillMaxWidth(),
+//                    horizontalArrangement = Arrangement.SpaceBetween, // Spaces out the elements
+//                    verticalAlignment = Alignment.CenterVertically
+//                ){
+//
+//                    Row(){
+//                        Text("Total: ", modifier = Modifier.padding(8.dp))
+//                        Text("₹$totalPrice", fontSize = 24.sp,
+//                            fontWeight = FontWeight.Bold,
+//                            color = Color(0xFF00796B))
+//
+//                    }
+//
+//
+//                    Button(
+//                        shape = RoundedCornerShape(24.dp),
+//                        onClick = {
+//                            var paymentIntentParams = SetupParams(
+//                                merchantDisplayName = "Qburst",
+//                                amount=amount,
+//                                paymentIntentClientSecret = "pi_1Qh7GBKJ38Q1wp9dzgi4FRes_secret_xVx43XhW0VG6qbKpVeH46gsfY"
+//                            )
+//                            CoroutineScope(Dispatchers.Default).launch {
+//                                stripe.initPaymentSheet(
+//                                    params = paymentIntentParams,
+//                                    onSuccess = { result ->
+//                                        print(" result = $result")
+//                                        // Pass the result back to the UI through the onSuccess callback
+//                                        CoroutineScope(Dispatchers.Default).launch {
+//                                            stripe.presentPaymentSheet(
+//                                                options = PresentOptions(),
+//                                                onSuccess = { result ->
+//                                                    onSuccess(Screen.OrderSuccess)
+//                                                    print(" result = $result")
+//                                                    // Pass the result back to the UI through the onSuccess callback
+//                                                },
+//                                                onError = { error ->
+//                                                    // Pass the error back to the UI through the onError callback
+//                                                    onFailure(Screen.OrderFailed)
+//                                                    print(error)
+//                                                }
+//                                            )
+//                                        }
+//                                    },
+//                                    onError = { error ->
+//                                        // Pass the error back to the UI through the onError callback
+//                                        print(error)
+//                                    }
+//                                )
+//                            }
+//
+//                    }) {
+//                    Text("Checkout")
+//                }}
+//            }
+//
+//        }
+//    }}
+//
+//
+//}
 
 @Composable
 fun CartItemRow(item: CartItem) {
