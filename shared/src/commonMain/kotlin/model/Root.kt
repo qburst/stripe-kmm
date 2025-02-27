@@ -57,7 +57,7 @@ data class InitStripeParams(
  * @property androidActivity The Android activity (optional).
  */
 data class InitialiseParams(
-        val publishableKey: String,
+        val publishableKey: String? = null,
         val stripeAccountId: String? = null,
         val threeDSecureParams: ThreeDSecureConfigurationParams? = null,
         val merchantIdentifier: String? = null,

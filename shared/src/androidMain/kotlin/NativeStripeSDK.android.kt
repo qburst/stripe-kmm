@@ -1,3 +1,5 @@
+import android.content.Context
+import androidx.activity.ComponentActivity
 import com.stripe.android.paymentsheet.PaymentSheet
 import io.ktor.client.*
 import io.ktor.client.engine.okhttp.*
@@ -32,8 +34,14 @@ actual class ProvideStripeSdk actual constructor() {
      * null).
      */
     actual suspend fun initialise(initialiseParams: InitialiseParams) {
-        SingletonStripeInitialization.StripeInstanse.initializeStripe(initialiseParams)
-        SingletonStripeInitialization.StripeInstanse.initialisePaymentSheet(initialiseParams)
+//        SingletonStripeInitialization.StripeInstanse.initializeStripe(initialiseParams)
+//        SingletonStripeInitialization.StripeInstanse.initialisePaymentSheet(initialiseParams)
+        if (initialiseParams.androidContext!=null){
+            SingletonStripeInitialization.StripeInstanse.saveContextActivity(initialiseParams.androidActivity as ComponentActivity,initialiseParams.androidContext as Context)
+        }else{
+            SingletonStripeInitialization.StripeInstanse.initializeStripe(initialiseParams)
+            SingletonStripeInitialization.StripeInstanse.initialisePaymentSheet(initialiseParams)
+        }
     }
 
     /**

@@ -58,16 +58,20 @@ class InitializeStripe {
      * @param initialObject An instance of [InitialiseParams] containing initialization details.
      */
     fun initializeStripe(initialObject: InitialiseParams) {
-        if (_activity == null && _context == null && _publishableKey == null) {
-            _activity = initialObject.androidActivity as ComponentActivity
-            _context = initialObject.androidContext as Context
+       // if (_activity == null && _context == null && _publishableKey == null) {
+         //   _activity = initialObject.androidActivity as ComponentActivity
+           // _context = initialObject.androidContext as Context
             _publishableKey = initialObject.publishableKey
 
             stripe = Stripe(
                 context = _context!!,
                 publishableKey = _publishableKey!!
             )
-        }
+
+    }
+    fun saveContextActivity(activity: ComponentActivity,context: Context){
+        _activity=activity
+        _context=context
     }
 
     /**
@@ -77,10 +81,10 @@ class InitializeStripe {
      */
     fun initialisePaymentSheet(initialiseParams: InitialiseParams) {
         if ((initialiseParams.androidContext != null) && (initialiseParams.androidActivity != null)) {
-            PaymentConfiguration.init(
-                context = initialiseParams.androidContext as Context,
-                publishableKey = initialiseParams.publishableKey
-            )
+//            PaymentConfiguration.init(
+//                context = initialiseParams.androidContext as Context,
+//                publishableKey = initialiseParams.publishableKey
+//            )
 
             paymentSheet =
                 PaymentSheet(initialiseParams.androidActivity as ComponentActivity) { paymentSheet ->
