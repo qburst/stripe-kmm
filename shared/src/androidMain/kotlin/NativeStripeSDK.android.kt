@@ -34,8 +34,6 @@ actual class ProvideStripeSdk actual constructor() {
      * null).
      */
     actual suspend fun initialise(initialiseParams: InitialiseParams) {
-//        SingletonStripeInitialization.StripeInstanse.initializeStripe(initialiseParams)
-//        SingletonStripeInitialization.StripeInstanse.initialisePaymentSheet(initialiseParams)
         if (initialiseParams.androidContext!=null){
             SingletonStripeInitialization.StripeInstanse.saveContextActivity(initialiseParams.androidActivity as ComponentActivity,initialiseParams.androidContext as Context)
         }else{

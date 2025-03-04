@@ -58,10 +58,7 @@ class InitializeStripe {
      * @param initialObject An instance of [InitialiseParams] containing initialization details.
      */
     fun initializeStripe(initialObject: InitialiseParams) {
-       // if (_activity == null && _context == null && _publishableKey == null) {
-         //   _activity = initialObject.androidActivity as ComponentActivity
-           // _context = initialObject.androidContext as Context
-            _publishableKey = initialObject.publishableKey
+               _publishableKey = initialObject.publishableKey
 
             stripe = Stripe(
                 context = _context!!,

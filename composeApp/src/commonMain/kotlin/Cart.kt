@@ -28,7 +28,7 @@ import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import model.AppInfo
-import model.InitialiseParams
+//import model.InitialiseParams
 import model.PresentOptions
 import model.SetupParams
 import kotlin.math.roundToInt
@@ -40,21 +40,21 @@ fun Cart(
 ) {
     val stripe = ProvideStripeSdk()
     var amount="0"
-    val initialiseParams = InitialiseParams(
-        publishableKey = "pk_test_51Q7UTAF9GluljyyxHDX70y1Sq5tyzBqPPqTN3yIp6nUNA8oEqtxZWwlNz8JRLWBsJOEumXx7r4h3puKa7QERWmBa00WVb4LCbC",
-        appInfo = AppInfo(
-            name = "Stripe App",
-            version = "1.2.3",
-            partnerId = "new",
-            url = "https://qburst.com",
-        )
-    )
+//    val initialiseParams = InitialiseParams(
+//        publishableKey = "pk_test_51Q7UTAF9GluljyyxHDX70y1Sq5tyzBqPPqTN3yIp6nUNA8oEqtxZWwlNz8JRLWBsJOEumXx7r4h3puKa7QERWmBa00WVb4LCbC",
+//        appInfo = AppInfo(
+//            name = "Stripe App",
+//            version = "1.2.3",
+//            partnerId = "new",
+//            url = "https://qburst.com",
+//        )
+//    )
 
-    LaunchedEffect(Unit) {
-        CoroutineScope(Dispatchers.Default).launch {
-            stripe.initialise(initialiseParams)
-        }
-    }
+//    LaunchedEffect(Unit) {
+//        CoroutineScope(Dispatchers.Default).launch {
+//            stripe.initialise(initialiseParams)
+//        }
+//    }
 
     Scaffold(
         topBar = {
