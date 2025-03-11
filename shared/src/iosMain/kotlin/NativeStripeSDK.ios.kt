@@ -1,5 +1,6 @@
 import di.CoroutineViewModel
 import di.Stripe
+import helpers.mapToThrowable
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 import model.ConfirmOptions
@@ -114,7 +115,9 @@ actual open class ProvideStripeSdk actual constructor() : CoroutineViewModel() {
                         params = paramsDictionary,
                         options = optionsDictionary,
                         onSuccess = { result -> onSuccess(result) },
-                        onError = { error -> onError(error) }
+                        onError = { errorMap ->
+                            onError(mapToThrowable(errorMap)) // Convert Map to Throwable
+                        }
                 )
             }
         } catch (e: Exception) {
@@ -151,7 +154,9 @@ actual open class ProvideStripeSdk actual constructor() : CoroutineViewModel() {
                         paymentIntentClientSecret = paymentIntentClientSecret,
                         returnURL = returnURL,
                         onSuccess = { result -> onSuccess(result) },
-                        onError = { error -> onError(error) }
+                    onError = { errorMap ->
+                        onError(mapToThrowable(errorMap)) // Convert Map to Throwable
+                    }
                 )
             }
         } catch (e: Exception) {
@@ -188,7 +193,9 @@ actual open class ProvideStripeSdk actual constructor() : CoroutineViewModel() {
                         setupIntentClientSecret = setupIntentClientSecret,
                         returnURL = returnURL,
                         onSuccess = { result -> onSuccess(result) },
-                        onError = { error -> onError(error) }
+                        onError = { errorMap ->
+                        onError(mapToThrowable(errorMap)) // Convert Map to Throwable
+                    }
                 )
             }
         } catch (e: Exception) {
@@ -234,7 +241,9 @@ actual open class ProvideStripeSdk actual constructor() : CoroutineViewModel() {
                         params = paramsDictionary,
                         options = optionsDictionary,
                         onSuccess = { result -> onSuccess(result) },
-                        onError = { error -> onError(error) }
+                        onError = { errorMap ->
+                        onError(mapToThrowable(errorMap)) // Convert Map to Throwable
+                        }
                 )
             }
         } catch (e: Exception) {
@@ -262,9 +271,11 @@ actual open class ProvideStripeSdk actual constructor() : CoroutineViewModel() {
         try {
             withContext(Dispatchers.Default) {
                 Stripe.provider.initPaymentSheet(
-                        params = params.toDictionary(),
-                        onSuccess = { result -> onSuccess(result) },
-                        onError = { error -> onError(error) }
+                    params = params.toDictionary(),
+                    onSuccess = { result -> onSuccess(result) },
+                    onError = { errorMap ->
+                        onError(mapToThrowable(errorMap)) // Convert Map to Throwable
+                    }
                 )
             }
         } catch (e: Exception) {
@@ -291,9 +302,11 @@ actual open class ProvideStripeSdk actual constructor() : CoroutineViewModel() {
         try {
             withContext(Dispatchers.Default) {
                 Stripe.provider.presentPaymentSheet(
-                        options = options.toDictionary(),
-                        onSuccess = { result -> onSuccess(result) },
-                        onError = { error -> onError(error) }
+                    options = options.toDictionary(),
+                    onSuccess = { result -> onSuccess(result) },
+                    onError = { errorMap ->
+                        onError(mapToThrowable(errorMap)) // Convert Map to Throwable
+                    }
                 )
             }
         } catch (e: Exception) {

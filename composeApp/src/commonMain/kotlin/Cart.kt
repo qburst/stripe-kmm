@@ -42,7 +42,7 @@ fun Cart(
     val stripe = ProvideStripeSdk()
     var amount="0"
     val initialiseParams = InitialiseParams(
-        publishableKey = "pk_test_FkQvi0DNueKlNnVwNoJktg2W",
+        publishableKey = "pk_test_51QpQwoKrMeG17ooyLnaNhpaMwDacD3qNpCDcbmuUz8CrcaubeMEaOlXgQcN8gcdx610axvCAipusOM1ONYdyH0UO00mtzv5Ry1",
         appInfo = AppInfo(
             name = "Stripe App",
             version = "1.2.3",
@@ -115,7 +115,10 @@ fun Cart(
                             var paymentIntentParams = SetupParams(
                                 merchantDisplayName = "Qburst",
                                 amount=amount,
-                                paymentIntentClientSecret = "pi_1Qh7GBKJ38Q1wp9dzgi4FRes_secret_xVx43XhW0VG6qbKpVeH46gsfY"
+                                customerId = "cus_RiswAV9HPIl5TY",
+                                customerEphemeralKeySecret = "ek_test_YWNjdF8xUXBRd29Lck1lRzE3b295LEZ2emNsNTdZbGRrVUhhbnJQaTY1Rnpvd2VoMXRHaFI_00AdgbFAQS",
+                                paymentIntentClientSecret = "pi_3QzbYgKrMeG17ooy0xmwPesZ_secret_tBOpmCnBbyc2msAqnGtGD6N8P",
+                                allowsDelayedPaymentMethods = true
                             )
                             CoroutineScope(Dispatchers.Default).launch {
                                 stripe.initPaymentSheet(

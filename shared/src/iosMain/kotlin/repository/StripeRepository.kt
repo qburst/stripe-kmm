@@ -19,8 +19,7 @@ interface StripeRepository {
      * @throws Throwable If the initialization process fails for any reason, this method throws an
      * exception.
      */
-    @Throws(Throwable::class) fun initialise(params: Map<String, Any?>)
-
+     fun initialise(params: Map<String, Any?>)
     /**
      * Creates a payment method using the provided parameters and options.
      *
@@ -38,12 +37,11 @@ interface StripeRepository {
      * @throws Throwable If the payment method creation process fails for any reason, this method
      * throws an exception.
      */
-    @Throws(Throwable::class)
     fun createPaymentMethod(
             params: Map<String, Any?>,
             options: Map<String, Any?>,
             onSuccess: (Map<String, Any?>) -> Unit,
-            onError: (Throwable) -> Unit
+            onError: (Map<String, Any?>) -> Unit
     )
 
     /**
@@ -60,12 +58,11 @@ interface StripeRepository {
      * @throws Throwable If the action handling process fails for any reason, this method throws an
      * exception.
      */
-    @Throws(Throwable::class)
     fun handleNextAction(
             paymentIntentClientSecret: String,
             returnURL: String?,
             onSuccess: (Map<String, Any?>) -> Unit,
-            onError: (Throwable) -> Unit
+            onError: (Map<String, Any?>) -> Unit
     )
 
     /**
@@ -82,12 +79,11 @@ interface StripeRepository {
      * @throws Throwable If the action handling process fails for any reason, this method throws an
      * exception.
      */
-    @Throws(Throwable::class)
     fun handleNextActionForSetup(
             setupIntentClientSecret: String,
             returnURL: String?,
             onSuccess: (Map<String, Any?>) -> Unit,
-            onError: (Throwable) -> Unit
+            onError: (Map<String, Any?>) -> Unit
     )
 
     /**
@@ -105,13 +101,12 @@ interface StripeRepository {
      * @throws Throwable If the payment confirmation process fails for any reason, this method
      * throws an exception.
      */
-    @Throws(Throwable::class)
     fun confirmPayment(
             paymentIntentClientSecret: String,
             params: Map<String, Any?>,
             options: Map<String, Any?>,
             onSuccess: (Map<String, Any?>) -> Unit,
-            onError: (Throwable) -> Unit
+            onError: (Map<String, Any?>) -> Unit
     )
 
     /**
@@ -127,11 +122,10 @@ interface StripeRepository {
      * @throws Throwable If the initialization process fails for any reason, this method throws an
      * exception.
      */
-    @Throws(Throwable::class)
     fun initPaymentSheet(
             params: Map<String, Any?>,
             onSuccess: (Map<String, Any?>) -> Unit,
-            onError: (Throwable) -> Unit
+            onError: (Map<String, Any?>) -> Unit
     )
 
     /**
@@ -147,10 +141,9 @@ interface StripeRepository {
      * @throws Throwable If the presentation process fails for any reason, this method throws an
      * exception.
      */
-    @Throws(Throwable::class)
     fun presentPaymentSheet(
             options: Map<String, Any?>,
             onSuccess: (Map<String, Any?>) -> Unit,
-            onError: (Throwable) -> Unit
+            onError: (Map<String, Any?>) -> Unit
     )
 }
