@@ -44,7 +44,7 @@ open class MockStripeRepository : StripeRepository {
         params: Map<String, Any?>,
         options: Map<String, Any?>,
         onSuccess: (Map<String, Any?>) -> Unit,
-        onError: (Throwable) -> Unit
+        onError: (Map<String, Any?>) -> Unit
     ) {
         try {
             // Extract the payment method type and data from the params map
@@ -96,7 +96,8 @@ open class MockStripeRepository : StripeRepository {
             }
         } catch (e: Exception) {
             // Trigger the error callback in case of validation failure or other exceptions
-            onError(e)
+            val errorResult = mapOf("error" to (e.message ?: "Unknown error"))
+            onError(errorResult)
         }
     }
 
@@ -105,7 +106,7 @@ open class MockStripeRepository : StripeRepository {
         params: Map<String, Any?>,
         options: Map<String, Any?>,
         onSuccess: (Map<String, Any?>) -> Unit,
-        onError: (Throwable) -> Unit
+        onError: (Map<String, Any?>) -> Unit
     ) {
         TODO("Not yet implemented")
     }
@@ -113,7 +114,7 @@ open class MockStripeRepository : StripeRepository {
     override fun initPaymentSheet(
         params: Map<String, Any?>,
         onSuccess: (Map<String, Any?>) -> Unit,
-        onError: (Throwable) -> Unit
+        onError: (Map<String, Any?>) -> Unit
     ) {
         TODO("Not yet implemented")
     }
@@ -121,7 +122,7 @@ open class MockStripeRepository : StripeRepository {
     override fun presentPaymentSheet(
         options: Map<String, Any?>,
         onSuccess: (Map<String, Any?>) -> Unit,
-        onError: (Throwable) -> Unit
+        onError: (Map<String, Any?>) -> Unit
     ) {
         TODO("Not yet implemented")
     }
@@ -133,7 +134,7 @@ open class MockStripeRepository : StripeRepository {
         paymentIntentClientSecret: String,
         returnURL: String?,
         onSuccess: (Map<String, Any?>) -> Unit,
-        onError: (Throwable) -> Unit
+        onError: (Map<String, Any?>) -> Unit
     ) {
         try {
             if (paymentIntentClientSecret == "pi_client_secret_12345") {
@@ -143,7 +144,8 @@ open class MockStripeRepository : StripeRepository {
                 throw IllegalArgumentException("Invalid payment intent client secret.")
             }
         } catch (e: Exception) {
-            onError(e)
+            val errorResult = mapOf("error" to (e.message ?: "Unknown error"))
+            onError(errorResult)
         }
     }
 
@@ -154,7 +156,7 @@ open class MockStripeRepository : StripeRepository {
         setupIntentClientSecret: String,
         returnURL: String?,
         onSuccess: (Map<String, Any?>) -> Unit,
-        onError: (Throwable) -> Unit
+        onError: (Map<String, Any?>) -> Unit
     ) {
         try {
             if (setupIntentClientSecret == "si_client_secret_67890") {
@@ -164,7 +166,8 @@ open class MockStripeRepository : StripeRepository {
                 throw IllegalArgumentException("Invalid setup intent client secret.")
             }
         } catch (e: Exception) {
-            onError(e)
+            val errorResult = mapOf("error" to (e.message ?: "Unknown error"))
+            onError(errorResult)
         }
     }
 }

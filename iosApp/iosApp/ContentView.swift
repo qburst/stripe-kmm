@@ -3,6 +3,11 @@ import SwiftUI
 import ComposeApp
 import SwiftKMMStripeKit
 
+
+
+
+extension StripeSdk: SharedStripeRepository {}
+
 struct ComposeView: UIViewControllerRepresentable {
     func makeUIViewController(context: Context) -> UIViewController {
       MainViewControllerKt.MainViewController()
@@ -12,7 +17,7 @@ struct ComposeView: UIViewControllerRepresentable {
 
 struct ContentView: View {
     init() {
-        StripeHelpersKt.setStripe(stripeRepository:  StripeSdk())
+        StripeHelpersKt.setStripe(stripeRepository: StripeSdk())
     }
     
     var body: some View {
@@ -21,7 +26,6 @@ struct ContentView: View {
         }
     }
 }
-
 
 
 
