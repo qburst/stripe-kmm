@@ -5,7 +5,9 @@ import Mockable
 import SingletonStripeInitialization
 import com.google.gson.Gson
 import com.stripe.android.ApiResultCallback
+import com.stripe.android.model.ConfirmPaymentIntentParams
 import com.stripe.android.model.PaymentMethod
+import com.stripe.android.model.PaymentMethodCreateParams
 import kotlinx.coroutines.suspendCancellableCoroutine
 import model.ApiResult
 import model.CreatePaymentModel
@@ -318,5 +320,15 @@ class PaymentRepositoryImpl: PaymentRepository {
                 return@suspendCancellableCoroutine
             }
         }
+    }
+
+    override suspend fun confirmPayment(
+        paymentMethodCreateParams: PaymentMethodCreateParams,
+        clientSecret: String
+    ): ConfirmPaymentIntentParams {
+        return ConfirmPaymentIntentParams.createWithPaymentMethodCreateParams(
+            paymentMethodCreateParams = paymentMethodCreateParams,
+            clientSecret = clientSecret
+        )
     }
 }

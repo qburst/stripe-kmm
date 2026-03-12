@@ -2,6 +2,8 @@ package repositories
 
 import CreateParams
 import Mockable
+import com.stripe.android.model.ConfirmPaymentIntentParams
+import com.stripe.android.model.PaymentMethodCreateParams
 import model.ApiResult
 
 /**
@@ -22,4 +24,9 @@ interface PaymentRepository {
         idempotencyKey: String? = null,
         stripeAccountId: String? = null,
     ): ApiResult
+
+    suspend fun confirmPayment(
+        paymentMethodCreateParams: PaymentMethodCreateParams,
+        clientSecret: String
+    ): ConfirmPaymentIntentParams
 }

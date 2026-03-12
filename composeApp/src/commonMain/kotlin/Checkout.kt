@@ -27,6 +27,7 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import model.AppInfo
 import model.BillingDetails
+import model.ConfirmParams
 import model.FutureUsage
 import model.InitialiseParams
 import org.jetbrains.compose.ui.tooling.preview.Preview
@@ -282,52 +283,52 @@ fun Checkout(onNavigate: () -> Unit) {
                 }
 
 
-//                Button(onClick = {
-//                    CoroutineScope(Dispatchers.Default).launch {
-//                        stripe.confirmPayment(
-//                            paymentIntentClientSecret = paymentIntentClientSecret,
-//                            params = when(selectedMethod) {
-//                                "Ideal" -> {
-//                                    ConfirmParams.IdealParams(
-//                                        paymentMethodData = ConfirmParams.PaymentMethodDataIdeal(
-//                                            bankName = paymentDetails["bank"],
-//                                            billingDetails = BillingDetails(
-//                                                email = billingDetails["email"],
-//                                                phone = billingDetails["phone"],
-//                                                name = billingDetails["name"]
-//                                            )
-//                                        )
-//                                    )
-//                                }
-//                                "Card" ->{
-//                                    ConfirmParams.CardParamsWithToken(
-//                                        paymentMethodData = ConfirmParams.PaymentMethodDataWithToken(token = paymentDetails["token"],
-//                                                billingDetails = BillingDetails(
-//                                                email = billingDetails["email"],
-//                                        phone = billingDetails["phone"],
-//                                        name = billingDetails["name"])
-//                                    )
-//                                    )
-//                                }
-//                                else -> throw IllegalStateException("Selected method cannot be $selectedMethod")
-//                            },
-//                            options = options,
-//                            onSuccess = { result ->
-//                                print(" result = $result")
-//                                // Pass the result back to the UI through the onSuccess callback
-//                                PaymentResponse = result.toString()
-//                            },
-//                            onError = { error ->
-//                                // Pass the error back to the UI through the onError callback
-//                                PaymentResponse = error.toString()
-//                                print(error)
-//                                PaymentResponse = error.toString()
-//                            }
-//                        )
-//                    }
-//                }) {
-//                    Text("Confirm Payment Method")
-//                }
+                Button(onClick = {
+                    CoroutineScope(Dispatchers.Default).launch {
+                        stripe.confirmPayment(
+                            paymentIntentClientSecret = paymentIntentClientSecret,
+                            params = when(selectedMethod) {
+                                "Ideal" -> {
+                                    ConfirmParams.IdealParams(
+                                        paymentMethodData = ConfirmParams.PaymentMethodDataIdeal(
+                                            bankName = paymentDetails["bank"],
+                                            billingDetails = BillingDetails(
+                                                email = billingDetails["email"],
+                                                phone = billingDetails["phone"],
+                                                name = billingDetails["name"]
+                                            )
+                                        )
+                                    )
+                                }
+                                "Card" ->{
+                                    ConfirmParams.CardParamsWithToken(
+                                        paymentMethodData = ConfirmParams.PaymentMethodDataWithToken(token = paymentDetails["token"],
+                                                billingDetails = BillingDetails(
+                                                email = billingDetails["email"],
+                                        phone = billingDetails["phone"],
+                                        name = billingDetails["name"])
+                                    )
+                                    )
+                                }
+                                else -> throw IllegalStateException("Selected method cannot be $selectedMethod")
+                            },
+                            options = options,
+                            onSuccess = { result ->
+                                print(" result = $result")
+                                // Pass the result back to the UI through the onSuccess callback
+                                PaymentResponse = result.toString()
+                            },
+                            onError = { error ->
+                                // Pass the error back to the UI through the onError callback
+                                PaymentResponse = error.toString()
+                                print(error)
+                                PaymentResponse = error.toString()
+                            }
+                        )
+                    }
+                }) {
+                    Text("Confirm Payment Method")
+                }
 //
 //                Button(onClick = {
 //                    CoroutineScope(Dispatchers.Default).launch {

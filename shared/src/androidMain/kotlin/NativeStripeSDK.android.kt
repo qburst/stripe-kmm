@@ -1,3 +1,4 @@
+import com.stripe.android.model.PaymentMethodCreateParams
 import com.stripe.android.paymentsheet.PaymentSheet
 import io.ktor.client.*
 import io.ktor.client.engine.okhttp.*
@@ -32,8 +33,11 @@ actual class ProvideStripeSdk actual constructor() {
      * null).
      */
     actual suspend fun initialise(initialiseParams: InitialiseParams) {
-        SingletonStripeInitialization.StripeInstanse.initializeStripe(initialiseParams)
-        SingletonStripeInitialization.StripeInstanse.initialisePaymentSheet(initialiseParams)
+        SingletonStripeInitialization.StripeInstanse.apply {
+            initializeStripe(initialiseParams)
+            initialisePaymentSheet(initialiseParams)
+            initialiseConfirmPayment(initialiseParams)
+        }
     }
 
     /**
@@ -74,7 +78,47 @@ actual class ProvideStripeSdk actual constructor() {
             onSuccess: (Map<String, Any?>) -> Unit,
             onError: (Throwable) -> Unit
     ) {
-        // You can implement the confirm payment logic here
+        try {
+            val stripeInstance = SingletonStripeInitialization.StripeInstanse
+            stripeInstance.setPaymentResultCallback(object : InitializeStripe.PaymentResult {
+                override fun onSuccess(status: Map<String, Any?>) {
+                    onSuccess(status)
+                }
+
+                override fun onFailure(throwable: Throwable) {
+                    onError(throwable)
+                }
+            })
+
+            // 2. Map ConfirmParams to Stripe SDK's ConfirmPaymentIntentParams
+            val confirmPaymentIntentParams = when (params) {
+                is ConfirmParams.CardParamsWithToken -> {
+                    // Convert your token data to PaymentMethodCreateParams
+                    val card =
+                        PaymentMethodCreateParams.Card.create(params.paymentMethodData?.token ?: "")
+                    val cardParams = PaymentMethodCreateParams.create(card)
+                    paymentRepository.confirmPayment(
+                        paymentMethodCreateParams = cardParams,
+                        clientSecret = paymentIntentClientSecret
+                    )
+                }
+
+                is ConfirmParams.IdealParams -> {
+                    val ideal =
+                        PaymentMethodCreateParams.Ideal(bank = params.paymentMethodData?.bankName)
+                    val idealParams = PaymentMethodCreateParams.create(ideal)
+                    paymentRepository.confirmPayment(
+                        paymentMethodCreateParams = idealParams,
+                        clientSecret = paymentIntentClientSecret
+                    )
+                }
+            }
+
+            stripeInstance.confirmPaymentLauncher.confirm(confirmPaymentIntentParams)
+
+        } catch (e: Exception) {
+            onError(e)
+        }
     }
 
     /**

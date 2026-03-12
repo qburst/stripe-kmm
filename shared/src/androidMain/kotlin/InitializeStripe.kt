@@ -36,6 +36,11 @@ class InitializeStripe {
     private var paymentResultCallback: PaymentResult? = null
 
     /**
+     * Instance of [PaymentLauncher] used for managing Stripe payment sheets.
+     */
+    lateinit var confirmPaymentLauncher: PaymentLauncher
+
+    /**
      * Interface definition for payment result callbacks.
      */
     interface PaymentResult {
@@ -121,6 +126,43 @@ class InitializeStripe {
      */
     fun setPaymentResultCallback(callback: InitializeStripe.PaymentResult) {
         paymentResultCallback = callback
+    }
+
+    /**
+     * Initializes the Stripe confirmPaymentLauncher with the provided parameters.
+     *
+     * @param initialiseParams An instance of [InitialiseParams] containing initialization details.
+     */
+    fun initialiseConfirmPayment(initialiseParams: InitialiseParams) {
+        if (initialiseParams.androidActivity != null && _publishableKey != null) {
+            confirmPaymentLauncher = PaymentLauncher.create(
+                activity = initialiseParams.androidActivity as ComponentActivity,
+                publishableKey = initialiseParams.publishableKey
+            ) { result ->
+                onConfirmPaymentLauncherResult(result)
+            }
+        }
+    }
+
+    /**
+     * Handles the result of a confirmPaymentLauncher operation.
+     *
+     * @param paymentResult The result of the payment sheet operation.
+     */
+    private fun onConfirmPaymentLauncherResult(paymentResult: com.stripe.android.payments.paymentlauncher.PaymentResult) {
+        when (paymentResult) {
+            is com.stripe.android.payments.paymentlauncher.PaymentResult.Completed -> {
+                paymentResultCallback?.onSuccess(mapOf("status" to "Payment success"))
+            }
+
+            is com.stripe.android.payments.paymentlauncher.PaymentResult.Canceled -> {
+                paymentResultCallback?.onFailure(Throwable( message = "Canceled"))
+            }
+
+            is com.stripe.android.payments.paymentlauncher.PaymentResult.Failed -> {
+                paymentResultCallback?.onFailure(paymentResult.throwable)
+            }
+        }
     }
 }
 
