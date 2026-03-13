@@ -112,6 +112,16 @@ actual class ProvideStripeSdk actual constructor() {
                         clientSecret = paymentIntentClientSecret
                     )
                 }
+
+                is ConfirmParams.UpiParams -> {
+                    val upi =
+                        PaymentMethodCreateParams.Upi(vpa = params.paymentMethodData?.vpa)
+                    val upiParams = PaymentMethodCreateParams.create(upi)
+                    paymentRepository.confirmPayment(
+                        paymentMethodCreateParams = upiParams,
+                        clientSecret = paymentIntentClientSecret
+                    )
+                }
             }
 
             stripeInstance.confirmPaymentLauncher.confirm(confirmPaymentIntentParams)

@@ -176,6 +176,49 @@ sealed class ConfirmParams {
             )
         }
     }
+
+    /**
+     * Data class for payment method type "Ideal".
+     *
+     * @property paymentMethodType Type of payment method (default is "Ideal").
+     * @property paymentMethodData Contains payment method details for Ideal.
+     */
+    data class UpiParams(
+        val paymentMethodType: String = "Upi",
+        val paymentMethodData: PaymentMethodDataUpi?,
+    ) : ConfirmParams() {
+
+        /**
+         * Converts this object to a dictionary.
+         *
+         * @return A map containing the payment method type and data.
+         */
+        fun toDictionary(): Map<String, Any?> {
+            return mapOf(
+                "paymentMethodType" to paymentMethodType,
+                "paymentMethodData" to paymentMethodData?.toDictionary(),
+            )
+        }
+    }
+
+    data class PaymentMethodDataUpi(
+        val vpa: String?,
+        val billingDetails: BillingDetails?,
+        val metadata: Map<String, String>? = null
+    ) {
+        /**
+         * Converts this object to a dictionary.
+         *
+         * @return A map containing the VPA, billing details, and metadata.
+         */
+        fun toDictionary(): Map<String, Any?> {
+            return mapOf(
+                "vpa" to vpa,
+                "billingDetails" to billingDetails?.toDictionary(),
+                "metadata" to metadata
+            )
+        }
+    }
 }
 
 /**
