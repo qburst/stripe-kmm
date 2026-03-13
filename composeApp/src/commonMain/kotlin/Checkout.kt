@@ -12,6 +12,8 @@ import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material.Button
 import androidx.compose.material.DropdownMenu
 import androidx.compose.material.DropdownMenuItem
+import androidx.compose.material.ExperimentalMaterialApi
+import androidx.compose.material.ExposedDropdownMenuBox
 import androidx.compose.material.MaterialTheme
 import androidx.compose.material.OutlinedTextField
 import androidx.compose.material.RadioButton
@@ -33,13 +35,14 @@ import model.InitialiseParams
 import org.jetbrains.compose.ui.tooling.preview.Preview
 
 
+@OptIn(ExperimentalMaterialApi::class)
 @Composable
 @Preview
 fun Checkout(onNavigate: () -> Unit) {
 //    sk_test_hPRNV2gZ6gcIV99ndFejwEHT
     val stripe = ProvideStripeSdk()
     val initialiseParams = InitialiseParams(
-        publishableKey = "pk_test_FkQvi0DNueKlNnVwNoJktg2W",
+        publishableKey = "pk_test_51SaxAfLzxBPfBkcBMTvYT9BeTvePFtg4ecl1uV6MYJ4VhA0xrtSL1JvDehseR1MFTHQUUVQFWybAjLJzCQfwXFfq00ljCwd54j",
         appInfo = AppInfo(
             name = "Stripe App",
             version = "1.2.3",
@@ -47,7 +50,7 @@ fun Checkout(onNavigate: () -> Unit) {
             url = "https://qburst.com",
         )
     )
-    val paymentIntentClientSecret = "pi_1Q9YG9KJ38Q1wp9dt3k3fpeg_secret_mCmrDxJGcLPOfE3BuBzAl8CM8"
+    val paymentIntentClientSecret = "pi_3TA8r5LzxBPfBkcB1DmzVqKG_secret_BK5iALKo2Hn85s2rrzHhKpbe1"
     val returnsUrl = "https://google.com"
 
     val options = CreateOptions(FutureUsage.OFF_SESSION)
@@ -124,11 +127,12 @@ fun Checkout(onNavigate: () -> Unit) {
             }
             AnimatedVisibility(visible = selectedMethod == "Ideal") {
 
-                Box(modifier = Modifier.fillMaxWidth()
-                    .clickable { expanded = !expanded }) {
+                ExposedDropdownMenuBox(modifier = Modifier.fillMaxWidth(),
+                    expanded = expanded
+                    ,onExpandedChange =  { expanded = !expanded }) {
                     OutlinedTextField(
                         value = paymentDetails["bank"] ?: "",
-                        onValueChange = { },
+                        onValueChange = {},
                         label = { Text("Bank Name") },
                         readOnly = true,
                         modifier = Modifier
@@ -136,11 +140,14 @@ fun Checkout(onNavigate: () -> Unit) {
                             .clickable { expanded = true }
                     )
 
-                    DropdownMenu(
+                    ExposedDropdownMenu(
                         expanded = expanded,
                         onDismissRequest = {
                             expanded = false
                         }, // Close the dropdown when clicked outside
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .clickable { expanded = true }
                     ) {
                         idealBanks.forEach { bank ->
                             DropdownMenuItem(onClick = {
@@ -310,6 +317,18 @@ fun Checkout(onNavigate: () -> Unit) {
                                     )
                                     )
                                 }
+                                "Upi" -> {
+                                    ConfirmParams.UpiParams(
+                                        paymentMethodData = ConfirmParams.PaymentMethodDataUpi(vpa = paymentDetails["vpa"],
+                                            billingDetails = BillingDetails(
+                                                email = billingDetails["email"],
+                                                phone = billingDetails["phone"],
+                                                name = billingDetails["name"]
+                                            )
+                                        )
+                                    )
+                                }
+
                                 else -> throw IllegalStateException("Selected method cannot be $selectedMethod")
                             },
                             options = options,
