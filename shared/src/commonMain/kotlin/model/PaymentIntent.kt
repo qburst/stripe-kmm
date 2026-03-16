@@ -925,6 +925,30 @@ sealed class ConfirmParams {
         }
     }
 
+    data class GiropayParams(
+        val paymentMethodType: String = "Giropay",
+        val paymentMethodData: PaymentMethodDataGiropay? = null
+    ) : ConfirmParams() {
+        fun toDictionary(): Map<String, Any?> {
+            return mapOf(
+                "paymentMethodType" to paymentMethodType,
+                "paymentMethodData" to paymentMethodData?.toDictionary()
+            )
+        }
+    }
+
+    data class PaymentMethodDataGiropay(
+        val billingDetails: BillingDetails?,
+        val metadata: Map<String, String>? = null
+    ) {
+        fun toDictionary(): Map<String, Any?> {
+            return mapOf(
+                "billingDetails" to billingDetails?.toDictionary(),
+                "metadata" to metadata
+            )
+        }
+    }
+
     data class GooglePayParams(
         val paymentMethodType: String = "GooglePay",
         val jsonObject: Any? = null

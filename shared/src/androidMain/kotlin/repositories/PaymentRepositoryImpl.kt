@@ -585,6 +585,14 @@ class PaymentRepositoryImpl: PaymentRepository {
                     )
                 }
 
+                is ConfirmParams.GiropayParams -> {
+                    val giropayParams = ConfirmPaymentModel().createPaymentWithGiropay(params = params)
+                    ConfirmPaymentIntentParams.createWithPaymentMethodCreateParams(
+                        paymentMethodCreateParams = giropayParams,
+                        clientSecret = paymentIntentClientSecret
+                    )
+                }
+
                 is ConfirmParams.GooglePayParams -> {
                     val googlePayParams = ConfirmPaymentModel().createPaymentWithGooglePay(params = params)
                     ConfirmPaymentIntentParams.createWithPaymentMethodCreateParams(

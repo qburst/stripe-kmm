@@ -98,14 +98,6 @@ class ConfirmPaymentModel {
     }
 
     fun createPaymentWithPaypal(paypalParams: ConfirmParams.PayPalParams): PaymentMethodCreateParams {
-        val address = Address.Builder()
-        address.setLine1(paypalParams.paymentMethodData?.billingDetails?.address?.line1)
-        address.setLine2(paypalParams.paymentMethodData?.billingDetails?.address?.line2)
-        address.setCity(paypalParams.paymentMethodData?.billingDetails?.address?.city)
-        address.setState(paypalParams.paymentMethodData?.billingDetails?.address?.state)
-        address.setCountry(paypalParams.paymentMethodData?.billingDetails?.address?.country)
-        address.setPostalCode(paypalParams.paymentMethodData?.billingDetails?.address?.postalCode)
-
         return PaymentMethodCreateParams.createPayPal(
             metadata = paypalParams.paymentMethodData?.metadata,
         )
@@ -343,22 +335,40 @@ class ConfirmPaymentModel {
     }
 
     fun createPaymentWithEps(params: ConfirmParams.EpsDebitParams): PaymentMethodCreateParams {
+        val address = Address.Builder()
+        address.setLine1(params.paymentMethodData?.billingDetails?.address?.line1)
+        address.setLine2(params.paymentMethodData?.billingDetails?.address?.line2)
+        address.setCity(params.paymentMethodData?.billingDetails?.address?.city)
+        address.setState(params.paymentMethodData?.billingDetails?.address?.state)
+        address.setCountry(params.paymentMethodData?.billingDetails?.address?.country)
+        address.setPostalCode(params.paymentMethodData?.billingDetails?.address?.postalCode)
+
         return PaymentMethodCreateParams.createEps(
             billingDetails = PaymentMethod.BillingDetails(
                 name = params.paymentMethodData?.billingDetails?.name,
                 phone = params.paymentMethodData?.billingDetails?.phone,
                 email = params.paymentMethodData?.billingDetails?.email,
+                address = address.build()
             ),
             metadata = params.paymentMethodData?.metadata,
         )
     }
 
     fun createPaymentWithOxxo(params: ConfirmParams.OxxoParams): PaymentMethodCreateParams {
+        val address = Address.Builder()
+        address.setLine1(params.paymentMethodData?.billingDetails?.address?.line1)
+        address.setLine2(params.paymentMethodData?.billingDetails?.address?.line2)
+        address.setCity(params.paymentMethodData?.billingDetails?.address?.city)
+        address.setState(params.paymentMethodData?.billingDetails?.address?.state)
+        address.setCountry(params.paymentMethodData?.billingDetails?.address?.country)
+        address.setPostalCode(params.paymentMethodData?.billingDetails?.address?.postalCode)
+
         return PaymentMethodCreateParams.createOxxo(
             billingDetails = PaymentMethod.BillingDetails(
                 name = params.paymentMethodData?.billingDetails?.name,
                 phone = params.paymentMethodData?.billingDetails?.phone,
                 email = params.paymentMethodData?.billingDetails?.email,
+                address = address.build()
             ),
             metadata = params.paymentMethodData?.metadata,
         )
@@ -371,143 +381,280 @@ class ConfirmPaymentModel {
     }
 
     fun createPaymentWithAfterpayClearpay(params: ConfirmParams.AfterpayClearpayParams): PaymentMethodCreateParams {
+        val address = Address.Builder()
+        address.setLine1(params.paymentMethodData?.billingDetails?.address?.line1)
+        address.setLine2(params.paymentMethodData?.billingDetails?.address?.line2)
+        address.setCity(params.paymentMethodData?.billingDetails?.address?.city)
+        address.setState(params.paymentMethodData?.billingDetails?.address?.state)
+        address.setCountry(params.paymentMethodData?.billingDetails?.address?.country)
+        address.setPostalCode(params.paymentMethodData?.billingDetails?.address?.postalCode)
+
         return PaymentMethodCreateParams.createAfterpayClearpay(
             billingDetails = PaymentMethod.BillingDetails(
                 name = params.paymentMethodData?.billingDetails?.name,
                 phone = params.paymentMethodData?.billingDetails?.phone,
                 email = params.paymentMethodData?.billingDetails?.email,
+                address = address.build()
             ),
             metadata = params.paymentMethodData?.metadata
         )
     }
 
     fun createPaymentWithBlik(params: ConfirmParams.BlikParams): PaymentMethodCreateParams {
+        val address = Address.Builder()
+        address.setLine1(params.paymentMethodData?.billingDetails?.address?.line1)
+        address.setLine2(params.paymentMethodData?.billingDetails?.address?.line2)
+        address.setCity(params.paymentMethodData?.billingDetails?.address?.city)
+        address.setState(params.paymentMethodData?.billingDetails?.address?.state)
+        address.setCountry(params.paymentMethodData?.billingDetails?.address?.country)
+        address.setPostalCode(params.paymentMethodData?.billingDetails?.address?.postalCode)
+
         return PaymentMethodCreateParams.createBlik(
             billingDetails = PaymentMethod.BillingDetails(
                 name = params.paymentMethodData?.billingDetails?.name,
                 phone = params.paymentMethodData?.billingDetails?.phone,
                 email = params.paymentMethodData?.billingDetails?.email,
+                address = address.build()
             ),
             metadata = params.paymentMethodData?.metadata
         )
     }
 
     fun createPaymentWithWeChatPay(params: ConfirmParams.WeChatPayParams): PaymentMethodCreateParams {
+        val address = Address.Builder()
+        address.setLine1(params.paymentMethodData?.billingDetails?.address?.line1)
+        address.setLine2(params.paymentMethodData?.billingDetails?.address?.line2)
+        address.setCity(params.paymentMethodData?.billingDetails?.address?.city)
+        address.setState(params.paymentMethodData?.billingDetails?.address?.state)
+        address.setCountry(params.paymentMethodData?.billingDetails?.address?.country)
+        address.setPostalCode(params.paymentMethodData?.billingDetails?.address?.postalCode)
+
         return PaymentMethodCreateParams.createWeChatPay(
             billingDetails = PaymentMethod.BillingDetails(
                 name = params.paymentMethodData?.billingDetails?.name,
                 phone = params.paymentMethodData?.billingDetails?.phone,
                 email = params.paymentMethodData?.billingDetails?.email,
+                address = address.build()
             ),
             metadata = params.paymentMethodData?.metadata
         )
     }
 
     fun createPaymentWithKlarna(params: ConfirmParams.KlarnaParams): PaymentMethodCreateParams {
+        val address = Address.Builder()
+        address.setLine1(params.paymentMethodData?.billingDetails?.address?.line1)
+        address.setLine2(params.paymentMethodData?.billingDetails?.address?.line2)
+        address.setCity(params.paymentMethodData?.billingDetails?.address?.city)
+        address.setState(params.paymentMethodData?.billingDetails?.address?.state)
+        address.setCountry(params.paymentMethodData?.billingDetails?.address?.country)
+        address.setPostalCode(params.paymentMethodData?.billingDetails?.address?.postalCode)
+
         return PaymentMethodCreateParams.createKlarna(
             billingDetails = PaymentMethod.BillingDetails(
                 name = params.paymentMethodData?.billingDetails?.name,
                 phone = params.paymentMethodData?.billingDetails?.phone,
                 email = params.paymentMethodData?.billingDetails?.email,
+                address = address.build()
             ),
             metadata = params.paymentMethodData?.metadata
         )
     }
 
     fun createPaymentWithAffirm(params: ConfirmParams.AffirmParams): PaymentMethodCreateParams {
+        val address = Address.Builder()
+        address.setLine1(params.paymentMethodData?.billingDetails?.address?.line1)
+        address.setLine2(params.paymentMethodData?.billingDetails?.address?.line2)
+        address.setCity(params.paymentMethodData?.billingDetails?.address?.city)
+        address.setState(params.paymentMethodData?.billingDetails?.address?.state)
+        address.setCountry(params.paymentMethodData?.billingDetails?.address?.country)
+        address.setPostalCode(params.paymentMethodData?.billingDetails?.address?.postalCode)
+
         return PaymentMethodCreateParams.createAffirm(
             billingDetails = PaymentMethod.BillingDetails(
                 name = params.paymentMethodData?.billingDetails?.name,
                 phone = params.paymentMethodData?.billingDetails?.phone,
                 email = params.paymentMethodData?.billingDetails?.email,
+                address = address.build()
             ),
             metadata = params.paymentMethodData?.metadata
         )
     }
 
     fun createPaymentWithAmazonPay(params: ConfirmParams.AmazonPayParams): PaymentMethodCreateParams {
+        val address = Address.Builder()
+        address.setLine1(params.paymentMethodData?.billingDetails?.address?.line1)
+        address.setLine2(params.paymentMethodData?.billingDetails?.address?.line2)
+        address.setCity(params.paymentMethodData?.billingDetails?.address?.city)
+        address.setState(params.paymentMethodData?.billingDetails?.address?.state)
+        address.setCountry(params.paymentMethodData?.billingDetails?.address?.country)
+        address.setPostalCode(params.paymentMethodData?.billingDetails?.address?.postalCode)
+
         return PaymentMethodCreateParams.createAmazonPay(
             billingDetails = PaymentMethod.BillingDetails(
                 name = params.paymentMethodData?.billingDetails?.name,
                 phone = params.paymentMethodData?.billingDetails?.phone,
                 email = params.paymentMethodData?.billingDetails?.email,
+                address = address.build()
             ),
             metadata = params.paymentMethodData?.metadata
         )
     }
 
     fun createPaymentWithMultiBanco(params: ConfirmParams.MultiBancoParams): PaymentMethodCreateParams {
+        val address = Address.Builder()
+        address.setLine1(params.paymentMethodData?.billingDetails?.address?.line1)
+        address.setLine2(params.paymentMethodData?.billingDetails?.address?.line2)
+        address.setCity(params.paymentMethodData?.billingDetails?.address?.city)
+        address.setState(params.paymentMethodData?.billingDetails?.address?.state)
+        address.setCountry(params.paymentMethodData?.billingDetails?.address?.country)
+        address.setPostalCode(params.paymentMethodData?.billingDetails?.address?.postalCode)
+
         return PaymentMethodCreateParams.createMultibanco(
             billingDetails = PaymentMethod.BillingDetails(
                 name = params.paymentMethodData?.billingDetails?.name,
                 phone = params.paymentMethodData?.billingDetails?.phone,
                 email = params.paymentMethodData?.billingDetails?.email,
+                address = address.build()
             ),
             metadata = params.paymentMethodData?.metadata
         )
     }
 
     fun createPaymentWithAlma(params: ConfirmParams.AlmaParams): PaymentMethodCreateParams {
+        val address = Address.Builder()
+        address.setLine1(params.paymentMethodData?.billingDetails?.address?.line1)
+        address.setLine2(params.paymentMethodData?.billingDetails?.address?.line2)
+        address.setCity(params.paymentMethodData?.billingDetails?.address?.city)
+        address.setState(params.paymentMethodData?.billingDetails?.address?.state)
+        address.setCountry(params.paymentMethodData?.billingDetails?.address?.country)
+        address.setPostalCode(params.paymentMethodData?.billingDetails?.address?.postalCode)
+
         return PaymentMethodCreateParams.createAlma(
             billingDetails = PaymentMethod.BillingDetails(
                 name = params.paymentMethodData?.billingDetails?.name,
                 phone = params.paymentMethodData?.billingDetails?.phone,
                 email = params.paymentMethodData?.billingDetails?.email,
+                address = address.build()
             ),
             metadata = params.paymentMethodData?.metadata
         )
     }
 
     fun createPaymentWithSunbit(params: ConfirmParams.SunbitParams): PaymentMethodCreateParams {
+        val address = Address.Builder()
+        address.setLine1(params.paymentMethodData?.billingDetails?.address?.line1)
+        address.setLine2(params.paymentMethodData?.billingDetails?.address?.line2)
+        address.setCity(params.paymentMethodData?.billingDetails?.address?.city)
+        address.setState(params.paymentMethodData?.billingDetails?.address?.state)
+        address.setCountry(params.paymentMethodData?.billingDetails?.address?.country)
+        address.setPostalCode(params.paymentMethodData?.billingDetails?.address?.postalCode)
+
         return PaymentMethodCreateParams.createSunbit(
             billingDetails = PaymentMethod.BillingDetails(
                 name = params.paymentMethodData?.billingDetails?.name,
                 phone = params.paymentMethodData?.billingDetails?.phone,
                 email = params.paymentMethodData?.billingDetails?.email,
+                address = address.build()
             ),
             metadata = params.paymentMethodData?.metadata
         )
     }
 
     fun createPaymentWithBillie(params: ConfirmParams.BillieParams): PaymentMethodCreateParams {
+        val address = Address.Builder()
+        address.setLine1(params.paymentMethodData?.billingDetails?.address?.line1)
+        address.setLine2(params.paymentMethodData?.billingDetails?.address?.line2)
+        address.setCity(params.paymentMethodData?.billingDetails?.address?.city)
+        address.setState(params.paymentMethodData?.billingDetails?.address?.state)
+        address.setCountry(params.paymentMethodData?.billingDetails?.address?.country)
+        address.setPostalCode(params.paymentMethodData?.billingDetails?.address?.postalCode)
+
         return PaymentMethodCreateParams.createBillie(
             billingDetails = PaymentMethod.BillingDetails(
                 name = params.paymentMethodData?.billingDetails?.name,
                 phone = params.paymentMethodData?.billingDetails?.phone,
                 email = params.paymentMethodData?.billingDetails?.email,
+                address = address.build()
             ),
             metadata = params.paymentMethodData?.metadata
         )
     }
 
     fun createPaymentWithSatispay(params: ConfirmParams.SatispayParams): PaymentMethodCreateParams {
+        val address = Address.Builder()
+        address.setLine1(params.paymentMethodData?.billingDetails?.address?.line1)
+        address.setLine2(params.paymentMethodData?.billingDetails?.address?.line2)
+        address.setCity(params.paymentMethodData?.billingDetails?.address?.city)
+        address.setState(params.paymentMethodData?.billingDetails?.address?.state)
+        address.setCountry(params.paymentMethodData?.billingDetails?.address?.country)
+        address.setPostalCode(params.paymentMethodData?.billingDetails?.address?.postalCode)
+
         return PaymentMethodCreateParams.createSatispay(
             billingDetails = PaymentMethod.BillingDetails(
                 name = params.paymentMethodData?.billingDetails?.name,
                 phone = params.paymentMethodData?.billingDetails?.phone,
                 email = params.paymentMethodData?.billingDetails?.email,
+                address = address.build()
             ),
             metadata = params.paymentMethodData?.metadata
         )
     }
 
     fun createPaymentWithRevolutPay(params: ConfirmParams.RevolutPayParams): PaymentMethodCreateParams {
+        val address = Address.Builder()
+        address.setLine1(params.paymentMethodData?.billingDetails?.address?.line1)
+        address.setLine2(params.paymentMethodData?.billingDetails?.address?.line2)
+        address.setCity(params.paymentMethodData?.billingDetails?.address?.city)
+        address.setState(params.paymentMethodData?.billingDetails?.address?.state)
+        address.setCountry(params.paymentMethodData?.billingDetails?.address?.country)
+        address.setPostalCode(params.paymentMethodData?.billingDetails?.address?.postalCode)
+
         return PaymentMethodCreateParams.createRevolutPay(
             billingDetails = PaymentMethod.BillingDetails(
                 name = params.paymentMethodData?.billingDetails?.name,
                 phone = params.paymentMethodData?.billingDetails?.phone,
                 email = params.paymentMethodData?.billingDetails?.email,
+                address = address.build()
             ),
             metadata = params.paymentMethodData?.metadata
         )
     }
 
     fun createPaymentWithMobilePay(params: ConfirmParams.MobilePayParams): PaymentMethodCreateParams {
+        val address = Address.Builder()
+        address.setLine1(params.paymentMethodData?.billingDetails?.address?.line1)
+        address.setLine2(params.paymentMethodData?.billingDetails?.address?.line2)
+        address.setCity(params.paymentMethodData?.billingDetails?.address?.city)
+        address.setState(params.paymentMethodData?.billingDetails?.address?.state)
+        address.setCountry(params.paymentMethodData?.billingDetails?.address?.country)
+        address.setPostalCode(params.paymentMethodData?.billingDetails?.address?.postalCode)
+
         return PaymentMethodCreateParams.createMobilePay(
             billingDetails = PaymentMethod.BillingDetails(
                 name = params.paymentMethodData?.billingDetails?.name,
                 phone = params.paymentMethodData?.billingDetails?.phone,
                 email = params.paymentMethodData?.billingDetails?.email,
+                address = address.build()
+            ),
+            metadata = params.paymentMethodData?.metadata
+        )
+    }
+
+    fun createPaymentWithGiropay(params: ConfirmParams.GiropayParams): PaymentMethodCreateParams {
+        val address = Address.Builder()
+        address.setLine1(params.paymentMethodData?.billingDetails?.address?.line1)
+        address.setLine2(params.paymentMethodData?.billingDetails?.address?.line2)
+        address.setCity(params.paymentMethodData?.billingDetails?.address?.city)
+        address.setState(params.paymentMethodData?.billingDetails?.address?.state)
+        address.setCountry(params.paymentMethodData?.billingDetails?.address?.country)
+        address.setPostalCode(params.paymentMethodData?.billingDetails?.address?.postalCode)
+
+        return PaymentMethodCreateParams.createGiropay(
+            billingDetails = PaymentMethod.BillingDetails(
+                name = params.paymentMethodData?.billingDetails?.name,
+                phone = params.paymentMethodData?.billingDetails?.phone,
+                email = params.paymentMethodData?.billingDetails?.email,
+                address = address.build()
             ),
             metadata = params.paymentMethodData?.metadata
         )
