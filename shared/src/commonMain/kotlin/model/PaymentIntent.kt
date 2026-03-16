@@ -541,6 +541,402 @@ sealed class ConfirmParams {
         }
     }
 
+    data class EpsDebitParams(
+        val paymentMethodType: String = "Eps",
+        val paymentMethodData: PaymentMethodDataEps?
+    ) : ConfirmParams() {
+        fun toDictionary(): Map<String, Any?> {
+            return mapOf(
+                "paymentMethodType" to paymentMethodType,
+                "paymentMethodData" to paymentMethodData?.toDictionary()
+            )
+        }
+    }
+
+    data class PaymentMethodDataEps(
+        val billingDetails: BillingDetails?,
+        val metadata: Map<String, String>? = null
+    ) {
+        fun toDictionary(): Map<String, Any?> {
+            return mapOf(
+                "billingDetails" to billingDetails?.toDictionary(),
+                "metadata" to metadata
+            )
+        }
+    }
+
+    data class OxxoParams(
+        val paymentMethodType: String = "Oxxo",
+        val paymentMethodData: PaymentMethodDataOxxo?
+    ) : ConfirmParams() {
+        fun toDictionary(): Map<String, Any?> {
+            return mapOf(
+                "paymentMethodType" to paymentMethodType,
+                "paymentMethodData" to paymentMethodData?.toDictionary()
+            )
+        }
+    }
+
+    data class PaymentMethodDataOxxo(
+        val billingDetails: BillingDetails?,
+        val metadata: Map<String, String>? = null
+    ) {
+        fun toDictionary(): Map<String, Any?> {
+            return mapOf(
+                "billingDetails" to billingDetails?.toDictionary(),
+                "metadata" to metadata
+            )
+        }
+    }
+
+    data class AlipayParams(
+        val paymentMethodType: String = "Alipay",
+        val paymentMethodData: PaymentMethodDataAlipay? = null
+    ) : ConfirmParams() {
+        fun toDictionary(): Map<String, Any?> {
+            return mapOf(
+                "paymentMethodType" to paymentMethodType,
+                "paymentMethodData" to paymentMethodData?.toDictionary()
+            )
+        }
+    }
+
+    data class PaymentMethodDataAlipay(
+        val billingDetails: BillingDetails? = null,
+        val metadata: Map<String, String>? = null
+    ) {
+        fun toDictionary(): Map<String, Any?> {
+            return mapOf(
+                "billingDetails" to billingDetails?.toDictionary(),
+                "metadata" to metadata
+            )
+        }
+    }
+
+    data class AfterpayClearpayParams(
+        val paymentMethodType: String = "AfterpayClearpay",
+        val paymentMethodData: PaymentMethodDataAfterpayClearpay?
+    ) : ConfirmParams() {
+        fun toDictionary(): Map<String, Any?> {
+            return mapOf(
+                "paymentMethodType" to paymentMethodType,
+                "paymentMethodData" to paymentMethodData?.toDictionary()
+            )
+        }
+    }
+
+    data class PaymentMethodDataAfterpayClearpay(
+        val billingDetails: BillingDetails?,
+        val metadata: Map<String, String>? = null
+    ) {
+        fun toDictionary(): Map<String, Any?> {
+            return mapOf(
+                "billingDetails" to billingDetails?.toDictionary(),
+                "metadata" to metadata
+            )
+        }
+    }
+
+    data class BlikParams(
+        val paymentMethodType: String = "Blik",
+        val paymentMethodData: PaymentMethodDataBlik? = null
+    ) : ConfirmParams() {
+        fun toDictionary(): Map<String, Any?> {
+            return mapOf(
+                "paymentMethodType" to paymentMethodType,
+                "paymentMethodData" to paymentMethodData?.toDictionary()
+            )
+        }
+    }
+
+    data class PaymentMethodDataBlik(
+        val billingDetails: BillingDetails?,
+        val metadata: Map<String, String>? = null
+    ) {
+        fun toDictionary(): Map<String, Any?> {
+            return mapOf(
+                "billingDetails" to billingDetails?.toDictionary(),
+                "metadata" to metadata
+            )
+        }
+    }
+
+    data class WeChatPayParams(
+        val paymentMethodType: String = "WeChatPay",
+        val paymentMethodData: PaymentMethodDataWeChatPay? = null
+    ) : ConfirmParams() {
+        fun toDictionary(): Map<String, Any?> {
+            return mapOf(
+                "paymentMethodType" to paymentMethodType,
+                "paymentMethodData" to paymentMethodData?.toDictionary()
+            )
+        }
+    }
+
+    data class PaymentMethodDataWeChatPay(
+        val billingDetails: BillingDetails?,
+        val metadata: Map<String, String>? = null
+    ) {
+        fun toDictionary(): Map<String, Any?> {
+            return mapOf(
+                "billingDetails" to billingDetails?.toDictionary(),
+                "metadata" to metadata
+            )
+        }
+    }
+
+    data class KlarnaParams(
+        val paymentMethodType: String = "Klarna",
+        val paymentMethodData: PaymentMethodDataKlarna?
+    ) : ConfirmParams() {
+        fun toDictionary(): Map<String, Any?> {
+            return mapOf(
+                "paymentMethodType" to paymentMethodType,
+                "paymentMethodData" to paymentMethodData?.toDictionary()
+            )
+        }
+    }
+
+    data class PaymentMethodDataKlarna(
+        val billingDetails: BillingDetails?,
+        val metadata: Map<String, String>? = null
+    ) {
+        fun toDictionary(): Map<String, Any?> {
+            return mapOf(
+                "billingDetails" to billingDetails?.toDictionary(),
+                "metadata" to metadata
+            )
+        }
+    }
+
+    data class AffirmParams(
+        val paymentMethodType: String = "Affirm",
+        val paymentMethodData: PaymentMethodDataAffirm? = null
+    ) : ConfirmParams() {
+        fun toDictionary(): Map<String, Any?> {
+            return mapOf(
+                "paymentMethodType" to paymentMethodType,
+                "paymentMethodData" to paymentMethodData?.toDictionary()
+            )
+        }
+    }
+
+    data class PaymentMethodDataAffirm(
+        val billingDetails: BillingDetails?,
+        val metadata: Map<String, String>? = null
+    ) {
+        fun toDictionary(): Map<String, Any?> {
+            return mapOf(
+                "billingDetails" to billingDetails?.toDictionary(),
+                "metadata" to metadata
+            )
+        }
+    }
+
+    data class AmazonPayParams(
+        val paymentMethodType: String = "AmazonPay",
+        val paymentMethodData: PaymentMethodDataAmazonPay? = null
+    ) : ConfirmParams() {
+        fun toDictionary(): Map<String, Any?> {
+            return mapOf(
+                "paymentMethodType" to paymentMethodType,
+                "paymentMethodData" to paymentMethodData?.toDictionary()
+            )
+        }
+    }
+
+    data class PaymentMethodDataAmazonPay(
+        val billingDetails: BillingDetails?,
+        val metadata: Map<String, String>? = null
+    ) {
+        fun toDictionary(): Map<String, Any?> {
+            return mapOf(
+                "billingDetails" to billingDetails?.toDictionary(),
+                "metadata" to metadata
+            )
+        }
+    }
+
+    data class MultiBancoParams(
+        val paymentMethodType: String = "Multibanco",
+        val paymentMethodData: PaymentMethodDataMultiBanco? = null
+    ) : ConfirmParams() {
+        fun toDictionary(): Map<String, Any?> {
+            return mapOf(
+                "paymentMethodType" to paymentMethodType,
+                "paymentMethodData" to paymentMethodData?.toDictionary()
+            )
+        }
+    }
+
+    data class PaymentMethodDataMultiBanco(
+        val billingDetails: BillingDetails?,
+        val metadata: Map<String, String>? = null
+    ) {
+        fun toDictionary(): Map<String, Any?> {
+            return mapOf(
+                "billingDetails" to billingDetails?.toDictionary(),
+                "metadata" to metadata
+            )
+        }
+    }
+
+    data class AlmaParams(
+        val paymentMethodType: String = "Alma",
+        val paymentMethodData: PaymentMethodDataAlma? = null
+    ) : ConfirmParams() {
+        fun toDictionary(): Map<String, Any?> {
+            return mapOf(
+                "paymentMethodType" to paymentMethodType,
+                "paymentMethodData" to paymentMethodData?.toDictionary()
+            )
+        }
+    }
+
+    data class PaymentMethodDataAlma(
+        val billingDetails: BillingDetails?,
+        val metadata: Map<String, String>? = null
+    ) {
+        fun toDictionary(): Map<String, Any?> {
+            return mapOf(
+                "billingDetails" to billingDetails?.toDictionary(),
+                "metadata" to metadata
+            )
+        }
+    }
+
+    data class SunbitParams(
+        val paymentMethodType: String = "Sunbit",
+        val paymentMethodData: PaymentMethodDataSunbit? = null
+    ) : ConfirmParams() {
+        fun toDictionary(): Map<String, Any?> {
+            return mapOf(
+                "paymentMethodType" to paymentMethodType,
+                "paymentMethodData" to paymentMethodData?.toDictionary()
+            )
+        }
+    }
+
+    data class PaymentMethodDataSunbit(
+        val billingDetails: BillingDetails?,
+        val metadata: Map<String, String>? = null
+    ) {
+        fun toDictionary(): Map<String, Any?> {
+            return mapOf(
+                "billingDetails" to billingDetails?.toDictionary(),
+                "metadata" to metadata
+            )
+        }
+    }
+
+    data class BillieParams(
+        val paymentMethodType: String = "Billie",
+        val paymentMethodData: PaymentMethodDataBillie? = null
+    ) : ConfirmParams() {
+        fun toDictionary(): Map<String, Any?> {
+            return mapOf(
+                "paymentMethodType" to paymentMethodType,
+                "paymentMethodData" to paymentMethodData?.toDictionary()
+            )
+        }
+    }
+
+    data class PaymentMethodDataBillie(
+        val billingDetails: BillingDetails?,
+        val metadata: Map<String, String>? = null
+    ) {
+        fun toDictionary(): Map<String, Any?> {
+            return mapOf(
+                "billingDetails" to billingDetails?.toDictionary(),
+                "metadata" to metadata
+            )
+        }
+    }
+
+    data class SatispayParams(
+        val paymentMethodType: String = "Satispay",
+        val paymentMethodData: PaymentMethodDataSatispay? = null
+    ) : ConfirmParams() {
+        fun toDictionary(): Map<String, Any?> {
+            return mapOf(
+                "paymentMethodType" to paymentMethodType,
+                "paymentMethodData" to paymentMethodData?.toDictionary()
+            )
+        }
+    }
+
+    data class PaymentMethodDataSatispay(
+        val billingDetails: BillingDetails?,
+        val metadata: Map<String, String>? = null
+    ) {
+        fun toDictionary(): Map<String, Any?> {
+            return mapOf(
+                "billingDetails" to billingDetails?.toDictionary(),
+                "metadata" to metadata
+            )
+        }
+    }
+
+    data class RevolutPayParams(
+        val paymentMethodType: String = "RevolutPay",
+        val paymentMethodData: PaymentMethodDataRevolutPay? = null
+    ) : ConfirmParams() {
+        fun toDictionary(): Map<String, Any?> {
+            return mapOf(
+                "paymentMethodType" to paymentMethodType,
+                "paymentMethodData" to paymentMethodData?.toDictionary()
+            )
+        }
+    }
+
+    data class PaymentMethodDataRevolutPay(
+        val billingDetails: BillingDetails?,
+        val metadata: Map<String, String>? = null
+    ) {
+        fun toDictionary(): Map<String, Any?> {
+            return mapOf(
+                "billingDetails" to billingDetails?.toDictionary(),
+                "metadata" to metadata
+            )
+        }
+    }
+
+    data class MobilePayParams(
+        val paymentMethodType: String = "MobilePay",
+        val paymentMethodData: PaymentMethodDataMobilePay? = null
+    ) : ConfirmParams() {
+        fun toDictionary(): Map<String, Any?> {
+            return mapOf(
+                "paymentMethodType" to paymentMethodType,
+                "paymentMethodData" to paymentMethodData?.toDictionary()
+            )
+        }
+    }
+
+    data class PaymentMethodDataMobilePay(
+        val billingDetails: BillingDetails?,
+        val metadata: Map<String, String>? = null
+    ) {
+        fun toDictionary(): Map<String, Any?> {
+            return mapOf(
+                "billingDetails" to billingDetails?.toDictionary(),
+                "metadata" to metadata
+            )
+        }
+    }
+
+    data class GooglePayParams(
+        val paymentMethodType: String = "GooglePay",
+        val jsonObject: Any? = null
+    ) : ConfirmParams() {
+        fun toDictionary(): Map<String, Any?> {
+            return mapOf(
+                "paymentMethodType" to paymentMethodType,
+                "paymentMethodData" to jsonObject
+            )
+        }
+    }
+
     /** Enum representing the type of account holder for a bank account. */
     enum class BankAccountHolderType {
         COMPANY,

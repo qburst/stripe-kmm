@@ -3,6 +3,7 @@ package model
 import com.stripe.android.model.Address
 import com.stripe.android.model.PaymentMethod
 import com.stripe.android.model.PaymentMethodCreateParams
+import org.json.JSONObject
 
 class ConfirmPaymentModel {
     fun createCardPaymentParamsWithToken(cardParams: ConfirmParams.CardParamsWithToken): PaymentMethodCreateParams {
@@ -339,5 +340,180 @@ class ConfirmPaymentModel {
             ),
             metadata = params.paymentMethodData.metadata,
         )
+    }
+
+    fun createPaymentWithEps(params: ConfirmParams.EpsDebitParams): PaymentMethodCreateParams {
+        return PaymentMethodCreateParams.createEps(
+            billingDetails = PaymentMethod.BillingDetails(
+                name = params.paymentMethodData?.billingDetails?.name,
+                phone = params.paymentMethodData?.billingDetails?.phone,
+                email = params.paymentMethodData?.billingDetails?.email,
+            ),
+            metadata = params.paymentMethodData?.metadata,
+        )
+    }
+
+    fun createPaymentWithOxxo(params: ConfirmParams.OxxoParams): PaymentMethodCreateParams {
+        return PaymentMethodCreateParams.createOxxo(
+            billingDetails = PaymentMethod.BillingDetails(
+                name = params.paymentMethodData?.billingDetails?.name,
+                phone = params.paymentMethodData?.billingDetails?.phone,
+                email = params.paymentMethodData?.billingDetails?.email,
+            ),
+            metadata = params.paymentMethodData?.metadata,
+        )
+    }
+
+    fun createPaymentWithAlipay(params: ConfirmParams.AlipayParams): PaymentMethodCreateParams {
+        return PaymentMethodCreateParams.createAlipay(
+            metadata = params.paymentMethodData?.metadata,
+        )
+    }
+
+    fun createPaymentWithAfterpayClearpay(params: ConfirmParams.AfterpayClearpayParams): PaymentMethodCreateParams {
+        return PaymentMethodCreateParams.createAfterpayClearpay(
+            billingDetails = PaymentMethod.BillingDetails(
+                name = params.paymentMethodData?.billingDetails?.name,
+                phone = params.paymentMethodData?.billingDetails?.phone,
+                email = params.paymentMethodData?.billingDetails?.email,
+            ),
+            metadata = params.paymentMethodData?.metadata
+        )
+    }
+
+    fun createPaymentWithBlik(params: ConfirmParams.BlikParams): PaymentMethodCreateParams {
+        return PaymentMethodCreateParams.createBlik(
+            billingDetails = PaymentMethod.BillingDetails(
+                name = params.paymentMethodData?.billingDetails?.name,
+                phone = params.paymentMethodData?.billingDetails?.phone,
+                email = params.paymentMethodData?.billingDetails?.email,
+            ),
+            metadata = params.paymentMethodData?.metadata
+        )
+    }
+
+    fun createPaymentWithWeChatPay(params: ConfirmParams.WeChatPayParams): PaymentMethodCreateParams {
+        return PaymentMethodCreateParams.createWeChatPay(
+            billingDetails = PaymentMethod.BillingDetails(
+                name = params.paymentMethodData?.billingDetails?.name,
+                phone = params.paymentMethodData?.billingDetails?.phone,
+                email = params.paymentMethodData?.billingDetails?.email,
+            ),
+            metadata = params.paymentMethodData?.metadata
+        )
+    }
+
+    fun createPaymentWithKlarna(params: ConfirmParams.KlarnaParams): PaymentMethodCreateParams {
+        return PaymentMethodCreateParams.createKlarna(
+            billingDetails = PaymentMethod.BillingDetails(
+                name = params.paymentMethodData?.billingDetails?.name,
+                phone = params.paymentMethodData?.billingDetails?.phone,
+                email = params.paymentMethodData?.billingDetails?.email,
+            ),
+            metadata = params.paymentMethodData?.metadata
+        )
+    }
+
+    fun createPaymentWithAffirm(params: ConfirmParams.AffirmParams): PaymentMethodCreateParams {
+        return PaymentMethodCreateParams.createAffirm(
+            billingDetails = PaymentMethod.BillingDetails(
+                name = params.paymentMethodData?.billingDetails?.name,
+                phone = params.paymentMethodData?.billingDetails?.phone,
+                email = params.paymentMethodData?.billingDetails?.email,
+            ),
+            metadata = params.paymentMethodData?.metadata
+        )
+    }
+
+    fun createPaymentWithAmazonPay(params: ConfirmParams.AmazonPayParams): PaymentMethodCreateParams {
+        return PaymentMethodCreateParams.createAmazonPay(
+            billingDetails = PaymentMethod.BillingDetails(
+                name = params.paymentMethodData?.billingDetails?.name,
+                phone = params.paymentMethodData?.billingDetails?.phone,
+                email = params.paymentMethodData?.billingDetails?.email,
+            ),
+            metadata = params.paymentMethodData?.metadata
+        )
+    }
+
+    fun createPaymentWithMultiBanco(params: ConfirmParams.MultiBancoParams): PaymentMethodCreateParams {
+        return PaymentMethodCreateParams.createMultibanco(
+            billingDetails = PaymentMethod.BillingDetails(
+                name = params.paymentMethodData?.billingDetails?.name,
+                phone = params.paymentMethodData?.billingDetails?.phone,
+                email = params.paymentMethodData?.billingDetails?.email,
+            ),
+            metadata = params.paymentMethodData?.metadata
+        )
+    }
+
+    fun createPaymentWithAlma(params: ConfirmParams.AlmaParams): PaymentMethodCreateParams {
+        return PaymentMethodCreateParams.createAlma(
+            billingDetails = PaymentMethod.BillingDetails(
+                name = params.paymentMethodData?.billingDetails?.name,
+                phone = params.paymentMethodData?.billingDetails?.phone,
+                email = params.paymentMethodData?.billingDetails?.email,
+            ),
+            metadata = params.paymentMethodData?.metadata
+        )
+    }
+
+    fun createPaymentWithSunbit(params: ConfirmParams.SunbitParams): PaymentMethodCreateParams {
+        return PaymentMethodCreateParams.createSunbit(
+            billingDetails = PaymentMethod.BillingDetails(
+                name = params.paymentMethodData?.billingDetails?.name,
+                phone = params.paymentMethodData?.billingDetails?.phone,
+                email = params.paymentMethodData?.billingDetails?.email,
+            ),
+            metadata = params.paymentMethodData?.metadata
+        )
+    }
+
+    fun createPaymentWithBillie(params: ConfirmParams.BillieParams): PaymentMethodCreateParams {
+        return PaymentMethodCreateParams.createBillie(
+            billingDetails = PaymentMethod.BillingDetails(
+                name = params.paymentMethodData?.billingDetails?.name,
+                phone = params.paymentMethodData?.billingDetails?.phone,
+                email = params.paymentMethodData?.billingDetails?.email,
+            ),
+            metadata = params.paymentMethodData?.metadata
+        )
+    }
+
+    fun createPaymentWithSatispay(params: ConfirmParams.SatispayParams): PaymentMethodCreateParams {
+        return PaymentMethodCreateParams.createSatispay(
+            billingDetails = PaymentMethod.BillingDetails(
+                name = params.paymentMethodData?.billingDetails?.name,
+                phone = params.paymentMethodData?.billingDetails?.phone,
+                email = params.paymentMethodData?.billingDetails?.email,
+            ),
+            metadata = params.paymentMethodData?.metadata
+        )
+    }
+
+    fun createPaymentWithRevolutPay(params: ConfirmParams.RevolutPayParams): PaymentMethodCreateParams {
+        return PaymentMethodCreateParams.createRevolutPay(
+            billingDetails = PaymentMethod.BillingDetails(
+                name = params.paymentMethodData?.billingDetails?.name,
+                phone = params.paymentMethodData?.billingDetails?.phone,
+                email = params.paymentMethodData?.billingDetails?.email,
+            ),
+            metadata = params.paymentMethodData?.metadata
+        )
+    }
+
+    fun createPaymentWithMobilePay(params: ConfirmParams.MobilePayParams): PaymentMethodCreateParams {
+        return PaymentMethodCreateParams.createMobilePay(
+            billingDetails = PaymentMethod.BillingDetails(
+                name = params.paymentMethodData?.billingDetails?.name,
+                phone = params.paymentMethodData?.billingDetails?.phone,
+                email = params.paymentMethodData?.billingDetails?.email,
+            ),
+            metadata = params.paymentMethodData?.metadata
+        )
+    }
+
+    fun createPaymentWithGooglePay(params: ConfirmParams.GooglePayParams): PaymentMethodCreateParams {
+        return PaymentMethodCreateParams.createFromGooglePay(params.jsonObject as JSONObject)
     }
 }
