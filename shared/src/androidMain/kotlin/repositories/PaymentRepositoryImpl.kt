@@ -10,6 +10,9 @@ import com.stripe.android.model.PaymentMethod
 import com.stripe.android.model.PaymentMethodCreateParams
 import kotlinx.coroutines.suspendCancellableCoroutine
 import model.ApiResult
+import model.ConfirmOptions
+import model.ConfirmParams
+import model.ConfirmPaymentModel
 import model.CreatePaymentModel
 import kotlin.coroutines.resume
 
@@ -323,12 +326,70 @@ class PaymentRepositoryImpl: PaymentRepository {
     }
 
     override suspend fun confirmPayment(
-        paymentMethodCreateParams: PaymentMethodCreateParams,
-        clientSecret: String
-    ): ConfirmPaymentIntentParams {
-        return ConfirmPaymentIntentParams.createWithPaymentMethodCreateParams(
-            paymentMethodCreateParams = paymentMethodCreateParams,
-            clientSecret = clientSecret
-        )
+        paymentIntentClientSecret: String,
+        params: ConfirmParams,
+        options: ConfirmOptions,
+        onSuccess: (Map<String, Any?>) -> Unit,
+        onError: (Throwable) -> Unit
+    ){
+        try {
+            val stripeInstance = SingletonStripeInitialization.StripeInstanse
+            stripeInstance.setPaymentResultCallback(object : InitializeStripe.PaymentResult {
+                override fun onSuccess(status: Map<String, Any?>) {
+                    onSuccess(status)
+                }
+
+                override fun onFailure(throwable: Throwable) {
+                    onError(throwable)
+                }
+            })
+
+            val confirmPaymentIntentParams = when (params) {
+                is ConfirmParams.CardParamsWithToken -> {
+                    val cardParams = ConfirmPaymentModel().createCardPaymentParamsWithToken(cardParams = params)
+                    ConfirmPaymentIntentParams.createWithPaymentMethodCreateParams(
+                        paymentMethodCreateParams = cardParams,
+                        clientSecret = paymentIntentClientSecret
+                    )
+                }
+
+                is ConfirmParams.IdealParams -> {
+                    val idealParams = ConfirmPaymentModel().createPaymentWithIdeal(idelParams = params)
+                    ConfirmPaymentIntentParams.createWithPaymentMethodCreateParams(
+                        paymentMethodCreateParams = idealParams,
+                        clientSecret = paymentIntentClientSecret
+                    )
+                }
+
+                is ConfirmParams.UpiParams -> {
+                    val upiParams = ConfirmPaymentModel().createPaymentWithUpi(upiParams = params)
+                    ConfirmPaymentIntentParams.createWithPaymentMethodCreateParams(
+                        paymentMethodCreateParams = upiParams,
+                        clientSecret = paymentIntentClientSecret
+                    )
+                }
+
+                is ConfirmParams.FpxParams -> {
+                    val fpxParams = ConfirmPaymentModel().createPaymentWithFpx(fpxParams = params)
+                    ConfirmPaymentIntentParams.createWithPaymentMethodCreateParams(
+                        paymentMethodCreateParams = fpxParams,
+                        clientSecret = paymentIntentClientSecret
+                    )
+                }
+
+                is ConfirmParams.PayPalParams -> {
+                    val payPalParams = ConfirmPaymentModel().createPaymentWithPaypal(paypalParams = params)
+                    ConfirmPaymentIntentParams.createWithPaymentMethodCreateParams(
+                        paymentMethodCreateParams = payPalParams,
+                        clientSecret = paymentIntentClientSecret
+                    )
+                }
+            }
+
+            stripeInstance.confirmPaymentLauncher.confirm(confirmPaymentIntentParams)
+
+        } catch (e: Exception) {
+            onError(e)
+        }
     }
 }

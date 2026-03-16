@@ -78,57 +78,13 @@ actual class ProvideStripeSdk actual constructor() {
             onSuccess: (Map<String, Any?>) -> Unit,
             onError: (Throwable) -> Unit
     ) {
-        try {
-            val stripeInstance = SingletonStripeInitialization.StripeInstanse
-            stripeInstance.setPaymentResultCallback(object : InitializeStripe.PaymentResult {
-                override fun onSuccess(status: Map<String, Any?>) {
-                    onSuccess(status)
-                }
-
-                override fun onFailure(throwable: Throwable) {
-                    onError(throwable)
-                }
-            })
-
-            // 2. Map ConfirmParams to Stripe SDK's ConfirmPaymentIntentParams
-            val confirmPaymentIntentParams = when (params) {
-                is ConfirmParams.CardParamsWithToken -> {
-                    // Convert your token data to PaymentMethodCreateParams
-                    val card =
-                        PaymentMethodCreateParams.Card.create(params.paymentMethodData?.token ?: "")
-                    val cardParams = PaymentMethodCreateParams.create(card)
-                    paymentRepository.confirmPayment(
-                        paymentMethodCreateParams = cardParams,
-                        clientSecret = paymentIntentClientSecret
-                    )
-                }
-
-                is ConfirmParams.IdealParams -> {
-                    val ideal =
-                        PaymentMethodCreateParams.Ideal(bank = params.paymentMethodData?.bankName)
-                    val idealParams = PaymentMethodCreateParams.create(ideal)
-                    paymentRepository.confirmPayment(
-                        paymentMethodCreateParams = idealParams,
-                        clientSecret = paymentIntentClientSecret
-                    )
-                }
-
-                is ConfirmParams.UpiParams -> {
-                    val upi =
-                        PaymentMethodCreateParams.Upi(vpa = params.paymentMethodData?.vpa)
-                    val upiParams = PaymentMethodCreateParams.create(upi)
-                    paymentRepository.confirmPayment(
-                        paymentMethodCreateParams = upiParams,
-                        clientSecret = paymentIntentClientSecret
-                    )
-                }
-            }
-
-            stripeInstance.confirmPaymentLauncher.confirm(confirmPaymentIntentParams)
-
-        } catch (e: Exception) {
-            onError(e)
-        }
+        paymentRepository.confirmPayment(
+            paymentIntentClientSecret = paymentIntentClientSecret,
+            params = params,
+            options = options,
+            onSuccess = onSuccess,
+            onError = onError
+        )
     }
 
     /**
