@@ -384,6 +384,78 @@ class PaymentRepositoryImpl: PaymentRepository {
                         clientSecret = paymentIntentClientSecret
                     )
                 }
+
+                is ConfirmParams.SepaDebitParams -> {
+                    val sepaParams = ConfirmPaymentModel().createPaymentWithSepaDebit(params = params)
+                    ConfirmPaymentIntentParams.createWithPaymentMethodCreateParams(
+                        paymentMethodCreateParams = sepaParams,
+                        clientSecret = paymentIntentClientSecret
+                    )
+                }
+
+                is ConfirmParams.AuBecsDebitParams -> {
+                    val auBecsParams = ConfirmPaymentModel().createPaymentWithAuBecsDebit(params = params)
+                    ConfirmPaymentIntentParams.createWithPaymentMethodCreateParams(
+                        paymentMethodCreateParams = auBecsParams,
+                        clientSecret = paymentIntentClientSecret
+                    )
+                }
+
+                is ConfirmParams.BacsDebitParams -> {
+                    val bacsParams = ConfirmPaymentModel().createPaymentWithBacsDebit(params = params)
+                    ConfirmPaymentIntentParams.createWithPaymentMethodCreateParams(
+                        paymentMethodCreateParams = bacsParams,
+                        clientSecret = paymentIntentClientSecret
+                    )
+                }
+
+                is ConfirmParams.SofortParams -> {
+                    val sofortParams = ConfirmPaymentModel().createPaymentWithSofort(params = params)
+                    ConfirmPaymentIntentParams.createWithPaymentMethodCreateParams(
+                        paymentMethodCreateParams = sofortParams,
+                        clientSecret = paymentIntentClientSecret
+                    )
+                }
+
+                is ConfirmParams.NetBankingParams -> {
+                    val netBankingParams = ConfirmPaymentModel().createPaymentWithNetBanking(params = params)
+                    ConfirmPaymentIntentParams.createWithPaymentMethodCreateParams(
+                        paymentMethodCreateParams = netBankingParams,
+                        clientSecret = paymentIntentClientSecret
+                    )
+                }
+
+                is ConfirmParams.USBankAccountParams -> {
+                    val usBankParams = ConfirmPaymentModel().createPaymentWithUsBankAccount(params = params)
+                    ConfirmPaymentIntentParams.createWithPaymentMethodCreateParams(
+                        paymentMethodCreateParams = usBankParams,
+                        clientSecret = paymentIntentClientSecret
+                    )
+                }
+
+                is ConfirmParams.CashAppParams -> {
+                    val cashAppParams = ConfirmPaymentModel().createPaymentWithCashAppPay(params = params)
+                    ConfirmPaymentIntentParams.createWithPaymentMethodCreateParams(
+                        paymentMethodCreateParams = cashAppParams,
+                        clientSecret = paymentIntentClientSecret
+                    )
+                }
+
+                is ConfirmParams.SwishParams -> {
+                    val swishParams = ConfirmPaymentModel().createPaymentWithSwish(params = params)
+                    ConfirmPaymentIntentParams.createWithPaymentMethodCreateParams(
+                        paymentMethodCreateParams = swishParams,
+                        clientSecret = paymentIntentClientSecret
+                    )
+                }
+
+                is ConfirmParams.BancontactParams -> {
+                    val bancontactParams = ConfirmPaymentModel().createPaymentWithBanContacts(params = params)
+                    ConfirmPaymentIntentParams.createWithPaymentMethodCreateParams(
+                        paymentMethodCreateParams = bancontactParams,
+                        clientSecret = paymentIntentClientSecret
+                    )
+                }
             }
 
             stripeInstance.confirmPaymentLauncher.confirm(confirmPaymentIntentParams)
