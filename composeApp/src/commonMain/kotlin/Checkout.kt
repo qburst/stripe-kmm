@@ -1,26 +1,33 @@
 import androidx.compose.animation.AnimatedVisibility
+import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.clickable
-import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.ExperimentalLayoutApi
+import androidx.compose.foundation.layout.FlowRow
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.size
-import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.layout.wrapContentHeight
+import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.text.KeyboardOptions
+import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.Button
+import androidx.compose.material.Chip
+import androidx.compose.material.ChipDefaults
+import androidx.compose.material.Colors
 import androidx.compose.material.DropdownMenu
 import androidx.compose.material.DropdownMenuItem
 import androidx.compose.material.ExperimentalMaterialApi
 import androidx.compose.material.ExposedDropdownMenuBox
 import androidx.compose.material.MaterialTheme
 import androidx.compose.material.OutlinedTextField
-import androidx.compose.material.RadioButton
 import androidx.compose.material.Text
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.unit.dp
@@ -35,14 +42,13 @@ import model.InitialiseParams
 import org.jetbrains.compose.ui.tooling.preview.Preview
 
 
-@OptIn(ExperimentalMaterialApi::class)
+@OptIn(ExperimentalMaterialApi::class, ExperimentalLayoutApi::class)
 @Composable
-@Preview
 fun Checkout(onNavigate: () -> Unit) {
 //    sk_test_hPRNV2gZ6gcIV99ndFejwEHT
     val stripe = ProvideStripeSdk()
     val initialiseParams = InitialiseParams(
-        publishableKey = "pk_test_51SaxAfLzxBPfBkcBMTvYT9BeTvePFtg4ecl1uV6MYJ4VhA0xrtSL1JvDehseR1MFTHQUUVQFWybAjLJzCQfwXFfq00ljCwd54j",
+        publishableKey = "pk_test_51T6WegLVz2NSSNqKE9CeO3LTXyVVmtbovZc8WVwMlTrlFSglxsr0YxYQx5IICIK69Ul1PYKoV4OtqI42jyQZJ9KQ00VtVJusQQ",
         appInfo = AppInfo(
             name = "Stripe App",
             version = "1.2.3",
@@ -50,7 +56,7 @@ fun Checkout(onNavigate: () -> Unit) {
             url = "https://qburst.com",
         )
     )
-    val paymentIntentClientSecret = "pi_3TA8r5LzxBPfBkcB1DmzVqKG_secret_BK5iALKo2Hn85s2rrzHhKpbe1"
+    val paymentIntentClientSecret = "pi_3TBTxeLVz2NSSNqK19h0x7Py_secret_YIjHDwxKdxmEYVYYQuX3k2Hfl"
     val returnsUrl = "https://google.com"
 
     val options = CreateOptions(FutureUsage.OFF_SESSION)
@@ -84,8 +90,24 @@ fun Checkout(onNavigate: () -> Unit) {
     var paymentParams = remember { mutableStateOf(null) }
     val paymentIntentClientSecretForSetup = "seti_1QCegBKJ38Q1wp9dwSb3Jpr9_secret_R4oIFAfIxs3IQj6p9pt9dRdF6okgCyh"
 
+    val scrollState = rememberScrollState()
+
+    val paymentMethods = listOf(
+        "Ideal", "Card", "UPI", "FPX", "PayPal", "SEPA Debit", "AU BECS Debit",
+        "Bacs Debit", "Sofort", "NetBanking", "US Bank Account", "CashApp", "Swish",
+        "Bancontact", "EPS Debit", "OXXO", "Alipay", "Afterpay/Clearpay", "BLIK",
+        "WeChat Pay", "Klarna", "Affirm", "Amazon Pay", "Multibanco", "Alma",
+        "Sunbit", "Billie", "Satispay", "Revolut Pay", "MobilePay", "Giropay", "Google Pay"
+    )
+
     MaterialTheme {
-        Column(Modifier.fillMaxWidth().padding(16.dp), horizontalAlignment = Alignment.Start) {
+        Column(
+            Modifier
+                .fillMaxWidth()
+                .verticalScroll(scrollState)
+                .padding(16.dp),
+            horizontalAlignment = Alignment.Start
+        ) {
 
             OutlinedTextField(
                 value = billingDetails["name"]?:"",
@@ -113,23 +135,79 @@ fun Checkout(onNavigate: () -> Unit) {
                     .fillMaxWidth()
             )
 
-            Row(verticalAlignment = Alignment.CenterVertically,) {
-                RadioButton(
-                    selected = selectedMethod == "Ideal",
-                    onClick = {
-                        selectedMethod = "Ideal"
-                        paymentDetails.clear()
-                    },
-                    modifier = Modifier.size(20.dp)
-                )
-                Spacer(modifier = Modifier.width(8.dp))
-                Text(text = "Ideal")
-            }
-            AnimatedVisibility(visible = selectedMethod == "Ideal") {
+            Text(
+                text = "Select Payment Method:",
+                fontWeight = FontWeight.Bold,
+                modifier = Modifier.padding(vertical = 8.dp)
+            )
 
-                ExposedDropdownMenuBox(modifier = Modifier.fillMaxWidth(),
-                    expanded = expanded
-                    ,onExpandedChange =  { expanded = !expanded }) {
+            FlowRow(
+                modifier = Modifier.fillMaxWidth(),
+                horizontalArrangement = Arrangement.spacedBy(8.dp),
+                verticalArrangement = Arrangement.spacedBy(8.dp)
+            ) {
+                paymentMethods.forEach { method ->
+                    val isSelected = when(method) {
+                        "UPI" -> selectedMethod == "Upi"
+                        "SEPA Debit" -> selectedMethod == "SEPA"
+                        "AU BECS Debit" -> selectedMethod == "AuBecsDebit"
+                        "Bacs Debit" -> selectedMethod == "BacsDebit"
+                        "US Bank Account" -> selectedMethod == "USBankAccount"
+                        "EPS Debit" -> selectedMethod == "EpsDebit"
+                        "Afterpay/Clearpay" -> selectedMethod == "AfterpayClearpay"
+                        "WeChat Pay" -> selectedMethod == "WeChatPay"
+                        "Amazon Pay" -> selectedMethod == "AmazonPay"
+                        "Multibanco" -> selectedMethod == "MultiBanco"
+                        "Revolut Pay" -> selectedMethod == "RevolutPay"
+                        "Google Pay" -> selectedMethod == "GooglePay"
+                        else -> selectedMethod == method
+                    }
+
+                    Chip(
+                        onClick = {
+                            val methodKey = when(method) {
+                                "UPI" -> "Upi"
+                                "SEPA Debit" -> "SEPA"
+                                "AU BECS Debit" -> "AuBecsDebit"
+                                "Bacs Debit" -> "BacsDebit"
+                                "US Bank Account" -> "USBankAccount"
+                                "EPS Debit" -> "EpsDebit"
+                                "Afterpay/Clearpay" -> "AfterpayClearpay"
+                                "WeChat Pay" -> "WeChatPay"
+                                "Amazon Pay" -> "AmazonPay"
+                                "Multibanco" -> "MultiBanco"
+                                "Revolut Pay" -> "RevolutPay"
+                                "Google Pay" -> "GooglePay"
+                                else -> method
+                            }
+                            if (selectedMethod == methodKey) {
+                                selectedMethod = ""
+                                paymentDetails.clear()
+                            } else {
+                                selectedMethod = methodKey
+                                paymentDetails.clear()
+                            }
+                        },
+                        colors = ChipDefaults.chipColors(
+                            backgroundColor = if (isSelected) MaterialTheme.colors.primary else MaterialTheme.colors.surface,
+                            contentColor = if (isSelected) MaterialTheme.colors.onPrimary else MaterialTheme.colors.onSurface
+                        ),
+                        modifier = Modifier.wrapContentHeight(),
+                        border = BorderStroke(1.dp, Color.Gray)
+                    ) {
+                        Text(method)
+                    }
+                }
+            }
+
+ Spacer(modifier = Modifier.padding(8.dp))
+
+            AnimatedVisibility(visible = selectedMethod == "Ideal") {
+                ExposedDropdownMenuBox(
+                    modifier = Modifier.fillMaxWidth(),
+                    expanded = expanded,
+                    onExpandedChange = { expanded = !expanded }
+                ) {
                     OutlinedTextField(
                         value = paymentDetails["bank"] ?: "",
                         onValueChange = {},
@@ -142,17 +220,15 @@ fun Checkout(onNavigate: () -> Unit) {
 
                     ExposedDropdownMenu(
                         expanded = expanded,
-                        onDismissRequest = {
-                            expanded = false
-                        }, // Close the dropdown when clicked outside
+                        onDismissRequest = { expanded = false },
                         modifier = Modifier
                             .fillMaxWidth()
                             .clickable { expanded = true }
                     ) {
                         idealBanks.forEach { bank ->
                             DropdownMenuItem(onClick = {
-                                paymentDetails["bank"] = bank// Set selected bank
-                                expanded = false // Close dropdown
+                                paymentDetails["bank"] = bank
+                                expanded = false
                             }) {
                                 Text(text = bank)
                             }
@@ -161,65 +237,118 @@ fun Checkout(onNavigate: () -> Unit) {
                 }
             }
 
-            Row(verticalAlignment = Alignment.CenterVertically,) {
-                RadioButton(
-                    selected = selectedMethod == "Card",
-                    onClick = { selectedMethod = "Card" },
-                    modifier = Modifier.size(20.dp)
-                )
-                Spacer(modifier = Modifier.width(8.dp))
-                Text(text = "Card")
-            }
             AnimatedVisibility(visible = selectedMethod == "Card") {
-                Column() {
-
+                Column {
                     OutlinedTextField(
                         value = paymentDetails["token"] ?: "",
                         onValueChange = {paymentDetails["token"] = it},
                         label = { Text("Token") },
-                        modifier = Modifier
-                            .fillMaxWidth(),
+                        modifier = Modifier.fillMaxWidth(),
                         keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Number)
                     )
                 }
             }
 
-            Row(verticalAlignment = Alignment.CenterVertically,) {
-                RadioButton(
-                    selected = selectedMethod == "Upi",
-                    onClick = { selectedMethod = "Upi" },
-                    modifier = Modifier.size(20.dp)
-                )
-                Spacer(modifier = Modifier.width(8.dp))
-                Text(text = "UPI")
-            }
             AnimatedVisibility(visible = selectedMethod == "Upi") {
-                Column() {
-
+                Column {
                     OutlinedTextField(
                         value = paymentDetails["vpa"] ?: "",
                         onValueChange = {paymentDetails["vpa"] = it},
                         label = { Text("VPA") },
-                        modifier = Modifier
-                            .fillMaxWidth(),
+                        modifier = Modifier.fillMaxWidth(),
                         keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Number)
                     )
                 }
             }
 
-            Row(verticalAlignment = Alignment.CenterVertically,) {
-                RadioButton(
-                    selected = selectedMethod == "CashApp",
-                    onClick = { selectedMethod = "CashApp" },
-                    modifier = Modifier.size(20.dp)
+            AnimatedVisibility(visible = selectedMethod == "FPX") {
+                OutlinedTextField(
+                    value = paymentDetails["bank"] ?: "",
+                    onValueChange = { paymentDetails["bank"] = it },
+                    label = { Text("Bank Name") },
+                    modifier = Modifier.fillMaxWidth()
                 )
-                Spacer(modifier = Modifier.width(8.dp))
-                Text(text = "CashApp")
             }
 
+            AnimatedVisibility(visible = selectedMethod == "SEPA") {
+                OutlinedTextField(
+                    value = paymentDetails["iban"] ?: "",
+                    onValueChange = { paymentDetails["iban"] = it },
+                    label = { Text("IBAN") },
+                    modifier = Modifier.fillMaxWidth()
+                )
+            }
+
+            AnimatedVisibility(visible = selectedMethod == "AuBecsDebit") {
+                Column {
+                    OutlinedTextField(
+                        value = paymentDetails["bsbNumber"] ?: "",
+                        onValueChange = { paymentDetails["bsbNumber"] = it },
+                        label = { Text("BSB Number") },
+                        modifier = Modifier.fillMaxWidth()
+                    )
+                    OutlinedTextField(
+                        value = paymentDetails["accountNumber"] ?: "",
+                        onValueChange = { paymentDetails["accountNumber"] = it },
+                        label = { Text("Account Number") },
+                        modifier = Modifier.fillMaxWidth()
+                    )
+                }
+            }
+
+            AnimatedVisibility(visible = selectedMethod == "BacsDebit") {
+                Column {
+                    OutlinedTextField(
+                        value = paymentDetails["sortCode"] ?: "",
+                        onValueChange = { paymentDetails["sortCode"] = it },
+                        label = { Text("Sort Code") },
+                        modifier = Modifier.fillMaxWidth()
+                    )
+                    OutlinedTextField(
+                        value = paymentDetails["accountNumber"] ?: "",
+                        onValueChange = { paymentDetails["accountNumber"] = it },
+                        label = { Text("Account Number") },
+                        modifier = Modifier.fillMaxWidth()
+                    )
+                }
+            }
+
+            AnimatedVisibility(visible = selectedMethod == "Sofort") {
+                OutlinedTextField(
+                    value = paymentDetails["country"] ?: "",
+                    onValueChange = { paymentDetails["country"] = it },
+                    label = { Text("Country") },
+                    modifier = Modifier.fillMaxWidth()
+                )
+            }
+
+            AnimatedVisibility(visible = selectedMethod == "NetBanking") {
+                OutlinedTextField(
+                    value = paymentDetails["bank"] ?: "",
+                    onValueChange = { paymentDetails["bank"] = it },
+                    label = { Text("Bank Name") },
+                    modifier = Modifier.fillMaxWidth()
+                )
+            }
+
+            AnimatedVisibility(visible = selectedMethod == "USBankAccount") {
+                Column {
+                    OutlinedTextField(
+                        value = paymentDetails["routingNumber"] ?: "",
+                        onValueChange = { paymentDetails["routingNumber"] = it },
+                        label = { Text("Routing Number") },
+                        modifier = Modifier.fillMaxWidth()
+                    )
+                    OutlinedTextField(
+                        value = paymentDetails["accountNumber"] ?: "",
+                        onValueChange = { paymentDetails["accountNumber"] = it },
+                        label = { Text("Account Number") },
+                        modifier = Modifier.fillMaxWidth()
+                    )
+                }
+            }
 
             Column(Modifier.fillMaxWidth(), horizontalAlignment = Alignment.CenterHorizontally) {
-
                 Button(onClick = {
                     CoroutineScope(Dispatchers.Default).launch {
                         stripe.initialise(initialiseParams)
@@ -269,16 +398,12 @@ fun Checkout(onNavigate: () -> Unit) {
                                 )}
                                 else -> throw IllegalStateException("Selected method cannot be $selectedMethod")
                             },
-
-
                             options = options,
                             onSuccess = { result ->
                                 print(" result = $result")
-                                // Pass the result back to the UI through the onSuccess callback
                                 PaymentResponse = result.toString()
                             },
                             onError = { error ->
-                                // Pass the error back to the UI through the onError callback
                                 PaymentResponse = error.toString()
                                 print(error)
                                 PaymentResponse = error.toString()
@@ -288,7 +413,6 @@ fun Checkout(onNavigate: () -> Unit) {
                 }) {
                     Text("Create Payment Method")
                 }
-
 
                 Button(onClick = {
                     CoroutineScope(Dispatchers.Default).launch {
@@ -328,17 +452,225 @@ fun Checkout(onNavigate: () -> Unit) {
                                         )
                                     )
                                 }
-
+                                "FPX" -> {
+                                    ConfirmParams.FpxParams(
+                                        paymentMethodData = ConfirmParams.PaymentMethodDataFpx(
+                                            bankName = paymentDetails["bank"],
+                                            billingDetails = BillingDetails()
+                                        )
+                                    )
+                                }
+                                "PayPal" -> {
+                                    ConfirmParams.PayPalParams(
+                                        paymentMethodData = ConfirmParams.PaymentMethodDataPayPal(
+                                            billingDetails = BillingDetails()
+                                        )
+                                    )
+                                }
+                                "SEPA" -> {
+                                    ConfirmParams.SepaDebitParams(
+                                        paymentMethodData = ConfirmParams.PaymentMethodDataSepaDebit(
+                                            iban = paymentDetails["iban"],
+                                            billingDetails = BillingDetails()
+                                        )
+                                    )
+                                }
+                                "AuBecsDebit" -> {
+                                    ConfirmParams.AuBecsDebitParams(
+                                        paymentMethodData = ConfirmParams.PaymentMethodDataAuBecs(
+                                            bsbNumber = paymentDetails["bsbNumber"] ?: "",
+                                            accountNumber = paymentDetails["accountNumber"] ?: "",
+                                            billingDetails = BillingDetails()
+                                        )
+                                    )
+                                }
+                                "BacsDebit" -> {
+                                    ConfirmParams.BacsDebitParams(
+                                        paymentMethodData = ConfirmParams.PaymentMethodDataBacsDebit(
+                                            sortCode = paymentDetails["sortCode"] ?: "",
+                                            accountNumber = paymentDetails["accountNumber"] ?: "",
+                                            billingDetails = BillingDetails()
+                                        )
+                                    )
+                                }
+                                "Sofort" -> {
+                                    ConfirmParams.SofortParams(
+                                        paymentMethodData = ConfirmParams.PaymentMethodDataSofort(
+                                            country = paymentDetails["country"],
+                                            billingDetails = BillingDetails()
+                                        )
+                                    )
+                                }
+                                "NetBanking" -> {
+                                    ConfirmParams.NetBankingParams(
+                                        paymentMethodData = ConfirmParams.PaymentMethodDataNetBanking(
+                                            bank = paymentDetails["bank"],
+                                            billingDetails = BillingDetails()
+                                        )
+                                    )
+                                }
+                                "USBankAccount" -> {
+                                    ConfirmParams.USBankAccountParams(
+                                        paymentMethodData = ConfirmParams.PaymentMethodDataUSBankAccount(
+                                            billingDetails = BillingDetails(),
+                                            accountNumber = paymentDetails["accountNumber"],
+                                            routingNumber = paymentDetails["routingNumber"],
+                                        )
+                                    )
+                                }
+                                "CashApp" -> {
+                                    ConfirmParams.CashAppParams(
+                                        paymentMethodData = ConfirmParams.PaymentMethodDataCashApp(
+                                            billingDetails = BillingDetails()
+                                        )
+                                    )
+                                }
+                                "Swish" -> {
+                                    ConfirmParams.SwishParams(
+                                        paymentMethodData = ConfirmParams.PaymentMethodDataSwish(
+                                            billingDetails = BillingDetails()
+                                        )
+                                    )
+                                }
+                                "Bancontact" -> {
+                                    ConfirmParams.BancontactParams(
+                                        paymentMethodData = ConfirmParams.BancontactDataParams(
+                                            billingDetails = BillingDetails()
+                                        )
+                                    )
+                                }
+                                "EpsDebit" -> {
+                                    ConfirmParams.EpsDebitParams(
+                                        paymentMethodData = ConfirmParams.PaymentMethodDataEps(
+                                            billingDetails = BillingDetails()
+                                        )
+                                    )
+                                }
+                                "Oxxo" -> {
+                                    ConfirmParams.OxxoParams(
+                                        paymentMethodData = ConfirmParams.PaymentMethodDataOxxo(
+                                            billingDetails = BillingDetails()
+                                        )
+                                    )
+                                }
+                                "Alipay" -> {
+                                    ConfirmParams.AlipayParams(
+                                        paymentMethodData = ConfirmParams.PaymentMethodDataAlipay(
+                                            billingDetails = BillingDetails()
+                                        )
+                                    )
+                                }
+                                "AfterpayClearpay" -> {
+                                    ConfirmParams.AfterpayClearpayParams(
+                                        paymentMethodData = ConfirmParams.PaymentMethodDataAfterpayClearpay(
+                                            billingDetails = BillingDetails()
+                                        )
+                                    )
+                                }
+                                "Blik" -> {
+                                    ConfirmParams.BlikParams(
+                                        paymentMethodData = ConfirmParams.PaymentMethodDataBlik(
+                                            billingDetails = BillingDetails()
+                                        )
+                                    )
+                                }
+                                "WeChatPay" -> {
+                                    ConfirmParams.WeChatPayParams(
+                                        paymentMethodData = ConfirmParams.PaymentMethodDataWeChatPay(
+                                            billingDetails = BillingDetails()
+                                        )
+                                    )
+                                }
+                                "Klarna" -> {
+                                    ConfirmParams.KlarnaParams(
+                                        paymentMethodData = ConfirmParams.PaymentMethodDataKlarna(
+                                            billingDetails = BillingDetails()
+                                        )
+                                    )
+                                }
+                                "Affirm" -> {
+                                    ConfirmParams.AffirmParams(
+                                        paymentMethodData = ConfirmParams.PaymentMethodDataAffirm(
+                                            billingDetails = BillingDetails()
+                                        )
+                                    )
+                                }
+                                "AmazonPay" -> {
+                                    ConfirmParams.AmazonPayParams(
+                                        paymentMethodData = ConfirmParams.PaymentMethodDataAmazonPay(
+                                            billingDetails = BillingDetails()
+                                        )
+                                    )
+                                }
+                                "MultiBanco" -> {
+                                    ConfirmParams.MultiBancoParams(
+                                        paymentMethodData = ConfirmParams.PaymentMethodDataMultiBanco(
+                                            billingDetails = BillingDetails()
+                                        )
+                                    )
+                                }
+                                "Alma" -> {
+                                    ConfirmParams.AlmaParams(
+                                        paymentMethodData = ConfirmParams.PaymentMethodDataAlma(
+                                            billingDetails = BillingDetails()
+                                        )
+                                    )
+                                }
+                                "Sunbit" -> {
+                                    ConfirmParams.SunbitParams(
+                                        paymentMethodData = ConfirmParams.PaymentMethodDataSunbit(
+                                            billingDetails = BillingDetails()
+                                        )
+                                    )
+                                }
+                                "Billie" -> {
+                                    ConfirmParams.BillieParams(
+                                        paymentMethodData = ConfirmParams.PaymentMethodDataBillie(
+                                            billingDetails = BillingDetails()
+                                        )
+                                    )
+                                }
+                                "Satispay" -> {
+                                    ConfirmParams.SatispayParams(
+                                        paymentMethodData = ConfirmParams.PaymentMethodDataSatispay(
+                                            billingDetails = BillingDetails()
+                                        )
+                                    )
+                                }
+                                "RevolutPay" -> {
+                                    ConfirmParams.RevolutPayParams(
+                                        paymentMethodData = ConfirmParams.PaymentMethodDataRevolutPay(
+                                            billingDetails = BillingDetails()
+                                        )
+                                    )
+                                }
+                                "MobilePay" -> {
+                                    ConfirmParams.MobilePayParams(
+                                        paymentMethodData = ConfirmParams.PaymentMethodDataMobilePay(
+                                            billingDetails = BillingDetails()
+                                        )
+                                    )
+                                }
+                                "Giropay" -> {
+                                    ConfirmParams.GiropayParams(
+                                        paymentMethodData = ConfirmParams.PaymentMethodDataGiropay(
+                                            billingDetails = BillingDetails()
+                                        )
+                                    )
+                                }
+                                "GooglePay" -> {
+                                    ConfirmParams.GooglePayParams(
+                                        jsonObject = null
+                                    )
+                                }
                                 else -> throw IllegalStateException("Selected method cannot be $selectedMethod")
                             },
                             options = options,
                             onSuccess = { result ->
                                 print(" result = $result")
-                                // Pass the result back to the UI through the onSuccess callback
                                 PaymentResponse = result.toString()
                             },
                             onError = { error ->
-                                // Pass the error back to the UI through the onError callback
                                 PaymentResponse = error.toString()
                                 print(error)
                                 PaymentResponse = error.toString()
