@@ -558,14 +558,22 @@ fun Checkout(onNavigate: () -> Unit) {
                                     ConfirmParams.NetBankingParams(
                                         paymentMethodData = ConfirmParams.PaymentMethodDataNetBanking(
                                             bank = paymentDetails["bank"],
-                                            billingDetails = BillingDetails()
+                                            billingDetails = BillingDetails(
+                                                email = billingDetails["email"],
+                                                phone = billingDetails["phone"],
+                                                name = billingDetails["name"]
+                                            )
                                         )
                                     )
                                 }
                                 "USBankAccount" -> {
                                     ConfirmParams.USBankAccountParams(
                                         paymentMethodData = ConfirmParams.PaymentMethodDataUSBankAccount(
-                                            billingDetails = BillingDetails(),
+                                            billingDetails = BillingDetails(
+                                                email = billingDetails["email"],
+                                                phone = billingDetails["phone"],
+                                                name = billingDetails["name"]
+                                            ),
                                             accountNumber = paymentDetails["accountNumber"],
                                             routingNumber = paymentDetails["routingNumber"],
                                         )
