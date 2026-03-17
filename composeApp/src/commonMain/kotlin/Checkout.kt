@@ -56,7 +56,7 @@ fun Checkout(onNavigate: () -> Unit) {
             url = "https://qburst.com",
         )
     )
-    val paymentIntentClientSecret = "pi_3TBTxeLVz2NSSNqK19h0x7Py_secret_YIjHDwxKdxmEYVYYQuX3k2Hfl"
+    val paymentIntentClientSecret = "pi_3TBu7mLVz2NSSNqK0M35UjMu_secret_A6vZ0QIS1YJSeBhztOPTIX63X"
     val returnsUrl = "https://google.com"
 
     val options = CreateOptions(FutureUsage.OFF_SESSION)
@@ -85,6 +85,7 @@ fun Checkout(onNavigate: () -> Unit) {
         "yoursafe"
     )
     var expanded by remember { mutableStateOf(false) }
+    var fpxExpanded by remember { mutableStateOf(false) }
     var paymentDetails = remember { mutableStateMapOf<String, String>() }
     var billingDetails = remember { mutableStateMapOf<String, String>() }
     var paymentParams = remember { mutableStateOf(null) }
@@ -99,6 +100,28 @@ fun Checkout(onNavigate: () -> Unit) {
         "WeChat Pay", "Klarna", "Affirm", "Amazon Pay", "Multibanco", "Alma",
         "Sunbit", "Billie", "Satispay", "Revolut Pay", "MobilePay", "Giropay", "Google Pay"
     )
+
+    val fpxBankIdentifiers = listOf(
+        "affin_bank",
+        "alliance_bank",
+        "ambank",
+        "bank_islam",
+        "bank_muamalat",
+        "bank_rakyat",
+        "bsn",
+        "cimb",
+        "hong_leong_bank",
+        "hsbc",
+        "kfh",
+        "maybank2e",
+        "maybank2u",
+        "ocbc",
+        "public_bank",
+        "rhb",
+        "standard_chartered",
+        "uob"
+    )
+
 
     MaterialTheme {
         Column(
@@ -262,12 +285,38 @@ fun Checkout(onNavigate: () -> Unit) {
             }
 
             AnimatedVisibility(visible = selectedMethod == "FPX") {
-                OutlinedTextField(
-                    value = paymentDetails["bank"] ?: "",
-                    onValueChange = { paymentDetails["bank"] = it },
-                    label = { Text("Bank Name") },
-                    modifier = Modifier.fillMaxWidth()
-                )
+                ExposedDropdownMenuBox(
+                    modifier = Modifier.fillMaxWidth(),
+                    expanded = fpxExpanded,
+                    onExpandedChange = { fpxExpanded = !fpxExpanded }
+                ) {
+                    OutlinedTextField(
+                        value = paymentDetails["bank"] ?: "",
+                        onValueChange = {},
+                        label = { Text("Bank Name") },
+                        readOnly = true,
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .clickable { fpxExpanded = true }
+                    )
+
+                    ExposedDropdownMenu(
+                        expanded = fpxExpanded,
+                        onDismissRequest = { fpxExpanded = false },
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .clickable { fpxExpanded = true }
+                    ) {
+                        fpxBankIdentifiers.forEach { bank ->
+                            DropdownMenuItem(onClick = {
+                                paymentDetails["bank"] = bank
+                                fpxExpanded = false
+                            }) {
+                                Text(text = bank)
+                            }
+                        }
+                    }
+                }
             }
 
             AnimatedVisibility(visible = selectedMethod == "SEPA") {
