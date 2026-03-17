@@ -582,140 +582,220 @@ fun Checkout(onNavigate: () -> Unit) {
                                 "CashApp" -> {
                                     ConfirmParams.CashAppParams(
                                         paymentMethodData = ConfirmParams.PaymentMethodDataCashApp(
-                                            billingDetails = BillingDetails()
+                                            billingDetails = BillingDetails(
+                                                email = billingDetails["email"],
+                                                phone = billingDetails["phone"],
+                                                name = billingDetails["name"]
+                                            )
                                         )
                                     )
                                 }
                                 "Swish" -> {
                                     ConfirmParams.SwishParams(
                                         paymentMethodData = ConfirmParams.PaymentMethodDataSwish(
-                                            billingDetails = BillingDetails()
+                                            billingDetails = BillingDetails(
+                                                email = billingDetails["email"],
+                                                phone = billingDetails["phone"],
+                                                name = billingDetails["name"]
+                                            )
                                         )
                                     )
                                 }
                                 "Bancontact" -> {
                                     ConfirmParams.BancontactParams(
                                         paymentMethodData = ConfirmParams.BancontactDataParams(
-                                            billingDetails = BillingDetails()
+                                            billingDetails = BillingDetails(
+                                                email = billingDetails["email"],
+                                                phone = billingDetails["phone"],
+                                                name = billingDetails["name"]
+                                            )
                                         )
                                     )
                                 }
                                 "EpsDebit" -> {
                                     ConfirmParams.EpsDebitParams(
                                         paymentMethodData = ConfirmParams.PaymentMethodDataEps(
-                                            billingDetails = BillingDetails()
+                                            billingDetails = BillingDetails(
+                                                email = billingDetails["email"],
+                                                phone = billingDetails["phone"],
+                                                name = billingDetails["name"]
+                                            )
                                         )
                                     )
                                 }
                                 "Oxxo" -> {
                                     ConfirmParams.OxxoParams(
                                         paymentMethodData = ConfirmParams.PaymentMethodDataOxxo(
-                                            billingDetails = BillingDetails()
+                                            billingDetails = BillingDetails(
+                                                email = billingDetails["email"],
+                                                phone = billingDetails["phone"],
+                                                name = billingDetails["name"]
+                                            )
                                         )
                                     )
                                 }
                                 "Alipay" -> {
                                     ConfirmParams.AlipayParams(
                                         paymentMethodData = ConfirmParams.PaymentMethodDataAlipay(
-                                            billingDetails = BillingDetails()
+                                            billingDetails = BillingDetails(
+                                                email = billingDetails["email"],
+                                                phone = billingDetails["phone"],
+                                                name = billingDetails["name"]
+                                            )
                                         )
                                     )
                                 }
                                 "AfterpayClearpay" -> {
                                     ConfirmParams.AfterpayClearpayParams(
                                         paymentMethodData = ConfirmParams.PaymentMethodDataAfterpayClearpay(
-                                            billingDetails = BillingDetails()
+                                            billingDetails = BillingDetails(
+                                                email = billingDetails["email"],
+                                                phone = billingDetails["phone"],
+                                                name = billingDetails["name"]
+                                            )
                                         )
                                     )
                                 }
                                 "Blik" -> {
                                     ConfirmParams.BlikParams(
                                         paymentMethodData = ConfirmParams.PaymentMethodDataBlik(
-                                            billingDetails = BillingDetails()
+                                            billingDetails = BillingDetails(
+                                                email = billingDetails["email"],
+                                                phone = billingDetails["phone"],
+                                                name = billingDetails["name"]
+                                            )
                                         )
                                     )
                                 }
                                 "WeChatPay" -> {
                                     ConfirmParams.WeChatPayParams(
                                         paymentMethodData = ConfirmParams.PaymentMethodDataWeChatPay(
-                                            billingDetails = BillingDetails()
+                                            billingDetails = BillingDetails(
+                                                email = billingDetails["email"],
+                                                phone = billingDetails["phone"],
+                                                name = billingDetails["name"]
+                                            )
                                         )
                                     )
                                 }
                                 "Klarna" -> {
                                     ConfirmParams.KlarnaParams(
                                         paymentMethodData = ConfirmParams.PaymentMethodDataKlarna(
-                                            billingDetails = BillingDetails()
+                                            billingDetails = BillingDetails(
+                                                email = billingDetails["email"],
+                                                phone = billingDetails["phone"],
+                                                name = billingDetails["name"]
+                                            )
                                         )
                                     )
                                 }
                                 "Affirm" -> {
                                     ConfirmParams.AffirmParams(
                                         paymentMethodData = ConfirmParams.PaymentMethodDataAffirm(
-                                            billingDetails = BillingDetails()
+                                            billingDetails = BillingDetails(
+                                                email = billingDetails["email"],
+                                                phone = billingDetails["phone"],
+                                                name = billingDetails["name"]
+                                            )
                                         )
                                     )
                                 }
                                 "AmazonPay" -> {
                                     ConfirmParams.AmazonPayParams(
                                         paymentMethodData = ConfirmParams.PaymentMethodDataAmazonPay(
-                                            billingDetails = BillingDetails()
+                                            billingDetails = BillingDetails(
+                                                email = billingDetails["email"],
+                                                phone = billingDetails["phone"],
+                                                name = billingDetails["name"]
+                                            )
                                         )
                                     )
                                 }
                                 "MultiBanco" -> {
                                     ConfirmParams.MultiBancoParams(
                                         paymentMethodData = ConfirmParams.PaymentMethodDataMultiBanco(
-                                            billingDetails = BillingDetails()
+                                            billingDetails = BillingDetails(
+                                                email = billingDetails["email"],
+                                                phone = billingDetails["phone"],
+                                                name = billingDetails["name"]
+                                            )
                                         )
                                     )
                                 }
                                 "Alma" -> {
                                     ConfirmParams.AlmaParams(
                                         paymentMethodData = ConfirmParams.PaymentMethodDataAlma(
-                                            billingDetails = BillingDetails()
+                                            billingDetails = BillingDetails(
+                                                email = billingDetails["email"],
+                                                phone = billingDetails["phone"],
+                                                name = billingDetails["name"]
+                                            )
                                         )
                                     )
                                 }
                                 "Sunbit" -> {
                                     ConfirmParams.SunbitParams(
                                         paymentMethodData = ConfirmParams.PaymentMethodDataSunbit(
-                                            billingDetails = BillingDetails()
+                                            billingDetails = BillingDetails(
+                                                email = billingDetails["email"],
+                                                phone = billingDetails["phone"],
+                                                name = billingDetails["name"]
+                                            )
                                         )
                                     )
                                 }
                                 "Billie" -> {
                                     ConfirmParams.BillieParams(
                                         paymentMethodData = ConfirmParams.PaymentMethodDataBillie(
-                                            billingDetails = BillingDetails()
+                                            billingDetails = BillingDetails(
+                                                email = billingDetails["email"],
+                                                phone = billingDetails["phone"],
+                                                name = billingDetails["name"]
+                                            )
                                         )
                                     )
                                 }
                                 "Satispay" -> {
                                     ConfirmParams.SatispayParams(
                                         paymentMethodData = ConfirmParams.PaymentMethodDataSatispay(
-                                            billingDetails = BillingDetails()
+                                            billingDetails = BillingDetails(
+                                                email = billingDetails["email"],
+                                                phone = billingDetails["phone"],
+                                                name = billingDetails["name"]
+                                            )
                                         )
                                     )
                                 }
                                 "RevolutPay" -> {
                                     ConfirmParams.RevolutPayParams(
                                         paymentMethodData = ConfirmParams.PaymentMethodDataRevolutPay(
-                                            billingDetails = BillingDetails()
+                                            billingDetails = BillingDetails(
+                                                email = billingDetails["email"],
+                                                phone = billingDetails["phone"],
+                                                name = billingDetails["name"]
+                                            )
                                         )
                                     )
                                 }
                                 "MobilePay" -> {
                                     ConfirmParams.MobilePayParams(
                                         paymentMethodData = ConfirmParams.PaymentMethodDataMobilePay(
-                                            billingDetails = BillingDetails()
+                                            billingDetails = BillingDetails(
+                                                email = billingDetails["email"],
+                                                phone = billingDetails["phone"],
+                                                name = billingDetails["name"]
+                                            )
                                         )
                                     )
                                 }
                                 "Giropay" -> {
                                     ConfirmParams.GiropayParams(
                                         paymentMethodData = ConfirmParams.PaymentMethodDataGiropay(
-                                            billingDetails = BillingDetails()
+                                            billingDetails = BillingDetails(
+                                                email = billingDetails["email"],
+                                                phone = billingDetails["phone"],
+                                                name = billingDetails["name"]
+                                            )
                                         )
                                     )
                                 }
