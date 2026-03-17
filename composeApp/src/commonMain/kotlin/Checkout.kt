@@ -56,7 +56,7 @@ fun Checkout(onNavigate: () -> Unit) {
             url = "https://qburst.com",
         )
     )
-    val paymentIntentClientSecret = "pi_3TBu7mLVz2NSSNqK0M35UjMu_secret_A6vZ0QIS1YJSeBhztOPTIX63X"
+    val paymentIntentClientSecret = "pi_3TBupDLVz2NSSNqK1Kq2kAqI_secret_jNbxfyqwUbR6pplTFdacP27c3"
     val returnsUrl = "https://google.com"
 
     val options = CreateOptions(FutureUsage.OFF_SESSION)
@@ -505,7 +505,11 @@ fun Checkout(onNavigate: () -> Unit) {
                                     ConfirmParams.FpxParams(
                                         paymentMethodData = ConfirmParams.PaymentMethodDataFpx(
                                             bankName = paymentDetails["bank"],
-                                            billingDetails = BillingDetails()
+                                            billingDetails = BillingDetails(
+                                                email = billingDetails["email"],
+                                                phone = billingDetails["phone"],
+                                                name = billingDetails["name"]
+                                            )
                                         )
                                     )
                                 }
