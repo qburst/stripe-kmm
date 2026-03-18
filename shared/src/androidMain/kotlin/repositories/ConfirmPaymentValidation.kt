@@ -100,9 +100,44 @@ object ConfirmPaymentValidation {
 
             is ConfirmParams.BancontactParams -> {
                 if (params.paymentMethodData.billingDetails?.name.isNullOrEmpty()) {
-                    validationResult = "Name name is mandatory"
+                    validationResult = "Name is mandatory"
+                }
+            }
+
+            is ConfirmParams.EpsDebitParams -> {
+                if (params.paymentMethodData?.billingDetails?.name.isNullOrEmpty()) {
+                    validationResult = "Name is mandatory"
+                }
+            }
+
+            is ConfirmParams.OxxoParams -> {
+                if (params.paymentMethodData?.billingDetails?.name.isNullOrEmpty()) {
+                    validationResult = "Name is mandatory"
                 }
 
+                if (params.paymentMethodData?.billingDetails?.email.isNullOrEmpty()) {
+                    validationResult = "Email is mandatory"
+                }
+            }
+
+            is ConfirmParams.AlipayParams -> {
+                if (params.paymentMethodData?.billingDetails?.name.isNullOrEmpty()) {
+                    validationResult = "Name is mandatory"
+                }
+
+                if (params.paymentMethodData?.billingDetails?.email.isNullOrEmpty()) {
+                    validationResult = "Email is mandatory"
+                }
+            }
+
+            is ConfirmParams.AfterpayClearpayParams -> {
+                if (params.paymentMethodData?.billingDetails?.name.isNullOrEmpty()) {
+                    validationResult = "Name is mandatory"
+                }
+
+                if (params.paymentMethodData?.billingDetails?.email.isNullOrEmpty()) {
+                    validationResult = "Email is mandatory"
+                }
             }
 
             else -> {}

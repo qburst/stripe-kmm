@@ -183,6 +183,7 @@ fun Checkout(onNavigate: () -> Unit) {
                         "Multibanco" -> selectedMethod == "MultiBanco"
                         "Revolut Pay" -> selectedMethod == "RevolutPay"
                         "Google Pay" -> selectedMethod == "GooglePay"
+                        "BLIK" -> selectedMethod == "Blik"
                         else -> selectedMethod == method
                     }
 
@@ -201,6 +202,7 @@ fun Checkout(onNavigate: () -> Unit) {
                                 "Multibanco" -> "MultiBanco"
                                 "Revolut Pay" -> "RevolutPay"
                                 "Google Pay" -> "GooglePay"
+                                "BLIK" -> "Blik"
                                 else -> method
                             }
                             if (selectedMethod == methodKey) {
