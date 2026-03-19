@@ -153,6 +153,12 @@ object ConfirmPaymentValidation {
                 }
             }
 
+            is ConfirmParams.MultiBancoParams -> {
+                if (params.paymentMethodData?.billingDetails?.email.isNullOrEmpty()) {
+                    validationResult = "Email is mandatory"
+                }
+            }
+
             else -> {}
         }
         return validationResult
