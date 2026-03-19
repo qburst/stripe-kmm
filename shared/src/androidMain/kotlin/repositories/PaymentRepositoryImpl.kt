@@ -513,7 +513,12 @@ class PaymentRepositoryImpl: PaymentRepository {
                         val weChatParams = ConfirmPaymentModel().createPaymentWithWeChatPay(params = params)
                         ConfirmPaymentIntentParams.createWithPaymentMethodCreateParams(
                             paymentMethodCreateParams = weChatParams,
-                            clientSecret = paymentIntentClientSecret
+                            clientSecret = paymentIntentClientSecret,
+                            paymentMethodOptions = PaymentMethodOptionsParams.WeChatPay(
+                                appId = ConfirmPaymentModel().getWeChatAppId(
+                                    params = params
+                                )
+                            )
                         )
                     }
 

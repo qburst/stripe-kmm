@@ -56,7 +56,7 @@ fun Checkout(onNavigate: () -> Unit) {
             url = "https://qburst.com",
         )
     )
-    val paymentIntentClientSecret = "pi_3TCYpJLVz2NSSNqK0DZpzs3m_secret_tCVuSn8PGxz82pj8ssceZyVPJ"
+    val paymentIntentClientSecret = "pi_3TCb76LVz2NSSNqK1GE4EGqm_secret_0rKnjssPNLrNFENr4ayUmlxkC"
     val returnsUrl = "https://google.com"
 
     val options = CreateOptions(FutureUsage.OFF_SESSION)
@@ -409,6 +409,15 @@ fun Checkout(onNavigate: () -> Unit) {
                 )
             }
 
+            AnimatedVisibility(visible = selectedMethod == "WeChatPay") {
+                OutlinedTextField(
+                    value = paymentDetails["appId"] ?: "",
+                    onValueChange = { paymentDetails["appId"] = it },
+                    label = { Text("App ID") },
+                    modifier = Modifier.fillMaxWidth()
+                )
+            }
+
             Column(Modifier.fillMaxWidth(), horizontalAlignment = Alignment.CenterHorizontally) {
                 Button(onClick = {
                     CoroutineScope(Dispatchers.Default).launch {
@@ -687,7 +696,8 @@ fun Checkout(onNavigate: () -> Unit) {
                                                 email = billingDetails["email"],
                                                 phone = billingDetails["phone"],
                                                 name = billingDetails["name"]
-                                            )
+                                            ),
+                                            appId = paymentDetails["appId"] ?: ""
                                         )
                                     )
                                 }

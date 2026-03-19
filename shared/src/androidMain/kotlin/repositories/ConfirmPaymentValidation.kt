@@ -147,6 +147,12 @@ object ConfirmPaymentValidation {
                 }
             }
 
+            is ConfirmParams.WeChatPayParams -> {
+                if (params.paymentMethodData?.appId.isNullOrEmpty()) {
+                    validationResult = "App Id is mandatory"
+                }
+            }
+
             else -> {}
         }
         return validationResult

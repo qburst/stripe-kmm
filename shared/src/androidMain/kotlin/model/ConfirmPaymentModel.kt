@@ -422,6 +422,9 @@ class ConfirmPaymentModel {
 
     fun getBlikPaymentCode(params: ConfirmParams.BlikParams) = params.paymentMethodData?.blikCode!!
 
+    fun getWeChatAppId(params: ConfirmParams.WeChatPayParams) = params.paymentMethodData?.appId!!
+
+
     fun createPaymentWithWeChatPay(params: ConfirmParams.WeChatPayParams): PaymentMethodCreateParams {
         val address = Address.Builder()
         address.setLine1(params.paymentMethodData?.billingDetails?.address?.line1)

@@ -677,11 +677,13 @@ sealed class ConfirmParams {
 
     data class PaymentMethodDataWeChatPay(
         val billingDetails: BillingDetails?,
+        val appId: String,
         val metadata: Map<String, String>? = null
     ) {
         fun toDictionary(): Map<String, Any?> {
             return mapOf(
                 "billingDetails" to billingDetails?.toDictionary(),
+                "appId" to appId,
                 "metadata" to metadata
             )
         }

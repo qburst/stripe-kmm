@@ -59,6 +59,8 @@ kotlin {
             implementation(compose.preview)
             implementation(libs.androidx.activity.compose)
             implementation(libs.stripe.android)
+            implementation(libs.stripe.wechatpay)
+            implementation(libs.wechat.sdk.android.without.mta)
         }
         commonMain.dependencies {
             implementation(compose.runtime)

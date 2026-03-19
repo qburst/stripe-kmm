@@ -79,7 +79,8 @@ kotlin {
             implementation("io.ktor:ktor-client-okhttp:2.3.12")
             implementation("io.ktor:ktor-client-content-negotiation:2.3.12")
             implementation("io.ktor:ktor-serialization-kotlinx-json:2.3.12")
-
+            implementation(libs.stripe.wechatpay)
+            implementation(libs.wechat.sdk.android.without.mta)
 
         }
         iosTest.dependencies {
