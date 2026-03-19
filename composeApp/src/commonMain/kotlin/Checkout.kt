@@ -56,7 +56,7 @@ fun Checkout(onNavigate: () -> Unit) {
             url = "https://qburst.com",
         )
     )
-    val paymentIntentClientSecret = "pi_3TBupDLVz2NSSNqK1Kq2kAqI_secret_jNbxfyqwUbR6pplTFdacP27c3"
+    val paymentIntentClientSecret = "pi_3TCYpJLVz2NSSNqK0DZpzs3m_secret_tCVuSn8PGxz82pj8ssceZyVPJ"
     val returnsUrl = "https://google.com"
 
     val options = CreateOptions(FutureUsage.OFF_SESSION)
@@ -399,6 +399,16 @@ fun Checkout(onNavigate: () -> Unit) {
                 }
             }
 
+            AnimatedVisibility(visible = selectedMethod == "Blik") {
+                OutlinedTextField(
+                    value = paymentDetails["blikCode"] ?: "",
+                    onValueChange = { paymentDetails["blikCode"] = it },
+                    label = { Text("BLIK Code") },
+                    modifier = Modifier.fillMaxWidth(),
+                    keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Number)
+                )
+            }
+
             Column(Modifier.fillMaxWidth(), horizontalAlignment = Alignment.CenterHorizontally) {
                 Button(onClick = {
                     CoroutineScope(Dispatchers.Default).launch {
@@ -665,7 +675,8 @@ fun Checkout(onNavigate: () -> Unit) {
                                                 email = billingDetails["email"],
                                                 phone = billingDetails["phone"],
                                                 name = billingDetails["name"]
-                                            )
+                                            ),
+                                            blikCode = paymentDetails["blikCode"] ?: ""
                                         )
                                     )
                                 }

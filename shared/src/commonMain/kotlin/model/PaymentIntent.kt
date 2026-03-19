@@ -651,11 +651,13 @@ sealed class ConfirmParams {
 
     data class PaymentMethodDataBlik(
         val billingDetails: BillingDetails?,
+        val blikCode : String,
         val metadata: Map<String, String>? = null
     ) {
         fun toDictionary(): Map<String, Any?> {
             return mapOf(
                 "billingDetails" to billingDetails?.toDictionary(),
+                "blikCode" to blikCode,
                 "metadata" to metadata
             )
         }

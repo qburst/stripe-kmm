@@ -8,6 +8,7 @@ import com.stripe.android.ApiResultCallback
 import com.stripe.android.model.ConfirmPaymentIntentParams
 import com.stripe.android.model.PaymentMethod
 import com.stripe.android.model.PaymentMethodCreateParams
+import com.stripe.android.model.PaymentMethodOptionsParams
 import kotlinx.coroutines.suspendCancellableCoroutine
 import model.ApiResult
 import model.ConfirmOptions
@@ -499,7 +500,12 @@ class PaymentRepositoryImpl: PaymentRepository {
                         val blikParams = ConfirmPaymentModel().createPaymentWithBlik(params = params)
                         ConfirmPaymentIntentParams.createWithPaymentMethodCreateParams(
                             paymentMethodCreateParams = blikParams,
-                            clientSecret = paymentIntentClientSecret
+                            clientSecret = paymentIntentClientSecret,
+                            paymentMethodOptions = PaymentMethodOptionsParams.Blik(
+                                code = ConfirmPaymentModel().getBlikPaymentCode(
+                                    params = params
+                                )
+                            )
                         )
                     }
 

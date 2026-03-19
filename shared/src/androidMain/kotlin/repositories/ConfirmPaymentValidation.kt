@@ -140,6 +140,13 @@ object ConfirmPaymentValidation {
                 }
             }
 
+            is ConfirmParams.BlikParams -> {
+
+                if (params.paymentMethodData?.blikCode.isNullOrEmpty()) {
+                    validationResult = "Blik Code is mandatory"
+                }
+            }
+
             else -> {}
         }
         return validationResult

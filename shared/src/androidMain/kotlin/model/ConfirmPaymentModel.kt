@@ -420,6 +420,8 @@ class ConfirmPaymentModel {
         )
     }
 
+    fun getBlikPaymentCode(params: ConfirmParams.BlikParams) = params.paymentMethodData?.blikCode!!
+
     fun createPaymentWithWeChatPay(params: ConfirmParams.WeChatPayParams): PaymentMethodCreateParams {
         val address = Address.Builder()
         address.setLine1(params.paymentMethodData?.billingDetails?.address?.line1)
