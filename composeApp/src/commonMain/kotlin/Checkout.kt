@@ -268,8 +268,7 @@ fun Checkout(onNavigate: () -> Unit) {
                         value = paymentDetails["token"] ?: "",
                         onValueChange = {paymentDetails["token"] = it},
                         label = { Text("Token") },
-                        modifier = Modifier.fillMaxWidth(),
-                        keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Number)
+                        modifier = Modifier.fillMaxWidth()
                     )
                 }
             }
