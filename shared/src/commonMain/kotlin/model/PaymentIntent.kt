@@ -965,6 +965,28 @@ sealed class ConfirmParams {
         }
     }
 
+    data class PaymentMethodIdParams(
+        val paymentMethodType: String = "PaymentMethodId",
+        val paymentMethodData: PaymentMethodIdData
+    ) : ConfirmParams() {
+        fun toDictionary(): Map<String, Any?> {
+            return mapOf(
+                "paymentMethodType" to paymentMethodType,
+                "paymentMethodData" to paymentMethodData
+            )
+        }
+    }
+
+    data class PaymentMethodIdData(
+        val paymentMethodId: String
+    ) {
+        fun toDictionary(): Map<String, Any?> {
+            return mapOf(
+                "paymentMethodId" to paymentMethodId
+            )
+        }
+    }
+
     /** Enum representing the type of account holder for a bank account. */
     enum class BankAccountHolderType {
         COMPANY,

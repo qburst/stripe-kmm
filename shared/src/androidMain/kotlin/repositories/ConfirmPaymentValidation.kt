@@ -159,6 +159,12 @@ object ConfirmPaymentValidation {
                 }
             }
 
+            is ConfirmParams.PaymentMethodIdParams -> {
+                if (params.paymentMethodData.paymentMethodId.isEmpty()) {
+                    validationResult = "Payment Method Id is mandatory"
+                }
+            }
+
             else -> {}
         }
         return validationResult
