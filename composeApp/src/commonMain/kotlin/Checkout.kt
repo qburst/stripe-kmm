@@ -56,7 +56,7 @@ fun Checkout(onNavigate: () -> Unit) {
             url = "https://qburst.com",
         )
     )
-    val paymentIntentClientSecret = "pi_3TEodYLVz2NSSNqK06nMp0Yn_secret_X2aliziI0Sa1nsZpZTNe1Ih02"
+    val paymentIntentClientSecret = "pi_3TR796LVz2NSSNqK0sY3xT0N_secret_PAwJrJBJ1zimYC1jew7TkG4nM"
     val returnsUrl = "https://google.com"
 
     val options = CreateOptions(FutureUsage.OFF_SESSION)
@@ -861,28 +861,24 @@ fun Checkout(onNavigate: () -> Unit) {
                 }) {
                     Text("Confirm Payment Method")
                 }
-//
-//                Button(onClick = {
-//                    CoroutineScope(Dispatchers.Default).launch {
-//                        stripe.handleNextAction(
-//                            paymentIntentClientSecret = paymentIntentClientSecret,
-//                            returnURL = returnsUrl,
-//                            onSuccess = { result ->
-//                                print(" result = $result")
-//                                // Pass the result back to the UI through the onSuccess callback
-//                                PaymentResponse = result.toString()
-//                            },
-//                            onError = { error ->
-//                                // Pass the error back to the UI through the onError callback
-//                                PaymentResponse = error.toString()
-//                                print(error)
-//                                PaymentResponse = error.toString()
-//                            }
-//                        )
-//                    }
-//                }) {
-//                    Text("Handle Next Actions")
-//                }
+
+                Button(onClick = {
+                    CoroutineScope(Dispatchers.Default).launch {
+                        stripe.handleNextAction(
+                            paymentIntentClientSecret = paymentIntentClientSecret,
+                            returnURL = returnsUrl,
+                            onSuccess = { result ->
+                                PaymentResponse = result.toString()
+                            },
+                            onError = { error ->
+                                PaymentResponse = error.toString()
+                                PaymentResponse = error.toString()
+                            }
+                        )
+                    }
+                }) {
+                    Text("Handle Next Actions")
+                }
 //
 //
 //                Button(onClick = {

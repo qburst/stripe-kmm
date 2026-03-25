@@ -19,7 +19,7 @@ class MainActivity : ComponentActivity() {
         val stripe = ProvideStripeSdk()
 
         val initialiseParams = InitialiseParams(
-            publishableKey = "pk_test_FkQvi0DNueKlNnVwNoJktg2W",
+            publishableKey = "pk_test_51T6WegLVz2NSSNqKE9CeO3LTXyVVmtbovZc8WVwMlTrlFSglxsr0YxYQx5IICIK69Ul1PYKoV4OtqI42jyQZJ9KQ00VtVJusQQ",
             androidContext = applicationContext,
             androidActivity = this@MainActivity,
             appInfo = AppInfo(

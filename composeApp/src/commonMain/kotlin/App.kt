@@ -3,7 +3,7 @@ import com.common.navigation.Screen
 
 @Composable
 fun App() {
-    var currentScreen by remember { mutableStateOf<Screen>(Screen.Cart) }
+    var currentScreen by remember { mutableStateOf<Screen>(Screen.Checkout) }
 
      fun navigateTo(screen: Screen) {
         currentScreen = screen

@@ -101,7 +101,12 @@ actual class ProvideStripeSdk actual constructor() {
             onSuccess: (Map<String, Any?>) -> Unit,
             onError: (Throwable) -> Unit
     ) {
-        // Implement your handle next action here
+        paymentRepository.handleNextAction(
+            paymentIntentClientSecret = paymentIntentClientSecret,
+            returnUrl = returnURL,
+            onSuccess = onSuccess,
+            onError = onError
+        )
     }
 
     /**
@@ -118,7 +123,6 @@ actual class ProvideStripeSdk actual constructor() {
             onSuccess: (Map<String, Any?>) -> Unit,
             onError: (Throwable) -> Unit
     ) {
-        // Implement the setup handle next action here
     }
 
     /**

@@ -3,11 +3,11 @@ package repositories
 import CreateParams
 import Mockable
 import SingletonStripeInitialization
+import android.util.Log
 import com.google.gson.Gson
 import com.stripe.android.ApiResultCallback
 import com.stripe.android.model.ConfirmPaymentIntentParams
 import com.stripe.android.model.PaymentMethod
-import com.stripe.android.model.PaymentMethodCreateParams
 import com.stripe.android.model.PaymentMethodOptionsParams
 import kotlinx.coroutines.suspendCancellableCoroutine
 import model.ApiResult
@@ -630,6 +630,31 @@ class PaymentRepositoryImpl: PaymentRepository {
                 stripeInstance.confirmPaymentLauncher.confirm(confirmPaymentIntentParams)
             }
 
+        } catch (e: Exception) {
+            onError(e)
+        }
+    }
+
+    override suspend fun handleNextAction(
+        paymentIntentClientSecret: String,
+        returnUrl: String?,
+        onSuccess: (Map<String, Any?>) -> Unit,
+        onError: (Throwable) -> Unit
+    ) {
+        try {
+            val stripeInstance = SingletonStripeInitialization.StripeInstanse
+            stripeInstance.setPaymentResultCallback(object : InitializeStripe.PaymentResult {
+                override fun onSuccess(status: Map<String, Any?>) {
+                    onSuccess(status)
+                }
+
+                override fun onFailure(throwable: Throwable) {
+                    onError(throwable)
+                }
+            })
+            stripeInstance.confirmPaymentLauncher.handleNextActionForPaymentIntent(
+                paymentIntentClientSecret
+            )
         } catch (e: Exception) {
             onError(e)
         }
