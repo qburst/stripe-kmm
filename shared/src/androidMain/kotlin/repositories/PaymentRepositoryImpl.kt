@@ -617,6 +617,14 @@ class PaymentRepositoryImpl: PaymentRepository {
                             clientSecret = paymentIntentClientSecret
                         )
                     }
+
+                    is ConfirmParams.PaymentMethodIdParams -> {
+                        ConfirmPaymentIntentParams.createWithPaymentMethodId(
+                            paymentMethodId = params.paymentMethodData.paymentMethodId,
+                            clientSecret = paymentIntentClientSecret
+                        )
+                    }
+
                 }
 
                 stripeInstance.confirmPaymentLauncher.confirm(confirmPaymentIntentParams)

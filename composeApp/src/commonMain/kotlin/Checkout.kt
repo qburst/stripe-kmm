@@ -56,7 +56,7 @@ fun Checkout(onNavigate: () -> Unit) {
             url = "https://qburst.com",
         )
     )
-    val paymentIntentClientSecret = "pi_3TCb76LVz2NSSNqK1GE4EGqm_secret_0rKnjssPNLrNFENr4ayUmlxkC"
+    val paymentIntentClientSecret = "pi_3TEodYLVz2NSSNqK06nMp0Yn_secret_X2aliziI0Sa1nsZpZTNe1Ih02"
     val returnsUrl = "https://google.com"
 
     val options = CreateOptions(FutureUsage.OFF_SESSION)
@@ -98,7 +98,7 @@ fun Checkout(onNavigate: () -> Unit) {
         "Bacs Debit", "Sofort", "NetBanking", "US Bank Account", "CashApp", "Swish",
         "Bancontact", "EPS Debit", "OXXO", "Alipay", "Afterpay/Clearpay", "BLIK",
         "WeChat Pay", "Klarna", "Affirm", "Amazon Pay", "Multibanco", "Alma",
-        "Sunbit", "Billie", "Satispay", "Revolut Pay", "MobilePay", "Giropay", "Google Pay"
+        "Sunbit", "Billie", "Satispay", "Revolut Pay", "MobilePay", "Giropay", "Google Pay", "Payment Method ID"
     )
 
     val fpxBankIdentifiers = listOf(
@@ -183,6 +183,7 @@ fun Checkout(onNavigate: () -> Unit) {
                         "Multibanco" -> selectedMethod == "MultiBanco"
                         "Revolut Pay" -> selectedMethod == "RevolutPay"
                         "Google Pay" -> selectedMethod == "GooglePay"
+                        "Payment Method ID" -> selectedMethod == "PaymentMethodId"
                         "BLIK" -> selectedMethod == "Blik"
                         else -> selectedMethod == method
                     }
@@ -202,6 +203,7 @@ fun Checkout(onNavigate: () -> Unit) {
                                 "Multibanco" -> "MultiBanco"
                                 "Revolut Pay" -> "RevolutPay"
                                 "Google Pay" -> "GooglePay"
+                                "Payment Method ID" -> "PaymentMethodId"
                                 "BLIK" -> "Blik"
                                 else -> method
                             }
@@ -413,6 +415,15 @@ fun Checkout(onNavigate: () -> Unit) {
                     value = paymentDetails["appId"] ?: "",
                     onValueChange = { paymentDetails["appId"] = it },
                     label = { Text("App ID") },
+                    modifier = Modifier.fillMaxWidth()
+                )
+            }
+
+            AnimatedVisibility(visible = selectedMethod == "PaymentMethodId") {
+                OutlinedTextField(
+                    value = paymentDetails["paymentMethodId"] ?: "",
+                    onValueChange = { paymentDetails["paymentMethodId"] = it },
+                    label = { Text("Payment Method ID") },
                     modifier = Modifier.fillMaxWidth()
                 )
             }
@@ -824,6 +835,13 @@ fun Checkout(onNavigate: () -> Unit) {
                                 "GooglePay" -> {
                                     ConfirmParams.GooglePayParams(
                                         jsonObject = null
+                                    )
+                                }
+                                "PaymentMethodId" -> {
+                                    ConfirmParams.PaymentMethodIdParams(
+                                        paymentMethodData = ConfirmParams.PaymentMethodIdData(
+                                            paymentMethodId = paymentDetails["paymentMethodId"] ?: ""
+                                        )
                                     )
                                 }
                                 else -> throw IllegalStateException("Selected method cannot be $selectedMethod")
