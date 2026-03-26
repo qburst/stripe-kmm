@@ -288,7 +288,7 @@ sealed class ConfirmParams {
      * @property metadata Additional metadata for the payment method (optional).
      */
     data class PaymentMethodDataPayPal(
-        val billingDetails: BillingDetails,
+        val billingDetails: BillingDetails?,
         val metadata: Map<String, String>? = null
     ) {
         /**
@@ -297,7 +297,7 @@ sealed class ConfirmParams {
          * @return A map containing the billing details and metadata.
          */
         fun toDictionary(): Map<String, Any?> {
-            return mapOf("billingDetails" to billingDetails.toDictionary(), "metadata" to metadata)
+            return mapOf("billingDetails" to billingDetails?.toDictionary(), "metadata" to metadata)
         }
     }
 
@@ -448,7 +448,7 @@ sealed class ConfirmParams {
     }
 
     data class PaymentMethodDataUSBankAccount(
-        val billingDetails: BillingDetails,
+        val billingDetails: BillingDetails?,
         val accountNumber: String? = null,
         val routingNumber: String? = null,
         val linkAccountSessionId: String? = null,
@@ -458,7 +458,7 @@ sealed class ConfirmParams {
     ) {
         fun toDictionary(): Map<String, Any?> {
             return mapOf(
-                "billingDetails" to billingDetails.toDictionary(),
+                "billingDetails" to billingDetails?.toDictionary(),
                 "accountNumber" to accountNumber,
                 "routingNumber" to routingNumber,
                 "linkAccountSessionId" to linkAccountSessionId,
