@@ -444,11 +444,11 @@ fun Checkout(onNavigate: () -> Unit) {
                                 "Ideal" -> {
                                     CreateParams.IdealParams(
                                         paymentMethodData = CreateParams.PaymentMethodDataIdeal(
-                                            bankName = "regiobank",
+                                            bankName = paymentDetails["bank"],
                                             billingDetails = BillingDetails(
-                                                name = "John Doe",
-                                                email = "test@gmail.com",
-                                                phone = "+91954453333"
+                                                email = billingDetails["email"],
+                                                phone = billingDetails["phone"],
+                                                name = billingDetails["name"]
                                             )
                                         )
                                     )

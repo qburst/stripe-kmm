@@ -1,172 +1,163 @@
 package repositories
 
 import model.ConfirmParams
+import model.PaymentError
 
 object ConfirmPaymentValidation {
-    fun validateCreatePaymentParams(params: ConfirmParams): String {
-        var validationResult = "success"
-        when (params) {
+    /**
+     * Validates confirm payment parameters and returns a PaymentError if validation fails,
+     * or null if validation succeeds.
+     */
+    fun validateCreatePaymentParams(params: ConfirmParams): PaymentError? {
+        return when (params) {
             is ConfirmParams.CardParamsWithToken -> {
                 if (params.paymentMethodData?.token.isNullOrEmpty()) {
-                    validationResult = "Token is mandatory"
-                }
+                    PaymentError.TokenMissing
+                } else null
             }
 
             is ConfirmParams.IdealParams -> {
                 if (params.paymentMethodData?.bankName.isNullOrEmpty()) {
-                    validationResult = "Bank name is mandatory"
-                }
+                    PaymentError.BankNameMissing
+                } else null
             }
 
             is ConfirmParams.UpiParams -> {
                 if (params.paymentMethodData?.vpa.isNullOrEmpty()) {
-                    validationResult = "VPA is mandatory"
-                }
+                    PaymentError.VPAMissing
+                } else null
             }
 
             is ConfirmParams.FpxParams -> {
                 if (params.paymentMethodData?.bankName.isNullOrEmpty()) {
-                    validationResult = "Bank name is mandatory"
-                }
+                    PaymentError.BankNameMissing
+                } else null
             }
 
             is ConfirmParams.PayPalParams -> {
                 if (params.paymentMethodData?.billingDetails == null) {
-                    validationResult = "Billing details are mandatory"
-                }
+                    PaymentError.BillingDetailsMissing
+                } else null
             }
 
             is ConfirmParams.SepaDebitParams -> {
-                if (params.paymentMethodData?.billingDetails?.name.isNullOrEmpty()) {
-                    validationResult = "Name is mandatory"
-                }
-                if (params.paymentMethodData?.billingDetails?.email.isNullOrEmpty()) {
-                    validationResult = "Email is mandatory"
-                }
-                if (params.paymentMethodData?.iban.isNullOrEmpty()) {
-                    validationResult = "IBAN is mandatory"
+                when {
+                    params.paymentMethodData?.billingDetails?.name.isNullOrEmpty() -> PaymentError.NameMissing
+                    params.paymentMethodData?.billingDetails?.email.isNullOrEmpty() -> PaymentError.EmailMissing
+                    params.paymentMethodData?.iban.isNullOrEmpty() -> PaymentError.IBANMissing
+                    else -> null
                 }
             }
 
             is ConfirmParams.AuBecsDebitParams -> {
-                if (params.paymentMethodData?.bsbNumber.isNullOrEmpty()) {
-                    validationResult = "BSB Number is mandatory"
-                }
-                if (params.paymentMethodData?.accountNumber.isNullOrEmpty()) {
-                    validationResult = "Account Number is mandatory"
+                when {
+                    params.paymentMethodData?.bsbNumber.isNullOrEmpty() -> PaymentError.BSBNumberMissing
+                    params.paymentMethodData?.accountNumber.isNullOrEmpty() -> PaymentError.AccountNumberMissing
+                    else -> null
                 }
             }
 
             is ConfirmParams.BacsDebitParams -> {
-                if (params.paymentMethodData?.sortCode.isNullOrEmpty()) {
-                    validationResult = "Sort Code is mandatory"
-                }
-                if (params.paymentMethodData?.accountNumber.isNullOrEmpty()) {
-                    validationResult = "Account Number is mandatory"
+                when {
+                    params.paymentMethodData?.sortCode.isNullOrEmpty() -> PaymentError.SortCodeMissing
+                    params.paymentMethodData?.accountNumber.isNullOrEmpty() -> PaymentError.AccountNumberMissing
+                    else -> null
                 }
             }
 
             is ConfirmParams.SofortParams -> {
                 if (params.paymentMethodData?.country.isNullOrEmpty()) {
-                    validationResult = "Country is mandatory"
-                }
+                    PaymentError.CountryMissing
+                } else null
             }
 
             is ConfirmParams.NetBankingParams -> {
                 if (params.paymentMethodData?.bank.isNullOrEmpty()) {
-                    validationResult = "Bank name is mandatory"
-                }
+                    PaymentError.BankNameMissing
+                } else null
             }
 
             is ConfirmParams.USBankAccountParams -> {
-                if (params.paymentMethodData?.billingDetails == null) {
-                    validationResult = "Billing details are mandatory"
-                }
-                if (params.paymentMethodData?.linkAccountSessionId == null) {
-                    if (params.paymentMethodData?.accountNumber.isNullOrEmpty()) {
-                        validationResult = "Account Number is mandatory"
+                when {
+                    params.paymentMethodData?.billingDetails == null -> PaymentError.BillingDetailsMissing
+                    params.paymentMethodData?.linkAccountSessionId == null -> {
+                        when {
+                            params.paymentMethodData?.accountNumber.isNullOrEmpty() -> PaymentError.AccountNumberMissing
+                            params.paymentMethodData?.routingNumber.isNullOrEmpty() -> PaymentError.RoutingNumberMissing
+                            else -> null
+                        }
                     }
-                    if (params.paymentMethodData?.routingNumber.isNullOrEmpty()) {
-                        validationResult = "Routing Number is mandatory"
-                    }
+                    else -> null
                 }
             }
 
             is ConfirmParams.GooglePayParams -> {
                 if (params.jsonObject == null) {
-                    validationResult = "Google Pay JSON is mandatory"
-                }
+                    PaymentError.GooglePayJsonMissing
+                } else null
             }
 
             is ConfirmParams.BancontactParams -> {
                 if (params.paymentMethodData.billingDetails?.name.isNullOrEmpty()) {
-                    validationResult = "Name is mandatory"
-                }
+                    PaymentError.NameMissing
+                } else null
             }
 
             is ConfirmParams.EpsDebitParams -> {
                 if (params.paymentMethodData?.billingDetails?.name.isNullOrEmpty()) {
-                    validationResult = "Name is mandatory"
-                }
+                    PaymentError.NameMissing
+                } else null
             }
 
             is ConfirmParams.OxxoParams -> {
-                if (params.paymentMethodData?.billingDetails?.name.isNullOrEmpty()) {
-                    validationResult = "Name is mandatory"
-                }
-
-                if (params.paymentMethodData?.billingDetails?.email.isNullOrEmpty()) {
-                    validationResult = "Email is mandatory"
+                when {
+                    params.paymentMethodData?.billingDetails?.name.isNullOrEmpty() -> PaymentError.NameMissing
+                    params.paymentMethodData?.billingDetails?.email.isNullOrEmpty() -> PaymentError.EmailMissing
+                    else -> null
                 }
             }
 
             is ConfirmParams.AlipayParams -> {
-                if (params.paymentMethodData?.billingDetails?.name.isNullOrEmpty()) {
-                    validationResult = "Name is mandatory"
-                }
-
-                if (params.paymentMethodData?.billingDetails?.email.isNullOrEmpty()) {
-                    validationResult = "Email is mandatory"
+                when {
+                    params.paymentMethodData?.billingDetails?.name.isNullOrEmpty() -> PaymentError.NameMissing
+                    params.paymentMethodData?.billingDetails?.email.isNullOrEmpty() -> PaymentError.EmailMissing
+                    else -> null
                 }
             }
 
             is ConfirmParams.AfterpayClearpayParams -> {
-                if (params.paymentMethodData?.billingDetails?.name.isNullOrEmpty()) {
-                    validationResult = "Name is mandatory"
-                }
-
-                if (params.paymentMethodData?.billingDetails?.email.isNullOrEmpty()) {
-                    validationResult = "Email is mandatory"
+                when {
+                    params.paymentMethodData?.billingDetails?.name.isNullOrEmpty() -> PaymentError.NameMissing
+                    params.paymentMethodData?.billingDetails?.email.isNullOrEmpty() -> PaymentError.EmailMissing
+                    else -> null
                 }
             }
 
             is ConfirmParams.BlikParams -> {
-
                 if (params.paymentMethodData?.blikCode.isNullOrEmpty()) {
-                    validationResult = "Blik Code is mandatory"
-                }
+                    PaymentError.BlikCodeMissing
+                } else null
             }
 
             is ConfirmParams.WeChatPayParams -> {
                 if (params.paymentMethodData?.appId.isNullOrEmpty()) {
-                    validationResult = "App Id is mandatory"
-                }
+                    PaymentError.AppIdMissing
+                } else null
             }
 
             is ConfirmParams.MultiBancoParams -> {
                 if (params.paymentMethodData?.billingDetails?.email.isNullOrEmpty()) {
-                    validationResult = "Email is mandatory"
-                }
+                    PaymentError.EmailMissing
+                } else null
             }
 
             is ConfirmParams.PaymentMethodIdParams -> {
                 if (params.paymentMethodData.paymentMethodId.isEmpty()) {
-                    validationResult = "Payment Method Id is mandatory"
-                }
+                    PaymentError.PaymentMethodIdMissing
+                } else null
             }
 
-            else -> {}
+            else -> null
         }
-        return validationResult
     }
 }

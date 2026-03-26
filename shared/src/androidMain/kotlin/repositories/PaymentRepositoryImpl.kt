@@ -32,16 +32,17 @@ class PaymentRepositoryImpl: PaymentRepository {
 
         /**
          * This [CreatePaymentValidation.validateCreatePaymentParams] for the purpose of validating the input.
-         * @return [String] Error message if caught with some validation error
+         * @return [PaymentError] Error if validation fails, null if validation succeeds
          */
         val validationResult = CreatePaymentValidation.validateCreatePaymentParams(params)
-        if(validationResult != "success") {
+        if(validationResult != null) {
             continuation.resume(
                 ApiResult(
                     success = null,
-                    error = null
+                    error = Exception(validationResult.message)
                 )
             )
+            return@suspendCancellableCoroutine
         }
 
         val apiReturn = object : ApiResultCallback<PaymentMethod> {
@@ -347,8 +348,8 @@ class PaymentRepositoryImpl: PaymentRepository {
 
             val validationResult = ConfirmPaymentValidation.validateCreatePaymentParams(params)
 
-            if (validationResult != "success") {
-                onError(Throwable(validationResult))
+            if (validationResult != null) {
+                onError(Throwable(validationResult.message))
             }
             else{
                 val confirmPaymentIntentParams = when (params) {
