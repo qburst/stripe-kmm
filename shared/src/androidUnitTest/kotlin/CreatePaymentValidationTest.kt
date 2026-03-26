@@ -1,7 +1,10 @@
 import model.Address
 import model.BillingDetails
+
+import model.PaymentError
 import repositories.CreatePaymentValidation
 import kotlin.test.Test
+import kotlin.test.assertNull
 import kotlin.test.assertTrue
 
 class CreatePaymentValidationTest {
@@ -26,7 +29,7 @@ class CreatePaymentValidationTest {
             )
         )
         val result = CreatePaymentValidation.validateCreatePaymentParams(params)
-        assertTrue { result == "success" }
+        assertNull(result)
     }
     @Test
     fun cardParamsWithTokenValidTest2 () {
@@ -49,7 +52,7 @@ class CreatePaymentValidationTest {
             )
         )
         val result = CreatePaymentValidation.validateCreatePaymentParams(params)
-        assertTrue { result == "success" }
+        assertNull(result)
     }
     @Test
     fun cardParamsWithTokenValidTest3 () {
@@ -60,7 +63,7 @@ class CreatePaymentValidationTest {
             )
         )
         val result = CreatePaymentValidation.validateCreatePaymentParams(params)
-        assertTrue { result == "success" }
+        assertNull(result)
     }
     @Test
     fun cardParamsWithTokenNullTest () {
@@ -83,7 +86,7 @@ class CreatePaymentValidationTest {
             )
         )
         val result = CreatePaymentValidation.validateCreatePaymentParams(params)
-        assertTrue { result == "Token is mandatory" }
+        assertTrue(result is PaymentError.TokenMissing)
     }
     @Test
     fun cardParamsWithTokenEmptyTest () {
@@ -106,7 +109,7 @@ class CreatePaymentValidationTest {
             )
         )
         val result = CreatePaymentValidation.validateCreatePaymentParams(params)
-        assertTrue { result == "Token is mandatory" }
+        assertTrue(result is PaymentError.TokenMissing)
     }
     @Test
     fun cardParamsWithPaymentIdValidTest1 () {
@@ -130,7 +133,7 @@ class CreatePaymentValidationTest {
             )
         )
         val result = CreatePaymentValidation.validateCreatePaymentParams(params)
-        assertTrue { result == "success" }
+        assertNull(result)
     }
     @Test
     fun cardParamsWithPaymentIdValidTest2 () {
@@ -154,7 +157,7 @@ class CreatePaymentValidationTest {
             )
         )
         val result = CreatePaymentValidation.validateCreatePaymentParams(params)
-        assertTrue { result == "success" }
+        assertNull(result)
     }
     @Test
     fun cardParamsWithPaymentIdValidTest3 () {
@@ -178,7 +181,7 @@ class CreatePaymentValidationTest {
             )
         )
         val result = CreatePaymentValidation.validateCreatePaymentParams(params)
-        assertTrue { result == "success" }
+        assertNull(result)
     }
     @Test
     fun cardParamsWithPaymentIdEmptyTest () {
@@ -202,19 +205,19 @@ class CreatePaymentValidationTest {
             )
         )
         val result = CreatePaymentValidation.validateCreatePaymentParams(params)
-        assertTrue { result == "Payment method id is mandatory" }
+        assertTrue(result is PaymentError.PaymentMethodIdMissing)
     }
     @Test
     fun cardParamsWithBillingNullTest () {
         val params = CreateParams.CardParamsWithPaymentId(
             paymentMethodData = CreateParams.PaymentMethodDataWithPaymentId(
-                paymentMethodId = "",
+                paymentMethodId = "pm_test123",
                 cvc = "123",
                 billingDetails = null
             )
         )
         val result = CreatePaymentValidation.validateCreatePaymentParams(params)
-        assertTrue { result == "Billing details is mandatory" }
+        assertTrue(result is PaymentError.BillingDetailsMissing)
     }
     @Test
     fun auBecsDebitParamsValidTest1 () {
@@ -238,7 +241,7 @@ class CreatePaymentValidationTest {
             )
         )
         val result = CreatePaymentValidation.validateCreatePaymentParams(params)
-        assertTrue { result == "success" }
+        assertNull(result)
     }
     @Test
     fun auBecsDebitParamsValidTest2 () {
@@ -262,7 +265,7 @@ class CreatePaymentValidationTest {
             )
         )
         val result = CreatePaymentValidation.validateCreatePaymentParams(params)
-        assertTrue { result == "success" }
+        assertNull(result)
     }
     @Test
     fun auBecsDebitParamsValidTest3 () {
@@ -274,7 +277,7 @@ class CreatePaymentValidationTest {
             )
         )
         val result = CreatePaymentValidation.validateCreatePaymentParams(params)
-        assertTrue { result == "success" }
+        assertNull(result)
     }
     @Test
     fun auBecsDebitParamsValidTest4 () {
@@ -286,7 +289,7 @@ class CreatePaymentValidationTest {
             )
         )
         val result = CreatePaymentValidation.validateCreatePaymentParams(params)
-        assertTrue { result == "success" }
+        assertNull(result)
     }
     @Test
     fun auBecsDebitParamsValidTest5 () {
@@ -310,7 +313,7 @@ class CreatePaymentValidationTest {
             )
         )
         val result = CreatePaymentValidation.validateCreatePaymentParams(params)
-        assertTrue { result == "success" }
+        assertNull(result)
     }
     @Test
     fun auBecsDebitParamsAccNumEmptyTest () {
@@ -334,7 +337,7 @@ class CreatePaymentValidationTest {
             )
         )
         val result = CreatePaymentValidation.validateCreatePaymentParams(params)
-        assertTrue { result == "Account number is mandatory" }
+        assertTrue(result is PaymentError.AccountNumberMissing)
     }
     @Test
     fun auBecsDebitParamsBsbNumEmptyTest () {
@@ -358,7 +361,7 @@ class CreatePaymentValidationTest {
             )
         )
         val result = CreatePaymentValidation.validateCreatePaymentParams(params)
-        assertTrue { result == "BSB number is mandatory" }
+        assertTrue(result is PaymentError.BSBNumberMissing)
     }
     @Test
     fun bacsDebitParamsValidTest1 () {
@@ -382,7 +385,7 @@ class CreatePaymentValidationTest {
             )
         )
         val result = CreatePaymentValidation.validateCreatePaymentParams(params)
-        assertTrue { result == "success" }
+        assertNull(result)
     }
     @Test
     fun bacsDebitParamsValidTest2 () {
@@ -394,7 +397,7 @@ class CreatePaymentValidationTest {
             )
         )
         val result = CreatePaymentValidation.validateCreatePaymentParams(params)
-        assertTrue { result == "success" }
+        assertNull(result)
     }
     @Test
     fun bacsDebitParamsAccNumEmptyTest () {
@@ -418,7 +421,7 @@ class CreatePaymentValidationTest {
             )
         )
         val result = CreatePaymentValidation.validateCreatePaymentParams(params)
-        assertTrue { result == "Account number is mandatory" }
+        assertTrue(result is PaymentError.AccountNumberMissing)
     }
     @Test
     fun bacsDebitParamsSortCodeEmptyTest () {
@@ -442,7 +445,7 @@ class CreatePaymentValidationTest {
             )
         )
         val result = CreatePaymentValidation.validateCreatePaymentParams(params)
-        assertTrue { result == "Sort code is mandatory" }
+        assertTrue(result is PaymentError.SortCodeMissing)
     }
     @Test
     fun sofortParamsValidTest1 () {
@@ -466,7 +469,7 @@ class CreatePaymentValidationTest {
             )
         )
         val result = CreatePaymentValidation.validateCreatePaymentParams(params)
-        assertTrue { result == "success" }
+        assertNull(result)
     }
     @Test
     fun sofortParamsValidTest2 () {
@@ -478,7 +481,7 @@ class CreatePaymentValidationTest {
             )
         )
         val result = CreatePaymentValidation.validateCreatePaymentParams(params)
-        assertTrue { result == "success" }
+        assertNull(result)
     }
     @Test
     fun sofortParamsCountryEmptyTest () {
@@ -502,7 +505,7 @@ class CreatePaymentValidationTest {
             )
         )
         val result = CreatePaymentValidation.validateCreatePaymentParams(params)
-        assertTrue { result == "Country is mandatory" }
+        assertTrue(result is PaymentError.CountryMissing)
     }
     @Test
     fun sofortParamsCountryNullTest () {
@@ -526,7 +529,7 @@ class CreatePaymentValidationTest {
             )
         )
         val result = CreatePaymentValidation.validateCreatePaymentParams(params)
-        assertTrue { result == "Country is mandatory" }
+        assertTrue(result is PaymentError.CountryMissing)
     }
     @Test
     fun netBankingParamsValidTest1 () {
@@ -550,7 +553,7 @@ class CreatePaymentValidationTest {
             )
         )
         val result = CreatePaymentValidation.validateCreatePaymentParams(params)
-        assertTrue { result == "success" }
+        assertNull(result)
     }
     @Test
     fun netBankingParamsValidTest2 () {
@@ -562,7 +565,7 @@ class CreatePaymentValidationTest {
             )
         )
         val result = CreatePaymentValidation.validateCreatePaymentParams(params)
-        assertTrue { result == "success" }
+        assertNull(result)
     }
     @Test
     fun netBankingParamsBankEmptyTest () {
@@ -586,7 +589,7 @@ class CreatePaymentValidationTest {
             )
         )
         val result = CreatePaymentValidation.validateCreatePaymentParams(params)
-        assertTrue { result == "Bank is mandatory" }
+        assertTrue(result is PaymentError.BankNameMissing)
     }
     @Test
     fun netBankingParamsBankNullTest () {
@@ -610,7 +613,7 @@ class CreatePaymentValidationTest {
             )
         )
         val result = CreatePaymentValidation.validateCreatePaymentParams(params)
-        assertTrue { result == "Bank is mandatory" }
+        assertTrue(result is PaymentError.BankNameMissing)
     }
     @Test
     fun klarnaParamsValidTest1 () {
@@ -644,7 +647,7 @@ class CreatePaymentValidationTest {
             )
         )
         val result = CreatePaymentValidation.validateCreatePaymentParams(params)
-        assertTrue { result == "success" }
+        assertNull(result)
     }
     @Test
     fun klarnaParamsValidTest2 () {
@@ -678,7 +681,7 @@ class CreatePaymentValidationTest {
             )
         )
         val result = CreatePaymentValidation.validateCreatePaymentParams(params)
-        assertTrue { result == "success" }
+        assertNull(result)
     }
     @Test
     fun klarnaParamsValidTest3 () {
@@ -712,7 +715,7 @@ class CreatePaymentValidationTest {
             )
         )
         val result = CreatePaymentValidation.validateCreatePaymentParams(params)
-        assertTrue { result == "success" }
+        assertNull(result)
     }
     @Test
     fun klarnaParamsValidTest4 () {
@@ -734,7 +737,7 @@ class CreatePaymentValidationTest {
             )
         )
         val result = CreatePaymentValidation.validateCreatePaymentParams(params)
-        assertTrue { result == "success" }
+        assertNull(result)
     }
     @Test
     fun klarnaParamsValidTest5 () {
@@ -756,7 +759,7 @@ class CreatePaymentValidationTest {
             )
         )
         val result = CreatePaymentValidation.validateCreatePaymentParams(params)
-        assertTrue { result == "success" }
+        assertNull(result)
     }
     @Test
     fun klarnaParamsBillingDetailsEmailEmptyTest () {
@@ -791,7 +794,7 @@ class CreatePaymentValidationTest {
             )
         )
         val result = CreatePaymentValidation.validateCreatePaymentParams(params)
-        assertTrue { result == "Email is mandatory" }
+        assertTrue(result is PaymentError.EmailMissing)
     }
     @Test
     fun usBankAccountParamsValidTest1 () {
@@ -818,7 +821,7 @@ class CreatePaymentValidationTest {
                 )
         )
         val result = CreatePaymentValidation.validateCreatePaymentParams(params)
-        assertTrue { result == "success" }
+        assertNull(result)
     }
     @Test
     fun usBankAccountParamsValidTest2 () {
@@ -845,7 +848,7 @@ class CreatePaymentValidationTest {
             )
         )
         val result = CreatePaymentValidation.validateCreatePaymentParams(params)
-        assertTrue { result == "success" }
+        assertNull(result)
     }
     @Test
     fun usBankAccountParamsValidTest3 () {
@@ -872,7 +875,7 @@ class CreatePaymentValidationTest {
             )
         )
         val result = CreatePaymentValidation.validateCreatePaymentParams(params)
-        assertTrue { result == "success" }
+        assertNull(result)
     }
     @Test
     fun usBankAccountParamsValidTest4 () {
@@ -899,7 +902,7 @@ class CreatePaymentValidationTest {
             )
         )
         val result = CreatePaymentValidation.validateCreatePaymentParams(params)
-        assertTrue { result == "success" }
+        assertNull(result)
     }
     @Test
     fun usBankAccountParamsValidTest5 () {
@@ -926,7 +929,7 @@ class CreatePaymentValidationTest {
             )
         )
         val result = CreatePaymentValidation.validateCreatePaymentParams(params)
-        assertTrue { result == "success" }
+        assertNull(result)
     }
     @Test
     fun usBankAccountParamsValidTest6 () {
@@ -953,7 +956,7 @@ class CreatePaymentValidationTest {
             )
         )
         val result = CreatePaymentValidation.validateCreatePaymentParams(params)
-        assertTrue { result == "success" }
+        assertNull(result)
     }
     @Test
     fun usBankAccountParamsValidTest7 () {
@@ -980,7 +983,7 @@ class CreatePaymentValidationTest {
             )
         )
         val result = CreatePaymentValidation.validateCreatePaymentParams(params)
-        assertTrue { result == "success" }
+        assertNull(result)
     }
     @Test
     fun usBankAccountParamsValidTest8 () {
@@ -1007,7 +1010,7 @@ class CreatePaymentValidationTest {
             )
         )
         val result = CreatePaymentValidation.validateCreatePaymentParams(params)
-        assertTrue { result == "success" }
+        assertNull(result)
     }
     @Test
     fun usBankAccountParamsValidTest9 () {
@@ -1034,7 +1037,7 @@ class CreatePaymentValidationTest {
             )
         )
         val result = CreatePaymentValidation.validateCreatePaymentParams(params)
-        assertTrue { result == "success" }
+        assertNull(result)
     }
     @Test
     fun usBankAccountParamsValidTest10 () {
@@ -1061,7 +1064,7 @@ class CreatePaymentValidationTest {
             )
         )
         val result = CreatePaymentValidation.validateCreatePaymentParams(params)
-        assertTrue { result == "success" }
+        assertNull(result)
     }
     @Test
     fun usBankAccountParamsValidTest11 () {
@@ -1088,7 +1091,7 @@ class CreatePaymentValidationTest {
             )
         )
         val result = CreatePaymentValidation.validateCreatePaymentParams(params)
-        assertTrue { result == "success" }
+        assertNull(result)
     }
     @Test
     fun usBankAccountParamsValidTest12 () {
@@ -1115,7 +1118,7 @@ class CreatePaymentValidationTest {
             )
         )
         val result = CreatePaymentValidation.validateCreatePaymentParams(params)
-        assertTrue { result == "success" }
+        assertNull(result)
     }
     @Test
     fun usBankAccountParamsValidTest13 () {
@@ -1142,7 +1145,7 @@ class CreatePaymentValidationTest {
             )
         )
         val result = CreatePaymentValidation.validateCreatePaymentParams(params)
-        assertTrue { result == "success" }
+        assertNull(result)
     }
     @Test
     fun usBankAccountParamsValidTest14 () {
@@ -1169,7 +1172,7 @@ class CreatePaymentValidationTest {
             )
         )
         val result = CreatePaymentValidation.validateCreatePaymentParams(params)
-        assertTrue { result == "success" }
+        assertNull(result)
     }
     @Test
     fun usBankAccountParamsValidTest15 () {
@@ -1196,7 +1199,7 @@ class CreatePaymentValidationTest {
             )
         )
         val result = CreatePaymentValidation.validateCreatePaymentParams(params)
-        assertTrue { result == "success" }
+        assertNull(result)
     }
     @Test
     fun usBankAccountParamsValidTest16 () {
@@ -1223,7 +1226,7 @@ class CreatePaymentValidationTest {
             )
         )
         val result = CreatePaymentValidation.validateCreatePaymentParams(params)
-        assertTrue { result == "success" }
+        assertNull(result)
     }
     @Test
     fun usBankAccountParamsValidTest17 () {
@@ -1250,7 +1253,7 @@ class CreatePaymentValidationTest {
             )
         )
         val result = CreatePaymentValidation.validateCreatePaymentParams(params)
-        assertTrue { result == "success" }
+        assertNull(result)
     }
     @Test
     fun usBankAccountParamsValidTest18 () {
@@ -1277,7 +1280,7 @@ class CreatePaymentValidationTest {
             )
         )
         val result = CreatePaymentValidation.validateCreatePaymentParams(params)
-        assertTrue { result == "success" }
+        assertNull(result)
     }
     @Test
     fun usBankAccountParamsValidTest19 () {
@@ -1304,7 +1307,7 @@ class CreatePaymentValidationTest {
             )
         )
         val result = CreatePaymentValidation.validateCreatePaymentParams(params)
-        assertTrue { result == "success" }
+        assertNull(result)
     }
     @Test
     fun usBankAccountParamsValidTest20 () {
@@ -1331,7 +1334,7 @@ class CreatePaymentValidationTest {
             )
         )
         val result = CreatePaymentValidation.validateCreatePaymentParams(params)
-        assertTrue { result == "success" }
+        assertNull(result)
     }
     @Test
     fun usBankAccountParamsValidTest21 () {
@@ -1358,7 +1361,7 @@ class CreatePaymentValidationTest {
             )
         )
         val result = CreatePaymentValidation.validateCreatePaymentParams(params)
-        assertTrue { result == "success" }
+        assertNull(result)
     }
     @Test
     fun usBankAccountParamsValidTest22 () {
@@ -1385,7 +1388,7 @@ class CreatePaymentValidationTest {
             )
         )
         val result = CreatePaymentValidation.validateCreatePaymentParams(params)
-        assertTrue { result == "success" }
+        assertNull(result)
     }
     @Test
     fun usBankAccountParamsValidTest23 () {
@@ -1412,7 +1415,7 @@ class CreatePaymentValidationTest {
             )
         )
         val result = CreatePaymentValidation.validateCreatePaymentParams(params)
-        assertTrue { result == "success" }
+        assertNull(result)
     }
     @Test
     fun usBankAccountParamsValidTest24 () {
@@ -1432,7 +1435,7 @@ class CreatePaymentValidationTest {
             )
         )
         val result = CreatePaymentValidation.validateCreatePaymentParams(params)
-        assertTrue { result == "success" }
+        assertNull(result)
     }
     @Test
     fun usBankAccountParamsValidTest25 () {
@@ -1452,7 +1455,7 @@ class CreatePaymentValidationTest {
             )
         )
         val result = CreatePaymentValidation.validateCreatePaymentParams(params)
-        assertTrue { result == "success" }
+        assertNull(result)
     }
     @Test
     fun usBankAccountParamsValidTest26 () {
@@ -1472,7 +1475,7 @@ class CreatePaymentValidationTest {
             )
         )
         val result = CreatePaymentValidation.validateCreatePaymentParams(params)
-        assertTrue { result == "success" }
+        assertNull(result)
     }
     @Test
     fun usBankAccountParamsValidTest27 () {
@@ -1492,7 +1495,7 @@ class CreatePaymentValidationTest {
             )
         )
         val result = CreatePaymentValidation.validateCreatePaymentParams(params)
-        assertTrue { result == "success" }
+        assertNull(result)
     }
     @Test
     fun usBankAccountParamsValidTest28 () {
@@ -1512,7 +1515,7 @@ class CreatePaymentValidationTest {
             )
         )
         val result = CreatePaymentValidation.validateCreatePaymentParams(params)
-        assertTrue { result == "success" }
+        assertNull(result)
     }
     @Test
     fun usBankAccountParamsValidTest29 () {
@@ -1532,7 +1535,7 @@ class CreatePaymentValidationTest {
             )
         )
         val result = CreatePaymentValidation.validateCreatePaymentParams(params)
-        assertTrue { result == "success" }
+        assertNull(result)
     }
     @Test
     fun usBankAccountParamsValidTest30 () {
@@ -1552,7 +1555,7 @@ class CreatePaymentValidationTest {
             )
         )
         val result = CreatePaymentValidation.validateCreatePaymentParams(params)
-        assertTrue { result == "success" }
+        assertNull(result)
     }
     @Test
     fun usBankAccountParamsValidTest31 () {
@@ -1579,7 +1582,7 @@ class CreatePaymentValidationTest {
             )
         )
         val result = CreatePaymentValidation.validateCreatePaymentParams(params)
-        assertTrue { result == "success" }
+        assertNull(result)
     }
     @Test
     fun usBankAccountParamsValidTest32 () {
@@ -1606,7 +1609,7 @@ class CreatePaymentValidationTest {
             )
         )
         val result = CreatePaymentValidation.validateCreatePaymentParams(params)
-        assertTrue { result == "success" }
+        assertNull(result)
     }
     @Test
     fun usBankAccountParamsValidTest33 () {
@@ -1633,7 +1636,7 @@ class CreatePaymentValidationTest {
             )
         )
         val result = CreatePaymentValidation.validateCreatePaymentParams(params)
-        assertTrue { result == "success" }
+        assertNull(result)
     }
     @Test
     fun usBankAccountParamsValidTest34 () {
@@ -1660,7 +1663,7 @@ class CreatePaymentValidationTest {
             )
         )
         val result = CreatePaymentValidation.validateCreatePaymentParams(params)
-        assertTrue { result == "success" }
+        assertNull(result)
     }
     @Test
     fun usBankAccountParamsValidTest35 () {
@@ -1687,7 +1690,7 @@ class CreatePaymentValidationTest {
             )
         )
         val result = CreatePaymentValidation.validateCreatePaymentParams(params)
-        assertTrue { result == "success" }
+        assertNull(result)
     }
     @Test
     fun usBankAccountParamsValidTest36 () {
@@ -1714,7 +1717,7 @@ class CreatePaymentValidationTest {
             )
         )
         val result = CreatePaymentValidation.validateCreatePaymentParams(params)
-        assertTrue { result == "success" }
+        assertNull(result)
     }
     @Test
     fun usBankAccountParamsValidTest37 () {
@@ -1741,7 +1744,7 @@ class CreatePaymentValidationTest {
             )
         )
         val result = CreatePaymentValidation.validateCreatePaymentParams(params)
-        assertTrue { result == "success" }
+        assertNull(result)
     }
     @Test
     fun usBankAccountParamsValidTest38 () {
@@ -1768,7 +1771,7 @@ class CreatePaymentValidationTest {
             )
         )
         val result = CreatePaymentValidation.validateCreatePaymentParams(params)
-        assertTrue { result == "success" }
+        assertNull(result)
     }
     @Test
     fun usBankAccountParamsValidTest39 () {
@@ -1795,7 +1798,7 @@ class CreatePaymentValidationTest {
             )
         )
         val result = CreatePaymentValidation.validateCreatePaymentParams(params)
-        assertTrue { result == "success" }
+        assertNull(result)
     }
     @Test
     fun usBankAccountParamsValidTest40 () {
@@ -1822,7 +1825,7 @@ class CreatePaymentValidationTest {
             )
         )
         val result = CreatePaymentValidation.validateCreatePaymentParams(params)
-        assertTrue { result == "success" }
+        assertNull(result)
     }
     @Test
     fun usBankAccountParamsValidTest41 () {
@@ -1849,7 +1852,7 @@ class CreatePaymentValidationTest {
             )
         )
         val result = CreatePaymentValidation.validateCreatePaymentParams(params)
-        assertTrue { result == "success" }
+        assertNull(result)
     }
     @Test
     fun usBankAccountParamsValidTest42 () {
@@ -1876,7 +1879,7 @@ class CreatePaymentValidationTest {
             )
         )
         val result = CreatePaymentValidation.validateCreatePaymentParams(params)
-        assertTrue { result == "success" }
+        assertNull(result)
     }
     @Test
     fun usBankAccountParamsValidTest43 () {
@@ -1903,7 +1906,7 @@ class CreatePaymentValidationTest {
             )
         )
         val result = CreatePaymentValidation.validateCreatePaymentParams(params)
-        assertTrue { result == "success" }
+        assertNull(result)
     }
     @Test
     fun usBankAccountParamsValidTest44 () {
@@ -1930,7 +1933,7 @@ class CreatePaymentValidationTest {
             )
         )
         val result = CreatePaymentValidation.validateCreatePaymentParams(params)
-        assertTrue { result == "success" }
+        assertNull(result)
     }
     @Test
     fun usBankAccountParamsValidTest45 () {
@@ -1957,7 +1960,7 @@ class CreatePaymentValidationTest {
             )
         )
         val result = CreatePaymentValidation.validateCreatePaymentParams(params)
-        assertTrue { result == "success" }
+        assertNull(result)
     }
     @Test
     fun usBankAccountParamsValidTest46 () {
@@ -1984,7 +1987,7 @@ class CreatePaymentValidationTest {
             )
         )
         val result = CreatePaymentValidation.validateCreatePaymentParams(params)
-        assertTrue { result == "success" }
+        assertNull(result)
     }
     @Test
     fun usBankAccountParamsValidTest47 () {
@@ -2011,7 +2014,7 @@ class CreatePaymentValidationTest {
             )
         )
         val result = CreatePaymentValidation.validateCreatePaymentParams(params)
-        assertTrue { result == "success" }
+        assertNull(result)
     }
     @Test
     fun usBankAccountParamsValidTest48 () {
@@ -2038,7 +2041,7 @@ class CreatePaymentValidationTest {
             )
         )
         val result = CreatePaymentValidation.validateCreatePaymentParams(params)
-        assertTrue { result == "success" }
+        assertNull(result)
     }
     @Test
     fun usBankAccountParamsValidTest49 () {
@@ -2065,7 +2068,7 @@ class CreatePaymentValidationTest {
             )
         )
         val result = CreatePaymentValidation.validateCreatePaymentParams(params)
-        assertTrue { result == "success" }
+        assertNull(result)
     }
     @Test
     fun usBankAccountParamsValidTest50 () {
@@ -2092,7 +2095,7 @@ class CreatePaymentValidationTest {
             )
         )
         val result = CreatePaymentValidation.validateCreatePaymentParams(params)
-        assertTrue { result == "success" }
+        assertNull(result)
     }
     @Test
     fun usBankAccountParamsValidTest51 () {
@@ -2119,7 +2122,7 @@ class CreatePaymentValidationTest {
             )
         )
         val result = CreatePaymentValidation.validateCreatePaymentParams(params)
-        assertTrue { result == "success" }
+        assertNull(result)
     }
     @Test
     fun usBankAccountParamsValidTest52 () {
@@ -2146,7 +2149,7 @@ class CreatePaymentValidationTest {
             )
         )
         val result = CreatePaymentValidation.validateCreatePaymentParams(params)
-        assertTrue { result == "success" }
+        assertNull(result)
     }
     @Test
     fun usBankAccountParamsValidTest53 () {
@@ -2173,7 +2176,7 @@ class CreatePaymentValidationTest {
             )
         )
         val result = CreatePaymentValidation.validateCreatePaymentParams(params)
-        assertTrue { result == "success" }
+        assertNull(result)
     }
     @Test
     fun usBankAccountParamsValidTest54 () {
@@ -2200,7 +2203,7 @@ class CreatePaymentValidationTest {
             )
         )
         val result = CreatePaymentValidation.validateCreatePaymentParams(params)
-        assertTrue { result == "success" }
+        assertNull(result)
     }
     @Test
     fun usBankAccountParamsValidTest55 () {
@@ -2227,7 +2230,7 @@ class CreatePaymentValidationTest {
             )
         )
         val result = CreatePaymentValidation.validateCreatePaymentParams(params)
-        assertTrue { result == "success" }
+        assertNull(result)
     }
     @Test
     fun usBankAccountParamsValidTest56 () {
@@ -2254,7 +2257,7 @@ class CreatePaymentValidationTest {
             )
         )
         val result = CreatePaymentValidation.validateCreatePaymentParams(params)
-        assertTrue { result == "success" }
+        assertNull(result)
     }
     @Test
     fun usBankAccountParamsValidTest57 () {
@@ -2281,7 +2284,7 @@ class CreatePaymentValidationTest {
             )
         )
         val result = CreatePaymentValidation.validateCreatePaymentParams(params)
-        assertTrue { result == "success" }
+        assertNull(result)
     }
     @Test
     fun usBankAccountParamsValidTest58 () {
@@ -2308,7 +2311,7 @@ class CreatePaymentValidationTest {
             )
         )
         val result = CreatePaymentValidation.validateCreatePaymentParams(params)
-        assertTrue { result == "success" }
+        assertNull(result)
     }
     @Test
     fun usBankAccountParamsValidTest59 () {
@@ -2328,7 +2331,7 @@ class CreatePaymentValidationTest {
             )
         )
         val result = CreatePaymentValidation.validateCreatePaymentParams(params)
-        assertTrue { result == "success" }
+        assertNull(result)
     }
     @Test
     fun usBankAccountParamsValidTest60 () {
@@ -2348,7 +2351,7 @@ class CreatePaymentValidationTest {
             )
         )
         val result = CreatePaymentValidation.validateCreatePaymentParams(params)
-        assertTrue { result == "success" }
+        assertNull(result)
     }
     @Test
     fun usBankAccountParamsNameEmptyTest () {
@@ -2375,7 +2378,7 @@ class CreatePaymentValidationTest {
             )
         )
         val result = CreatePaymentValidation.validateCreatePaymentParams(params)
-        assertTrue { result == "Name is mandatory" }
+        assertTrue(result is PaymentError.NameMissing)
     }
     @Test
     fun usBankAccountParamsAccNumEmptyTest () {
@@ -2402,7 +2405,7 @@ class CreatePaymentValidationTest {
             )
         )
         val result = CreatePaymentValidation.validateCreatePaymentParams(params)
-        assertTrue { result == "Account number is mandatory" }
+        assertTrue(result is PaymentError.AccountNumberMissing)
     }
     @Test
     fun usBankAccountParamsRoutingNumEmptyTest () {
@@ -2429,7 +2432,7 @@ class CreatePaymentValidationTest {
             )
         )
         val result = CreatePaymentValidation.validateCreatePaymentParams(params)
-        assertTrue { result == "Routing number is mandatory" }
+        assertTrue(result is PaymentError.RoutingNumberMissing)
     }
     @Test
     fun googlePayParamsValidTest1 () {
@@ -2438,7 +2441,7 @@ class CreatePaymentValidationTest {
             jsonObject = "123245"
         )
         val result = CreatePaymentValidation.validateCreatePaymentParams(params)
-        assertTrue { result == "success" }
+        assertNull(result)
     }
     @Test
     fun googlePayParamsValidTest2 () {
@@ -2447,7 +2450,7 @@ class CreatePaymentValidationTest {
             jsonObject = {"123245"}
         )
         val result = CreatePaymentValidation.validateCreatePaymentParams(params)
-        assertTrue { result == "success" }
+        assertNull(result)
     }
     @Test
     fun googlePayParamsValidTest3 () {
@@ -2456,7 +2459,7 @@ class CreatePaymentValidationTest {
             jsonObject = 123245
         )
         val result = CreatePaymentValidation.validateCreatePaymentParams(params)
-        assertTrue { result == "success" }
+        assertNull(result)
     }
     @Test
     fun googlePayParamsJsonObjStrEmptyTest () {
@@ -2465,7 +2468,7 @@ class CreatePaymentValidationTest {
             jsonObject = ""
         )
         val result = CreatePaymentValidation.validateCreatePaymentParams(params)
-        assertTrue { result == "Google pay payment data is mandatory" }
+        assertTrue(result is PaymentError.GooglePayJsonMissing)
     }
     @Test
     fun googlePayParamsJsonObjNullTest () {
@@ -2474,6 +2477,6 @@ class CreatePaymentValidationTest {
             jsonObject = null
             )
         val result = CreatePaymentValidation.validateCreatePaymentParams(params)
-        assertTrue { result == "Google pay payment data is mandatory" }
+        assertTrue(result is PaymentError.GooglePayJsonMissing)
     }
 }
