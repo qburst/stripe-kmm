@@ -327,6 +327,20 @@ class PaymentRepositoryImpl: PaymentRepository {
         }
     }
 
+    /**
+     * Confirms a payment intent using the Stripe SDK.
+     *
+     * This method validates the payment parameters, creates the appropriate [ConfirmPaymentIntentParams]
+     * based on the payment method type, and launches the Stripe payment confirmation flow.
+     *
+     * @param paymentIntentClientSecret The client secret for the payment intent to be confirmed.
+     * @param params The [ConfirmParams] containing payment method-specific data and billing details.
+     * @param options The [ConfirmOptions] for additional configuration.
+     * @param onSuccess Callback invoked when payment confirmation succeeds with a map containing payment status.
+     * @param onError Callback invoked when payment confirmation fails with the exception.
+     *
+     * @throws Exception If an error occurs during validation or payment confirmation.
+     */
     override suspend fun confirmPayment(
         paymentIntentClientSecret: String,
         params: ConfirmParams,
