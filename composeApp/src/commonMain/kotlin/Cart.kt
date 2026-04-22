@@ -182,7 +182,7 @@ fun CartItemRow(item: CartItem) {
             val totalItemPrice = (item.price * item.quantity * 100).roundToInt() / 100.0
             Text("$totalItemPrice", fontSize = 15.sp,
                 fontWeight = FontWeight.Bold,
-                color = Color(0xFF8C52F6),
+                color = Color(0xFF8C52F7),
                 modifier = Modifier.padding(top = 5.dp))
         }
     }
