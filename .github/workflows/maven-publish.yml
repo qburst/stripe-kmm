@@ -12,8 +12,10 @@ jobs:
   publish:
     name: Release build and publish
     runs-on: macOS-latest
-    # Only run if the Build Verification workflow succeeded
-    if: ${{ github.event.workflow_run.conclusion == 'success' }}
+    # Only run if the Build Verification workflow succeeded AND it ran on main branch
+    if: |
+      github.event.workflow_run.conclusion == 'success' &&
+      github.event.workflow_run.head_branch == 'main'
 
     steps:
       # Step 1: Check out code
