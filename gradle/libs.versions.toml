@@ -21,6 +21,7 @@ mockative = "2.2.2"
 stripeAndroid = "20.48.1"
 swiftklib = "0.6.3"
 cocoapods = "2.0.0"
+wechatSdkAndroidWithoutMta = "6.8.0"
 
 [libraries]
 gson = { module = "com.google.code.gson:gson", version.ref = "gson" }
@@ -50,6 +51,8 @@ ktor-client-content-negotiation = { module = "io.ktor:ktor-client-content-negoti
 ktor-serialization-kotlinx-json = { module = "io.ktor:ktor-serialization-kotlinx-json", version.ref = "ktor" }
 ktor-client-okhttp = { module = "io.ktor:ktor-client-okhttp", version.ref = "ktor" }
 ktor-client-darwin = { module = "io.ktor:ktor-client-darwin", version.ref = "ktor" }
+stripe-wechatpay = { module = "com.stripe:stripe-wechatpay", version.ref = "stripeAndroid" }
+wechat-sdk-android-without-mta = { module = "com.tencent.mm.opensdk:wechat-sdk-android-without-mta", version.ref = "wechatSdkAndroidWithoutMta" }
 
 [plugins]
 androidApplication = { id = "com.android.application", version.ref = "agp" }

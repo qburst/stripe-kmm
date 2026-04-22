@@ -5,9 +5,15 @@ import Mockable
 import SingletonStripeInitialization
 import com.google.gson.Gson
 import com.stripe.android.ApiResultCallback
+import com.stripe.android.model.ConfirmPaymentIntentParams
 import com.stripe.android.model.PaymentMethod
+import com.stripe.android.model.PaymentMethodCreateParams
+import com.stripe.android.model.PaymentMethodOptionsParams
 import kotlinx.coroutines.suspendCancellableCoroutine
 import model.ApiResult
+import model.ConfirmOptions
+import model.ConfirmParams
+import model.ConfirmPaymentModel
 import model.CreatePaymentModel
 import kotlin.coroutines.resume
 
@@ -317,6 +323,315 @@ class PaymentRepositoryImpl: PaymentRepository {
                 Throwable("Entity type mismatch.")
                 return@suspendCancellableCoroutine
             }
+        }
+    }
+
+    override suspend fun confirmPayment(
+        paymentIntentClientSecret: String,
+        params: ConfirmParams,
+        options: ConfirmOptions,
+        onSuccess: (Map<String, Any?>) -> Unit,
+        onError: (Throwable) -> Unit
+    ){
+        try {
+            val stripeInstance = SingletonStripeInitialization.StripeInstanse
+            stripeInstance.setPaymentResultCallback(object : InitializeStripe.PaymentResult {
+                override fun onSuccess(status: Map<String, Any?>) {
+                    onSuccess(status)
+                }
+
+                override fun onFailure(throwable: Throwable) {
+                    onError(throwable)
+                }
+            })
+
+            val validationResult = ConfirmPaymentValidation.validateCreatePaymentParams(params)
+
+            if (validationResult != "success") {
+                onError(Throwable(validationResult))
+            }
+            else{
+                val confirmPaymentIntentParams = when (params) {
+                    is ConfirmParams.CardParamsWithToken -> {
+                        val cardParams = ConfirmPaymentModel().createCardPaymentParamsWithToken(cardParams = params)
+                        ConfirmPaymentIntentParams.createWithPaymentMethodCreateParams(
+                            paymentMethodCreateParams = cardParams,
+                            clientSecret = paymentIntentClientSecret
+                        )
+                    }
+
+                    is ConfirmParams.IdealParams -> {
+                        val idealParams = ConfirmPaymentModel().createPaymentWithIdeal(idelParams = params)
+                        ConfirmPaymentIntentParams.createWithPaymentMethodCreateParams(
+                            paymentMethodCreateParams = idealParams,
+                            clientSecret = paymentIntentClientSecret
+                        )
+                    }
+
+                    is ConfirmParams.UpiParams -> {
+                        val upiParams = ConfirmPaymentModel().createPaymentWithUpi(upiParams = params)
+                        ConfirmPaymentIntentParams.createWithPaymentMethodCreateParams(
+                            paymentMethodCreateParams = upiParams,
+                            clientSecret = paymentIntentClientSecret
+                        )
+                    }
+
+                    is ConfirmParams.FpxParams -> {
+                        val fpxParams = ConfirmPaymentModel().createPaymentWithFpx(fpxParams = params)
+                        ConfirmPaymentIntentParams.createWithPaymentMethodCreateParams(
+                            paymentMethodCreateParams = fpxParams,
+                            clientSecret = paymentIntentClientSecret
+                        )
+                    }
+
+                    is ConfirmParams.PayPalParams -> {
+                        val payPalParams = ConfirmPaymentModel().createPaymentWithPaypal(paypalParams = params)
+                        ConfirmPaymentIntentParams.createWithPaymentMethodCreateParams(
+                            paymentMethodCreateParams = payPalParams,
+                            clientSecret = paymentIntentClientSecret
+                        )
+                    }
+
+                    is ConfirmParams.SepaDebitParams -> {
+                        val sepaParams = ConfirmPaymentModel().createPaymentWithSepaDebit(params = params)
+                        ConfirmPaymentIntentParams.createWithPaymentMethodCreateParams(
+                            paymentMethodCreateParams = sepaParams,
+                            clientSecret = paymentIntentClientSecret
+                        )
+                    }
+
+                    is ConfirmParams.AuBecsDebitParams -> {
+                        val auBecsParams = ConfirmPaymentModel().createPaymentWithAuBecsDebit(params = params)
+                        ConfirmPaymentIntentParams.createWithPaymentMethodCreateParams(
+                            paymentMethodCreateParams = auBecsParams,
+                            clientSecret = paymentIntentClientSecret
+                        )
+                    }
+
+                    is ConfirmParams.BacsDebitParams -> {
+                        val bacsParams = ConfirmPaymentModel().createPaymentWithBacsDebit(params = params)
+                        ConfirmPaymentIntentParams.createWithPaymentMethodCreateParams(
+                            paymentMethodCreateParams = bacsParams,
+                            clientSecret = paymentIntentClientSecret
+                        )
+                    }
+
+                    is ConfirmParams.SofortParams -> {
+                        val sofortParams = ConfirmPaymentModel().createPaymentWithSofort(params = params)
+                        ConfirmPaymentIntentParams.createWithPaymentMethodCreateParams(
+                            paymentMethodCreateParams = sofortParams,
+                            clientSecret = paymentIntentClientSecret
+                        )
+                    }
+
+                    is ConfirmParams.NetBankingParams -> {
+                        val netBankingParams = ConfirmPaymentModel().createPaymentWithNetBanking(params = params)
+                        ConfirmPaymentIntentParams.createWithPaymentMethodCreateParams(
+                            paymentMethodCreateParams = netBankingParams,
+                            clientSecret = paymentIntentClientSecret
+                        )
+                    }
+
+                    is ConfirmParams.USBankAccountParams -> {
+                        val usBankParams = ConfirmPaymentModel().createPaymentWithUsBankAccount(params = params)
+                        ConfirmPaymentIntentParams.createWithPaymentMethodCreateParams(
+                            paymentMethodCreateParams = usBankParams,
+                            clientSecret = paymentIntentClientSecret
+                        )
+                    }
+
+                    is ConfirmParams.CashAppParams -> {
+                        val cashAppParams = ConfirmPaymentModel().createPaymentWithCashAppPay(params = params)
+                        ConfirmPaymentIntentParams.createWithPaymentMethodCreateParams(
+                            paymentMethodCreateParams = cashAppParams,
+                            clientSecret = paymentIntentClientSecret
+                        )
+                    }
+
+                    is ConfirmParams.SwishParams -> {
+                        val swishParams = ConfirmPaymentModel().createPaymentWithSwish(params = params)
+                        ConfirmPaymentIntentParams.createWithPaymentMethodCreateParams(
+                            paymentMethodCreateParams = swishParams,
+                            clientSecret = paymentIntentClientSecret
+                        )
+                    }
+
+                    is ConfirmParams.BancontactParams -> {
+                        val bancontactParams = ConfirmPaymentModel().createPaymentWithBanContacts(params = params)
+                        ConfirmPaymentIntentParams.createWithPaymentMethodCreateParams(
+                            paymentMethodCreateParams = bancontactParams,
+                            clientSecret = paymentIntentClientSecret
+                        )
+                    }
+
+                    is ConfirmParams.EpsDebitParams -> {
+                        val epsParams = ConfirmPaymentModel().createPaymentWithEps(params = params)
+                        ConfirmPaymentIntentParams.createWithPaymentMethodCreateParams(
+                            paymentMethodCreateParams = epsParams,
+                            clientSecret = paymentIntentClientSecret
+                        )
+                    }
+
+                    is ConfirmParams.OxxoParams -> {
+                        val oxxoParams = ConfirmPaymentModel().createPaymentWithOxxo(params = params)
+                        ConfirmPaymentIntentParams.createWithPaymentMethodCreateParams(
+                            paymentMethodCreateParams = oxxoParams,
+                            clientSecret = paymentIntentClientSecret
+                        )
+                    }
+
+                    is ConfirmParams.AlipayParams -> {
+                        val alipayParams = ConfirmPaymentModel().createPaymentWithAlipay(params = params)
+                        ConfirmPaymentIntentParams.createWithPaymentMethodCreateParams(
+                            paymentMethodCreateParams = alipayParams,
+                            clientSecret = paymentIntentClientSecret
+                        )
+                    }
+
+                    is ConfirmParams.AfterpayClearpayParams -> {
+                        val afterpayParams = ConfirmPaymentModel().createPaymentWithAfterpayClearpay(params = params)
+                        ConfirmPaymentIntentParams.createWithPaymentMethodCreateParams(
+                            paymentMethodCreateParams = afterpayParams,
+                            clientSecret = paymentIntentClientSecret
+                        )
+                    }
+
+                    is ConfirmParams.BlikParams -> {
+                        val blikParams = ConfirmPaymentModel().createPaymentWithBlik(params = params)
+                        ConfirmPaymentIntentParams.createWithPaymentMethodCreateParams(
+                            paymentMethodCreateParams = blikParams,
+                            clientSecret = paymentIntentClientSecret,
+                            paymentMethodOptions = PaymentMethodOptionsParams.Blik(
+                                code = ConfirmPaymentModel().getBlikPaymentCode(
+                                    params = params
+                                )
+                            )
+                        )
+                    }
+
+                    is ConfirmParams.WeChatPayParams -> {
+                        val weChatParams = ConfirmPaymentModel().createPaymentWithWeChatPay(params = params)
+                        ConfirmPaymentIntentParams.createWithPaymentMethodCreateParams(
+                            paymentMethodCreateParams = weChatParams,
+                            clientSecret = paymentIntentClientSecret,
+                            paymentMethodOptions = PaymentMethodOptionsParams.WeChatPay(
+                                appId = ConfirmPaymentModel().getWeChatAppId(
+                                    params = params
+                                )
+                            )
+                        )
+                    }
+
+                    is ConfirmParams.KlarnaParams -> {
+                        val klarnaParams = ConfirmPaymentModel().createPaymentWithKlarna(params = params)
+                        ConfirmPaymentIntentParams.createWithPaymentMethodCreateParams(
+                            paymentMethodCreateParams = klarnaParams,
+                            clientSecret = paymentIntentClientSecret
+                        )
+                    }
+
+                    is ConfirmParams.AffirmParams -> {
+                        val affirmParams = ConfirmPaymentModel().createPaymentWithAffirm(params = params)
+                        ConfirmPaymentIntentParams.createWithPaymentMethodCreateParams(
+                            paymentMethodCreateParams = affirmParams,
+                            clientSecret = paymentIntentClientSecret
+                        )
+                    }
+
+                    is ConfirmParams.AmazonPayParams -> {
+                        val amazonParams = ConfirmPaymentModel().createPaymentWithAmazonPay(params = params)
+                        ConfirmPaymentIntentParams.createWithPaymentMethodCreateParams(
+                            paymentMethodCreateParams = amazonParams,
+                            clientSecret = paymentIntentClientSecret
+                        )
+                    }
+
+                    is ConfirmParams.MultiBancoParams -> {
+                        val multibancoParams = ConfirmPaymentModel().createPaymentWithMultiBanco(params = params)
+                        ConfirmPaymentIntentParams.createWithPaymentMethodCreateParams(
+                            paymentMethodCreateParams = multibancoParams,
+                            clientSecret = paymentIntentClientSecret
+                        )
+                    }
+
+                    is ConfirmParams.AlmaParams -> {
+                        val almaParams = ConfirmPaymentModel().createPaymentWithAlma(params = params)
+                        ConfirmPaymentIntentParams.createWithPaymentMethodCreateParams(
+                            paymentMethodCreateParams = almaParams,
+                            clientSecret = paymentIntentClientSecret
+                        )
+                    }
+
+                    is ConfirmParams.SunbitParams -> {
+                        val sunbitParams = ConfirmPaymentModel().createPaymentWithSunbit(params = params)
+                        ConfirmPaymentIntentParams.createWithPaymentMethodCreateParams(
+                            paymentMethodCreateParams = sunbitParams,
+                            clientSecret = paymentIntentClientSecret
+                        )
+                    }
+
+                    is ConfirmParams.BillieParams -> {
+                        val billieParams = ConfirmPaymentModel().createPaymentWithBillie(params = params)
+                        ConfirmPaymentIntentParams.createWithPaymentMethodCreateParams(
+                            paymentMethodCreateParams = billieParams,
+                            clientSecret = paymentIntentClientSecret
+                        )
+                    }
+
+                    is ConfirmParams.SatispayParams -> {
+                        val satispayParams = ConfirmPaymentModel().createPaymentWithSatispay(params = params)
+                        ConfirmPaymentIntentParams.createWithPaymentMethodCreateParams(
+                            paymentMethodCreateParams = satispayParams,
+                            clientSecret = paymentIntentClientSecret
+                        )
+                    }
+
+                    is ConfirmParams.RevolutPayParams -> {
+                        val revolutParams = ConfirmPaymentModel().createPaymentWithRevolutPay(params = params)
+                        ConfirmPaymentIntentParams.createWithPaymentMethodCreateParams(
+                            paymentMethodCreateParams = revolutParams,
+                            clientSecret = paymentIntentClientSecret
+                        )
+                    }
+
+                    is ConfirmParams.MobilePayParams -> {
+                        val mobileParams = ConfirmPaymentModel().createPaymentWithMobilePay(params = params)
+                        ConfirmPaymentIntentParams.createWithPaymentMethodCreateParams(
+                            paymentMethodCreateParams = mobileParams,
+                            clientSecret = paymentIntentClientSecret
+                        )
+                    }
+
+                    is ConfirmParams.GiropayParams -> {
+                        val giropayParams = ConfirmPaymentModel().createPaymentWithGiropay(params = params)
+                        ConfirmPaymentIntentParams.createWithPaymentMethodCreateParams(
+                            paymentMethodCreateParams = giropayParams,
+                            clientSecret = paymentIntentClientSecret
+                        )
+                    }
+
+                    is ConfirmParams.GooglePayParams -> {
+                        val googlePayParams = ConfirmPaymentModel().createPaymentWithGooglePay(params = params)
+                        ConfirmPaymentIntentParams.createWithPaymentMethodCreateParams(
+                            paymentMethodCreateParams = googlePayParams,
+                            clientSecret = paymentIntentClientSecret
+                        )
+                    }
+
+                    is ConfirmParams.PaymentMethodIdParams -> {
+                        ConfirmPaymentIntentParams.createWithPaymentMethodId(
+                            paymentMethodId = params.paymentMethodData.paymentMethodId,
+                            clientSecret = paymentIntentClientSecret
+                        )
+                    }
+
+                }
+
+                stripeInstance.confirmPaymentLauncher.confirm(confirmPaymentIntentParams)
+            }
+
+        } catch (e: Exception) {
+            onError(e)
         }
     }
 }

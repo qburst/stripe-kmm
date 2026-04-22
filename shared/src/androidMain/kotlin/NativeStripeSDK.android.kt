@@ -1,3 +1,4 @@
+import com.stripe.android.model.PaymentMethodCreateParams
 import com.stripe.android.paymentsheet.PaymentSheet
 import io.ktor.client.*
 import io.ktor.client.engine.okhttp.*
@@ -32,8 +33,11 @@ actual class ProvideStripeSdk actual constructor() {
      * null).
      */
     actual suspend fun initialise(initialiseParams: InitialiseParams) {
-        SingletonStripeInitialization.StripeInstanse.initializeStripe(initialiseParams)
-        SingletonStripeInitialization.StripeInstanse.initialisePaymentSheet(initialiseParams)
+        SingletonStripeInitialization.StripeInstanse.apply {
+            initializeStripe(initialiseParams)
+            initialisePaymentSheet(initialiseParams)
+            initialiseConfirmPayment(initialiseParams)
+        }
     }
 
     /**
@@ -74,7 +78,13 @@ actual class ProvideStripeSdk actual constructor() {
             onSuccess: (Map<String, Any?>) -> Unit,
             onError: (Throwable) -> Unit
     ) {
-        // You can implement the confirm payment logic here
+        paymentRepository.confirmPayment(
+            paymentIntentClientSecret = paymentIntentClientSecret,
+            params = params,
+            options = options,
+            onSuccess = onSuccess,
+            onError = onError
+        )
     }
 
     /**
