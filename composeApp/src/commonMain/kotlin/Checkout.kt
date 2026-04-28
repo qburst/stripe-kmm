@@ -879,29 +879,29 @@ fun Checkout(onNavigate: () -> Unit) {
                 }) {
                     Text("Handle Next Actions")
                 }
-//
-//
-//                Button(onClick = {
-//                    CoroutineScope(Dispatchers.Default).launch {
-//                        stripe.handleNextActionForSetup(
-//                            setupIntentClientSecret = paymentIntentClientSecretForSetup,
-//                            returnURL = returnsUrl,
-//                            onSuccess = { result ->
-//                                print(" result = $result")
-//                                // Pass the result back to the UI through the onSuccess callback
-//                                PaymentResponse = result.toString()
-//                            },
-//                            onError = { error ->
-//                                // Pass the error back to the UI through the onError callback
-//                                PaymentResponse = error.toString()
-//                                print(error)
-//                                PaymentResponse = error.toString()
-//                            }
-//                        )
-//                    }
-//                }) {
-//                    Text("Handle Next Actions Setup")
-//                }
+
+
+                Button(onClick = {
+                    CoroutineScope(Dispatchers.Default).launch {
+                        stripe.handleNextActionForSetup(
+                            setupIntentClientSecret = paymentIntentClientSecretForSetup,
+                            returnURL = returnsUrl,
+                            onSuccess = { result ->
+                                print(" result = $result")
+                                // Pass the result back to the UI through the onSuccess callback
+                                PaymentResponse = result.toString()
+                            },
+                            onError = { error ->
+                                // Pass the error back to the UI through the onError callback
+                                PaymentResponse = error.toString()
+                                print(error)
+                                PaymentResponse = error.toString()
+                            }
+                        )
+                    }
+                }) {
+                    Text("Handle Next Actions Setup")
+                }
 
                 Column() {
                     Text(

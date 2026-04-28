@@ -659,4 +659,29 @@ class PaymentRepositoryImpl: PaymentRepository {
             onError(e)
         }
     }
+
+    override suspend fun handleNextActionForSetup(
+        setupIntentClientSecret: String,
+        returnUrl: String?,
+        onSuccess: (Map<String, Any?>) -> Unit,
+        onError: (Throwable) -> Unit
+    ) {
+        try {
+            val stripeInstance = SingletonStripeInitialization.StripeInstanse
+            stripeInstance.setPaymentResultCallback(object : InitializeStripe.PaymentResult {
+                override fun onSuccess(status: Map<String, Any?>) {
+                    onSuccess(status)
+                }
+
+                override fun onFailure(throwable: Throwable) {
+                    onError(throwable)
+                }
+            })
+            stripeInstance.confirmPaymentLauncher.handleNextActionForSetupIntent(
+                setupIntentClientSecret
+            )
+        } catch (e: Exception) {
+            onError(e)
+        }
+    }
 }

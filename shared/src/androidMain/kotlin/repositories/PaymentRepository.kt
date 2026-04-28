@@ -41,4 +41,11 @@ interface PaymentRepository {
         onSuccess: (Map<String, Any?>) -> Unit,
         onError: (Throwable) -> Unit
     )
+
+    suspend fun handleNextActionForSetup(
+        setupIntentClientSecret: String,
+        returnUrl: String?,
+        onSuccess: (Map<String, Any?>) -> Unit,
+        onError: (Throwable) -> Unit
+    )
 }
